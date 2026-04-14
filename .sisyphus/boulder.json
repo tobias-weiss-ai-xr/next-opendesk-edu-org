@@ -9,7 +9,8 @@
     "ses_272778497ffeWhQqVJHgQ9JnQA",
     "ses_272778494ffejuRWsIyb4OdW3I",
     "ses_272778490ffeoeLBS63T27BiHh",
-    "ses_2725a1832ffecxlU9oZBpQFxGk"
+    "ses_2725a1832ffecxlU9oZBpQFxGk",
+    "ses_27255349dffev3VzTWD33Vc7bj"
   ],
   "plan_name": "opendesk-edu-website",
   "agent": "atlas",
@@ -31,6 +32,15 @@
       "agent": "Sisyphus-Junior",
       "category": "deep",
       "updated_at": "2026-04-14T20:20:31.083Z"
+    },
+    "todo:8": {
+      "task_key": "todo:8",
+      "task_label": "8",
+      "task_title": "Site config (config.ts) - site URL, name, description",
+      "session_id": "ses_27255349dffev3VzTWD33Vc7bj",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-14T20:30:01.161Z"
     }
   }
 }

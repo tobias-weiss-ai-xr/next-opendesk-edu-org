@@ -1,0 +1,17 @@
+{
+  "name": "openDesk Edu",
+  "short_name": "openDesk Edu",
+  "description": "Educational digital infrastructure for universities",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#341291",
+  "icons": [
+    {
+      "src": "/static/brand/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

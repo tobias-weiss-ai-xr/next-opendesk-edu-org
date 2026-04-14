@@ -827,7 +827,7 @@ Wave 13 (64-67): 31 - Final
   - Files: Dockerfile, docker-compose.yml, .dockerignore
   - Pre-commit: `npm run lint`
 
-- [ ] 8. Site config (config.ts) - site URL, name, description
+- [x] 8. Site config (config.ts) - site URL, name, description
 
   **What to do**:
   - Create src/lib/config.ts with: `export const SITE_URL = 'https://opendesk-edu.org'; export const SITE_NAME = 'openDesk Edu'; export const SITE_DESCRIPTION = 'Educational digital infrastructure for universities - openDesk CE with 15 integrated services for seamless digital transformation.'; export const CONTACT_EMAIL = 'info@opendesk-edu.org'; export const PLAUSIBLE_DOMAIN = 'opendesk-edu.org'; export const CLARITY_ID = '';` (to be filled later)
@@ -889,7 +889,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/lib/config.ts
   - Pre-commit: `npm run lint`
 
-- [ ] 9. Content system (content.ts) - markdown loading, parsing
+- [x] 9. Content system (content.ts) - markdown loading, parsing
 
   **What to do**:
   - Create src/lib/content.ts with markdown processing using gray-matter + remark/rehype
@@ -970,7 +970,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/lib/content.ts, src/lib/__tests__/content.test.ts
   - Pre-commit: `npm run lint && npm run test`
 
-- [ ] 10. ThemeProvider (context, localStorage, data-theme)
+- [x] 10. ThemeProvider (context, localStorage, data-theme)
 
   **What to do**:
   - Create src/components/ThemeProvider.tsx with React context for dark/light theme
@@ -1047,7 +1047,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/ThemeProvider.tsx, src/components/__tests__/ThemeProvider.test.ts
   - Pre-commit: `npm run lint && npm run test`
 
-- [ ] 11. ErrorBoundary (class component, fallback UI)
+- [x] 11. ErrorBoundary (class component, fallback UI)
 
   **What to do**:
   - Create src/components/ErrorBoundary.tsx as class component (React class component required for error boundaries)
@@ -1111,7 +1111,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/ErrorBoundary.tsx, src/components/__tests__/ErrorBoundary.test.ts
   - Pre-commit: `npm run lint && npm run test`
 
-- [ ] 12. Icon components (service icons from artwork)
+- [x] 12. Icon components (service icons from artwork)
 
   **What to do**:
   - Create src/components/Icons.tsx with icon components for all 17 services: BigBlueButton, BookStack, Drawio, Etherpad, Excalidraw, F13, Grommunio, ILIAS, LimeSurvey, Moodle, OpenCloud, Planka, SOGo, SSP, TYPO3, Zammad
@@ -1176,7 +1176,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/Icons.tsx, src/components/__tests__/Icons.test.ts
   - Pre-commit: `npm run lint && npm run test`
 
-- [ ] 13. Artwork assets copy to public/static/
+- [x] 13. Artwork assets copy to public/static/
 
   **What to do**:
   - Create public/static/ directory structure: icons/, diagrams/, brand/
