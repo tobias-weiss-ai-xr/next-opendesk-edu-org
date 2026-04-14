@@ -1,0 +1,27 @@
+services:
+  opendesk-edu:
+    build: .
+    image: opendesk-edu:latest
+    container_name: opendesk-edu
+    restart: unless-stopped
+    expose:
+      - "3000"
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik-web
+      - "traefik.http.routers.opendesk-edu.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`)"
+      - traefik.http.routers.opendesk-edu.entrypoints=web
+      - traefik.http.routers.opendesk-edu.middlewares=https-redirect@file
+      - "traefik.http.routers.opendesk-edu-secure.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`)"
+      - traefik.http.routers.opendesk-edu-secure.entrypoints=websecure
+      - traefik.http.routers.opendesk-edu-secure.tls=true
+      - traefik.http.routers.opendesk-edu-secure.tls.certresolver=mytlschallenge
+      - traefik.http.routers.opendesk-edu-secure.middlewares=security-headers@file,compression@file
+      - traefik.http.services.opendesk-edu.loadbalancer.server.port=3000
+    networks:
+      - traefik-web
+
+networks:
+  traefik-web:
+    external: true
+    name: traefik-web
