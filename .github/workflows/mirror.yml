@@ -1,0 +1,20 @@
+name: Mirror to Codeberg
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: yesolutions/mirror-action@master
+        with:
+          remote: git@codeberg.org:opendesk-edu/opendesk-edu-website.git
+          remote_name: codeberg
+          push_args: --force
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_KEY }}
