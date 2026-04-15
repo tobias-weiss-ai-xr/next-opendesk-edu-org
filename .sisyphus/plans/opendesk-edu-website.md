@@ -1329,7 +1329,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/layout.tsx
   - Pre-commit: `npm run lint`
 
-- [ ] 15. Header (sticky, mobile hamburger, theme toggle)
+- [x] 15. Header (sticky, mobile hamburger, theme toggle)
 
   **What to do**:
   - Create src/components/Header.tsx with sticky navigation bar
@@ -1417,7 +1417,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/Header.tsx, e2e/header.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 16. Footer (imprint, privacy, email links)
+- [x] 16. Footer (imprint, privacy, email links)
 
   **What to do**:
   - Create src/components/Footer.tsx with footer links
@@ -1491,7 +1491,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/Footer.tsx, e2e/footer.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 17. PostCard (article preview card)
+- [x] 17. PostCard (article preview card)
 
   **What to do**:
   - Create src/components/PostCard.tsx for article preview cards
@@ -1563,7 +1563,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/PostCard.tsx, src/components/__tests__/PostCard.test.ts, e2e/postcard.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 18. SectionPage (reusable section listing)
+- [x] 18. SectionPage (reusable section listing)
 
   **What to do**:
   - Create src/components/SectionPage.tsx for section listing pages
@@ -1634,7 +1634,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/SectionPage.tsx, src/components/__tests__/SectionPage.test.ts, e2e/sectionpage.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 19. Badges (Tag + CategoryBadge)
+- [x] 19. Badges (Tag + CategoryBadge)
 
   **What to do**:
   - Create src/components/Badges.tsx with Tag and CategoryBadge components

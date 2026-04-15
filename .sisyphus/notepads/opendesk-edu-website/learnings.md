@@ -26,3 +26,9 @@ ext dev --turbopack\ for dev script (task requirement)
 - Dockerfile uses multi-stage build (deps → builder → runner) with node:20-alpine
 - docker-compose.yml uses Traefik labels with opendesk-edu.org domains
 - npm run lint and npx tsc --noEmit both pass cleanly
+
+## UI Components Task (Tasks 14-19)
+- jsdom does not allow setting window.location.href directly - it navigates instead. Must mock window.location before testing components that set it (EmailLink pattern).
+- For next/link and next/image mocks in tests, use typed props (Record<string,unknown> causes type errors with href/children). Use explicit prop types instead.
+- SectionPage is an async server component - test by awaiting the result then rendering the returned JSX element.
+- Footer needs next/image mock even though it doesn't use Image directly (transitive via EmailLink import chain through Next.js).

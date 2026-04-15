@@ -10,7 +10,8 @@
     "ses_272778494ffejuRWsIyb4OdW3I",
     "ses_272778490ffeoeLBS63T27BiHh",
     "ses_2725a1832ffecxlU9oZBpQFxGk",
-    "ses_27255349dffev3VzTWD33Vc7bj"
+    "ses_27255349dffev3VzTWD33Vc7bj",
+    "ses_27073ed7affew8wH19khw8QtpV"
   ],
   "plan_name": "opendesk-edu-website",
   "agent": "atlas",
@@ -41,6 +42,15 @@
       "agent": "Sisyphus-Junior",
       "category": "deep",
       "updated_at": "2026-04-14T20:30:01.161Z"
+    },
+    "todo:14": {
+      "task_key": "todo:14",
+      "task_label": "14",
+      "task_title": "Root layout (SEO, theme, structured data)",
+      "session_id": "ses_27073ed7affew8wH19khw8QtpV",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-15T05:15:25.285Z"
     }
   }
 }
