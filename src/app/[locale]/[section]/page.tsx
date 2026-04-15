@@ -79,6 +79,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
           {posts.map((post) => (
             <Link
               key={post.slug}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               href={`/${section}/${post.slug}` as any}
               className="rounded-lg border border-border bg-background p-6 hover:shadow-lg transition-shadow group"
             >
