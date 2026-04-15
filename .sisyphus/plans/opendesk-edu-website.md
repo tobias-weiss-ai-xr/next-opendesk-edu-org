@@ -1926,7 +1926,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/[section]/[slug]/page.tsx, e2e/article.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 23. Static routes (about, imprint, privacy, 404)
+- [x] 23. Static routes (about, imprint, privacy, 404)
 
   **What to do**:
   - Create src/app/about/page.tsx with about content
@@ -2008,7 +2008,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/about/page.tsx, src/app/imprint/page.tsx, src/app/privacy/page.tsx, src/app/not-found.tsx, e2e/static-routes.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 24. Homepage (hero, sections, latest posts)
+- [x] 24. Homepage (hero, sections, latest posts)
 
   **What to do**:
   - Create src/app/page.tsx homepage
@@ -2093,7 +2093,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/page.tsx, e2e/homepage.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 25. CookieConsent (Plausible + Clarity lazy-load)
+- [x] 25. CookieConsent (Plausible + Clarity lazy-load)
 
   **What to do**:
   - Create src/components/CookieConsent.tsx for cookie consent banner
@@ -2181,7 +2181,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/CookieConsent.tsx, e2e/cookieconsent.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 26. EmailLink (obfuscated mailto)
+- [x] 26. EmailLink (obfuscated mailto)
 
   **What to do**:
   - Create src/components/EmailLink.tsx for obfuscated email links
@@ -2248,7 +2248,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/EmailLink.tsx, src/components/__tests__/EmailLink.test.ts, e2e/emaillink.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 27. Analytics integration (Plausible + Clarity scripts)
+- [x] 27. Analytics integration (Plausible + Clarity scripts)
 
   **What to do**:
   - Create src/lib/analytics.ts with functions to load analytics scripts

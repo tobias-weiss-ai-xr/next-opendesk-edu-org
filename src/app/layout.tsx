@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import CookieConsent from "@/components/CookieConsent";
 import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 
 const inter = Inter({
@@ -90,6 +91,7 @@ export default function RootLayout({
             <main id="main-content">{children}</main>
           </ErrorBoundary>
           <Footer />
+          <CookieConsent />
         </ThemeProvider>
       </body>
     </html>

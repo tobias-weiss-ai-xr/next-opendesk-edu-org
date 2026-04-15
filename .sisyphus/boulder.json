@@ -12,7 +12,8 @@
     "ses_2725a1832ffecxlU9oZBpQFxGk",
     "ses_27255349dffev3VzTWD33Vc7bj",
     "ses_27073ed7affew8wH19khw8QtpV",
-    "ses_2706b4a2affeMCYT2O8yZ7jljK"
+    "ses_2706b4a2affeMCYT2O8yZ7jljK",
+    "ses_27062b2aaffe6qujeRYo6c9ls0"
   ],
   "plan_name": "opendesk-edu-website",
   "agent": "atlas",
@@ -52,6 +53,15 @@
       "agent": "Sisyphus-Junior",
       "category": "deep",
       "updated_at": "2026-04-15T05:24:14.682Z"
+    },
+    "todo:23": {
+      "task_key": "todo:23",
+      "task_label": "23",
+      "task_title": "Static routes (about, imprint, privacy, 404)",
+      "session_id": "ses_27062b2aaffe6qujeRYo6c9ls0",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-15T05:44:24.558Z"
     }
   }
 }
