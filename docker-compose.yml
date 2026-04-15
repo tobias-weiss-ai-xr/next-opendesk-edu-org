@@ -9,12 +9,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=traefik-web
-      # ACME challenge router (must have higher priority, no redirect middleware)
-      - "traefik.http.routers.opendesk-edu-acme.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`) && PathPrefix(`/.well-known/acme-challenge/`)"
-      - traefik.http.routers.opendesk-edu-acme.entrypoints=web
-      - traefik.http.routers.opendesk-edu-acme.priority=100
-      # HTTP router (redirect to HTTPS) — lower priority so ACME bypasses it
-      - "traefik.http.routers.opendesk-edu.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`)"
+      # HTTP redirect to HTTPS (excludes ACME challenge path so Let's Encrypt works)
+      - "traefik.http.routers.opendesk-edu.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`) && !PathPrefix(`/.well-known/acme-challenge/`)"
       - traefik.http.routers.opendesk-edu.entrypoints=web
       - traefik.http.routers.opendesk-edu.middlewares=https-redirect@file
       - "traefik.http.routers.opendesk-edu-secure.rule=Host(`opendesk-edu.org`,`www.opendesk-edu.org`)"
