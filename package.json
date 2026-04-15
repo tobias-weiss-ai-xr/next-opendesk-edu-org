@@ -10,7 +10,11 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
-    "prepare": "husky"
+    "prepare": "husky",
+    "validate:svg": "node scripts/validate-svg.mjs",
+    "optimize:svg": "node scripts/optimize-svg.mjs",
+    "check:palette": "node scripts/check-palette.mjs",
+    "export:png": "node scripts/export-png.mjs"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -49,6 +53,8 @@
     "husky": "^9.1.7",
     "jsdom": "^29.0.2",
     "lint-staged": "^16.4.0",
+    "sharp": "^0.34.5",
+    "svgo": "^4.0.1",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.2"

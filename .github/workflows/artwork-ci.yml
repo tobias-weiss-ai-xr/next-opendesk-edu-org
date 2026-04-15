@@ -1,0 +1,37 @@
+name: Artwork CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "public/static/**/*.svg"
+
+jobs:
+  artwork:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - run: npm ci
+
+      - name: Validate SVGs
+        run: npm run validate:svg
+
+      - name: Check color palette
+        run: npm run check:palette
+
+      - name: Optimize SVGs
+        run: npm run optimize:svg
+
+      - name: Export PNGs
+        run: npm run export:png
+
+      - name: Auto-commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: optimize SVGs and regenerate PNGs"
+          file_pattern: "public/static/"
