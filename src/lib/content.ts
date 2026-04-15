@@ -8,6 +8,7 @@ import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import { SECTIONS } from "@/lib/config";
 
+
 export interface PostMeta {
   title: string;
   date: string;
