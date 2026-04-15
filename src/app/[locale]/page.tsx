@@ -41,8 +41,7 @@ export default async function Home({ params }: PageProps) {
           {SECTION_INFO.map((section) => (
             <Link
               key={section.slug}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              href={`/${section.slug}` as any}
+              href={`/${section.slug}` as React.ComponentProps<typeof Link>['href']}
               className="rounded-lg bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-button transition-colors"
             >
               {section.name}
@@ -57,13 +56,12 @@ export default async function Home({ params }: PageProps) {
           <h2 className="text-2xl font-bold text-foreground mb-6">{t('sections.latestArticles')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latestPosts.map((post) => (
-              <PostCard key={`${post.section}/${post.slug}`} post={post} />
+              <PostCard key={`${post.section}/${post.slug}`} post={post} locale={locale} />
             ))}
           </div>
           <div className="mt-8 text-center">
             <Link
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              href={"/blog" as any}
+              href={"/blog" as React.ComponentProps<typeof Link>['href']}
               className="text-accent hover:text-accent-button transition-colors font-semibold"
             >
               {t('sections.viewAll')}

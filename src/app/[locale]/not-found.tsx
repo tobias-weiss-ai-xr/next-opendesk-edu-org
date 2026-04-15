@@ -31,8 +31,7 @@ export default async function NotFound({params}: PageProps) {
         {SECTION_INFO.map((section) => (
           <Link
             key={section.slug}
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            href={`/${section.slug}` as any}
+            href={`/${section.slug}` as React.ComponentProps<typeof Link>['href']}
             className="rounded-lg border border-border px-6 py-3 font-semibold text-foreground hover:bg-background-secondary transition-colors"
           >
             {section.name}
@@ -45,7 +44,7 @@ export default async function NotFound({params}: PageProps) {
           <h2 className="text-2xl font-bold text-foreground mb-6">Latest Articles</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {latestPosts.map((post) => (
-              <PostCard key={`${post.section}/${post.slug}`} post={post} />
+              <PostCard key={`${post.section}/${post.slug}`} post={post} locale={locale} />
             ))}
           </div>
         </div>

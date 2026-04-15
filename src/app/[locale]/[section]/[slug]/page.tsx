@@ -66,5 +66,5 @@ export default async function ArticleSlugPage({ params }: PageProps) {
   const sectionInfo = getSectionBySlug(section);
   const backLabel = sectionInfo?.title ?? section;
 
-  return <ArticlePage post={post} backHref={`/${section}`} backLabel={backLabel} />;
+  return <ArticlePage post={post} backHref={`/${section}`} backLabel={backLabel} locale={locale} />;
 }

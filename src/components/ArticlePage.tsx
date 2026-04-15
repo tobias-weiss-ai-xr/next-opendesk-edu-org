@@ -5,13 +5,16 @@ import TableOfContents from "@/components/TableOfContents";
 import type { Post } from "@/lib/content";
 import { SITE_URL, SITE_NAME } from "@/lib/config";
 
+type Href = React.ComponentProps<typeof Link>['href'];
+
 interface ArticlePageProps {
   post: Post;
   backHref: string;
   backLabel: string;
+  locale?: string;
 }
 
-export default function ArticlePage({ post, backHref, backLabel }: ArticlePageProps) {
+export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }: ArticlePageProps) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
@@ -44,8 +47,7 @@ export default function ArticlePage({ post, backHref, backLabel }: ArticlePagePr
       />
       <article className="max-w-6xl mx-auto px-6 py-12">
         <Link
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          href={backHref as any}
+          href={backHref as Href}
           className="inline-flex items-center gap-1 text-sm text-foreground-secondary hover:text-foreground transition-colors mb-8"
         >
           &larr; Back to {backLabel}
@@ -56,7 +58,7 @@ export default function ArticlePage({ post, backHref, backLabel }: ArticlePagePr
             {post.title}
           </h1>
           <time dateTime={post.date} className="text-sm text-foreground-secondary block mb-4">
-            {formatDate(post.date)}
+            {formatDate(post.date, locale)}
           </time>
           {post.categories && post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">

@@ -7,15 +7,16 @@ import { useTheme } from "@/components/ThemeProvider";
 import {Link} from '@/i18n/navigation';
 import {useTranslations} from 'next-intl';
 
+type Href = React.ComponentProps<typeof Link>['href'];
+
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('header');
 
-  const NAV_ITEMS = [
+  const NAV_ITEMS: { href: string & Href; label: string }[] = [
     { href: "/" as const, label: t('home') },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...SECTIONS.map((s) => ({ href: `/${s}` as any, label: t(s === 'get-started' ? 'getStarted' : s) })),
+    ...SECTIONS.map((s) => ({ href: `/${s}` as string & Href, label: t(s === 'get-started' ? 'getStarted' : s) })),
   ];
 
   return (

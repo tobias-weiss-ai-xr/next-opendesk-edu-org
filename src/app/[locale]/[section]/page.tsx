@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { formatDate } from "@/lib/format";
 import {
   getPostsBySection,
   getSectionBySlug,
@@ -79,8 +80,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
           {posts.map((post) => (
             <Link
               key={post.slug}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              href={`/${section}/${post.slug}` as any}
+              href={`/${section}/${post.slug}` as React.ComponentProps<typeof Link>['href']}
               className="rounded-lg border border-border bg-background p-6 hover:shadow-lg transition-shadow group"
             >
               <h2 className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
@@ -88,11 +88,7 @@ export default async function SectionPage({ params }: SectionPageProps) {
               </h2>
               {post.date && (
                 <time className="text-sm text-foreground-secondary mb-2 block">
-                  {new Date(post.date).toLocaleDateString(locale, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {formatDate(post.date, locale)}
                 </time>
               )}
               {post.description && (
