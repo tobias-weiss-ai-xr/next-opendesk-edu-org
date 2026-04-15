@@ -1,7 +1,13 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import EmailLink from "@/components/EmailLink";
 
-export default function Footer() {
+interface FooterProps {
+  locale: string;
+}
+
+// The locale prop is reserved for future locale-dependent behavior
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default function Footer(_props: FooterProps) {
   return (
     <footer className="border-t border-border bg-background-secondary">
       <div className="max-w-6xl mx-auto px-4 py-8">
@@ -18,7 +24,7 @@ export default function Footer() {
             </EmailLink>
           </div>
           <p className="text-xs text-foreground-secondary">
-            © {new Date().getFullYear()} openDesk Edu. All rights reserved.
+            &copy; {new Date().getFullYear()} openDesk Edu. All rights reserved.
           </p>
         </div>
       </div>

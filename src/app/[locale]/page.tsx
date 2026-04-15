@@ -1,13 +1,18 @@
 import Image from "next/image";
-import Link from "next/link";
 import EmailLink from "@/components/EmailLink";
 import { getAllPosts } from "@/lib/content";
 import { SECTION_INFO } from "@/lib/content";
 import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import PostCard from "@/components/PostCard";
+import {Link} from '@/i18n/navigation';
 
-export default async function Home() {
-  const allPosts = await getAllPosts();
+interface PageProps {
+  params: Promise<{locale: string}>;
+}
+
+export default async function Home({ params }: PageProps) {
+  const {locale} = await params;
+  const allPosts = await getAllPosts(locale);
   const latestPosts = allPosts.slice(0, 3);
 
   return (
@@ -34,7 +39,8 @@ export default async function Home() {
           {SECTION_INFO.map((section) => (
             <Link
               key={section.slug}
-              href={`/${section.slug}`}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              href={`/${section.slug}` as any}
               className="rounded-lg bg-accent px-6 py-3 font-semibold text-white hover:bg-accent-button transition-colors"
             >
               {section.name}
@@ -54,7 +60,8 @@ export default async function Home() {
           </div>
           <div className="mt-8 text-center">
             <Link
-              href="/blog"
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              href={"/blog" as any}
               className="text-accent hover:text-accent-button transition-colors font-semibold"
             >
               View all articles &rarr;

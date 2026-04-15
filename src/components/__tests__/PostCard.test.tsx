@@ -3,9 +3,9 @@ import { render, screen } from "@testing-library/react";
 import PostCard from "@/components/PostCard";
 import type { Post } from "@/lib/content";
 
-// Mock next/link
-vi.mock("next/link", () => ({
-  default: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
+// Mock @/i18n/navigation Link
+vi.mock("@/i18n/navigation", () => ({
+  Link: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
     <a href={props.href}>{props.children}</a>
   ),
 }));

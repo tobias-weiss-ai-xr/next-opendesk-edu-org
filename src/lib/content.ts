@@ -8,8 +8,6 @@ import rehypeSlug from "rehype-slug";
 import rehypeStringify from "rehype-stringify";
 import { SECTIONS } from "@/lib/config";
 
-const contentDirectory = path.join(process.cwd(), "content");
-
 export interface PostMeta {
   title: string;
   date: string;
@@ -95,11 +93,16 @@ function isValidContentFile(filename: string): boolean {
   return true;
 }
 
+function getContentDirectory(locale: string): string {
+  return path.join(process.cwd(), "content", locale);
+}
+
 export async function getPostBySlug(
   section: string,
-  slug: string
+  slug: string,
+  locale: string = 'en'
 ): Promise<Post | null> {
-  const sectionDir = path.join(contentDirectory, section);
+  const sectionDir = path.join(getContentDirectory(locale), section);
   if (!fs.existsSync(sectionDir)) return null;
 
   // Fast path: try direct filename match first (covers the common case)
@@ -130,8 +133,8 @@ export async function getPostBySlug(
   return null;
 }
 
-export async function getPostsBySection(section: string): Promise<Post[]> {
-  const sectionDir = path.join(contentDirectory, section);
+export async function getPostsBySection(section: string, locale: string = 'en'): Promise<Post[]> {
+  const sectionDir = path.join(getContentDirectory(locale), section);
   if (!fs.existsSync(sectionDir)) return [];
 
   const files = fs.readdirSync(sectionDir).filter(isValidContentFile);
@@ -156,9 +159,9 @@ export async function getPostsBySection(section: string): Promise<Post[]> {
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export async function getAllPosts(): Promise<Post[]> {
+export async function getAllPosts(locale: string = 'en'): Promise<Post[]> {
   const allPosts = await Promise.all(
-    SECTIONS.map((s) => getPostsBySection(s))
+    SECTIONS.map((s) => getPostsBySection(s, locale))
   );
   return allPosts.flat().sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -189,7 +192,7 @@ export function isValidSection(slug: string): boolean {
   return SECTION_SLUGS.has(slug);
 }
 
-export async function getStaticPathsForSection(section: string): Promise<string[]> {
-  const posts = await getPostsBySection(section);
+export async function getStaticPathsForSection(section: string, locale: string = 'en'): Promise<string[]> {
+  const posts = await getPostsBySection(section, locale);
   return posts.map((p) => p.slug);
 }

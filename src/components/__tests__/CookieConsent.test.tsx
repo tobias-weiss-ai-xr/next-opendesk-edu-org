@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import CookieConsent from "@/components/CookieConsent";
 
-// Mock next/link
-vi.mock("next/link", () => ({
-  default: (props: { href?: string; children?: React.ReactNode; className?: string }) => (
+// Mock @/i18n/navigation Link
+vi.mock("@/i18n/navigation", () => ({
+  Link: (props: { href?: string; children?: React.ReactNode; className?: string }) => (
     <a href={props.href} className={props.className}>
       {props.children}
     </a>

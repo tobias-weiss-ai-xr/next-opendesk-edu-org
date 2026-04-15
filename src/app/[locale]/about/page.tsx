@@ -1,10 +1,17 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import EmailLink from "@/components/EmailLink";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "About | openDesk Edu",
-};
+interface PageProps {
+  params: Promise<{locale: string}>;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function generateMetadata(_props: PageProps): Promise<Metadata> {
+  return {
+    title: "About | openDesk Edu",
+  };
+}
 
 const SERVICES = [
   {
@@ -30,13 +37,16 @@ const SERVICES = [
 ];
 
 const PROJECTS = [
-  { title: "Components", description: "The 15 integrated services", href: "/components" },
-  { title: "Architecture", description: "System design and patterns", href: "/architecture" },
-  { title: "Get Started", description: "Deployment guides", href: "/get-started" },
-  { title: "Blog", description: "News and updates", href: "/blog" },
+  { title: "Components", description: "The 15 integrated services", href: "/components" as const },
+  { title: "Architecture", description: "System design and patterns", href: "/architecture" as const },
+  { title: "Get Started", description: "Deployment guides", href: "/get-started" as const },
+  { title: "Blog", description: "News and updates", href: "/blog" as const },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage({params}: PageProps) {
+  const _params = await params;
+  void _params;
+
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
       <div className="mb-16">

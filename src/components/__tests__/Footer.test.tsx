@@ -2,9 +2,9 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Footer from "@/components/Footer";
 
-// Mock next/link
-vi.mock("next/link", () => ({
-  default: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
+// Mock @/i18n/navigation Link
+vi.mock("@/i18n/navigation", () => ({
+  Link: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
     <a href={props.href}>{props.children}</a>
   ),
 }));
@@ -28,38 +28,38 @@ describe("Footer", () => {
   });
 
   it("renders the Imprint link", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     expect(screen.getByText("Imprint")).toBeInTheDocument();
   });
 
   it("renders the Privacy link", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     expect(screen.getByText("Privacy")).toBeInTheDocument();
   });
 
   it("renders the Contact email link", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     expect(screen.getByText("Contact")).toBeInTheDocument();
   });
 
   it("copyright text contains 'openDesk Edu'", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     expect(screen.getByText(/openDesk Edu/)).toBeInTheDocument();
   });
 
   it("copyright includes current year", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     expect(screen.getByText(/2024/)).toBeInTheDocument();
   });
 
   it("Imprint link points to /imprint", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     const link = screen.getByText("Imprint").closest("a");
     expect(link).toHaveAttribute("href", "/imprint");
   });
 
   it("Privacy link points to /privacy", () => {
-    render(<Footer />);
+    render(<Footer locale="en" />);
     const link = screen.getByText("Privacy").closest("a");
     expect(link).toHaveAttribute("href", "/privacy");
   });
@@ -72,7 +72,7 @@ describe("Footer", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).location = { href: "" };
 
-    render(<Footer />);
+    render(<Footer locale="en" />);
     fireEvent.click(screen.getByText("Contact"));
     expect(window.location.href).toBe("mailto:info@opendesk-edu.org");
 

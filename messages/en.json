@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "Home",
+    "components": "Components",
+    "architecture": "Architecture",
+    "getStarted": "Get Started",
+    "blog": "Blog",
+    "about": "About"
+  },
+  "footer": {
+    "imprint": "Imprint",
+    "privacy": "Privacy",
+    "contact": "Contact",
+    "copyright": "© {year} openDesk Edu. Licensed under Apache-2.0."
+  },
+  "cookieConsent": {
+    "message": "We use privacy-friendly analytics to understand how visitors use this site. No cookies are set by default.",
+    "privacyLink": "Privacy Policy",
+    "decline": "Decline",
+    "accept": "Accept"
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Page Not Found",
+    "message": "The requested page doesn't exist. It may have been moved or deleted.",
+    "homepage": "Homepage"
+  },
+  "about": {
+    "title": "About openDesk Edu",
+    "description": "openDesk Edu brings together openDesk CE and 15 education services for seamless digital transformation in higher education.",
+    "services": "Integrated Services",
+    "projects": "Explore",
+    "contact": "Get in Touch"
+  },
+  "hero": {
+    "subtitle": "Educational Digital Infrastructure",
+    "description": "openDesk CE with 15 integrated services for seamless digital transformation in higher education."
+  },
+  "sections": {
+    "latestArticles": "Latest Articles",
+    "viewAll": "View all articles →"
+  }
+}

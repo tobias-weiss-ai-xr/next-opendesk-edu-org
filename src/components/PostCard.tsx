@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import { formatDate } from "@/lib/format";
 import { Tag, CategoryBadge } from "@/components/Badges";
 import type { Post } from "@/lib/content";
@@ -10,7 +10,8 @@ interface PostCardProps {
 export default function PostCard({ post }: PostCardProps) {
   return (
     <article className="rounded-lg border border-border bg-background p-6 hover:shadow-lg transition-shadow">
-      <Link href={`/${post.section}/${post.slug}`} className="block">
+      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+      <Link href={`/${post.section}/${post.slug}` as any} className="block">
         <h3 className="text-lg font-semibold text-foreground hover:text-accent transition-colors mb-2">
           {post.title}
         </h3>

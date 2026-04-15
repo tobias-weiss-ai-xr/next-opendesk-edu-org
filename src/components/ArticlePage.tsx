@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import { formatDate } from "@/lib/format";
 import { Tag, CategoryBadge } from "@/components/Badges";
 import TableOfContents from "@/components/TableOfContents";
@@ -44,7 +44,8 @@ export default function ArticlePage({ post, backHref, backLabel }: ArticlePagePr
       />
       <article className="max-w-6xl mx-auto px-6 py-12">
         <Link
-          href={backHref}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          href={backHref as any}
           className="inline-flex items-center gap-1 text-sm text-foreground-secondary hover:text-foreground transition-colors mb-8"
         >
           &larr; Back to {backLabel}

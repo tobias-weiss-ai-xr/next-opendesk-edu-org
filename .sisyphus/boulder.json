@@ -13,7 +13,8 @@
     "ses_27255349dffev3VzTWD33Vc7bj",
     "ses_27073ed7affew8wH19khw8QtpV",
     "ses_2706b4a2affeMCYT2O8yZ7jljK",
-    "ses_27062b2aaffe6qujeRYo6c9ls0"
+    "ses_27062b2aaffe6qujeRYo6c9ls0",
+    "ses_270514ab5ffefLe3efOq866oil"
   ],
   "plan_name": "opendesk-edu-website",
   "agent": "atlas",
@@ -62,6 +63,24 @@
       "agent": "Sisyphus-Junior",
       "category": "deep",
       "updated_at": "2026-04-15T05:44:24.558Z"
+    },
+    "todo:28": {
+      "task_key": "todo:28",
+      "task_label": "28",
+      "task_title": "Sitemap (sitemap.ts)",
+      "session_id": "ses_270514ab5ffefLe3efOq866oil",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-15T05:51:51.165Z"
+    },
+    "todo:33": {
+      "task_key": "todo:33",
+      "task_label": "33",
+      "task_title": "next-intl installation + config",
+      "session_id": "ses_2704ae3c1ffeJOhIpJkRWPUo89",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-15T06:25:05.333Z"
     }
   }
 }

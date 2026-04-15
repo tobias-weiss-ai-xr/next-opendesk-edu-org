@@ -1,9 +1,14 @@
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import { getAllPosts, SECTION_INFO } from "@/lib/content";
 import PostCard from "@/components/PostCard";
 
-export default async function NotFound() {
-  const allPosts = await getAllPosts();
+interface PageProps {
+  params: Promise<{locale: string}>;
+}
+
+export default async function NotFound({params}: PageProps) {
+  const {locale} = await params;
+  const allPosts = await getAllPosts(locale);
   const latestPosts = allPosts.slice(0, 4);
 
   return (
@@ -24,7 +29,8 @@ export default async function NotFound() {
         {SECTION_INFO.map((section) => (
           <Link
             key={section.slug}
-            href={`/${section.slug}`}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            href={`/${section.slug}` as any}
             className="rounded-lg border border-border px-6 py-3 font-semibold text-foreground hover:bg-background-secondary transition-colors"
           >
             {section.name}

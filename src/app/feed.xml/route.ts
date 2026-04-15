@@ -5,11 +5,11 @@ import { escapeXml } from "@/lib/xml";
 export const dynamic = "force-static";
 
 export async function GET() {
-  const posts = await getAllPosts();
+  const posts = await getAllPosts('en');
   const items = posts.map((post) => `    <item>
       <title>${escapeXml(post.title)}</title>
-      <link>${escapeXml(`${SITE_URL}/${post.section}/${post.slug}`)}</link>
-      <guid>${escapeXml(`${SITE_URL}/${post.section}/${post.slug}`)}</guid>
+      <link>${escapeXml(`${SITE_URL}/en/${post.section}/${post.slug}`)}</link>
+      <guid>${escapeXml(`${SITE_URL}/en/${post.section}/${post.slug}`)}</guid>
       <description>${escapeXml(post.description ?? "")}</description>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       ${post.categories?.map((c) => `<category>${escapeXml(c)}</category>`).join("\n      ") ?? ""}

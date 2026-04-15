@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "Accueil",
+    "components": "Composants",
+    "architecture": "Architecture",
+    "getStarted": "Premiers pas",
+    "blog": "Blog",
+    "about": "À propos"
+  },
+  "footer": {
+    "imprint": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "contact": "Contact",
+    "copyright": "© {year} openDesk Edu. Sous licence Apache-2.0."
+  },
+  "cookieConsent": {
+    "message": "Nous utilisons des analyses respectueuses de la vie privée pour comprendre comment les visiteurs utilisent ce site. Aucun cookie n'est défini par défaut.",
+    "privacyLink": "Politique de confidentialité",
+    "decline": "Refuser",
+    "accept": "Accepter"
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Page non trouvée",
+    "message": "La page demandée n'existe pas. Elle a peut-être été déplacée ou supprimée.",
+    "homepage": "Page d'accueil"
+  },
+  "about": {
+    "title": "À propos d'openDesk Edu",
+    "description": "openDesk Edu rassemble openDesk CE et 15 services éducatifs pour une transformation numérique fluide dans l'enseignement supérieur.",
+    "services": "Services intégrés",
+    "projects": "Explorer",
+    "contact": "Nous contacter"
+  },
+  "hero": {
+    "subtitle": "Infrastructure numérique éducative",
+    "description": "openDesk CE avec 15 services intégrés pour une transformation numérique fluide dans l'enseignement supérieur."
+  },
+  "sections": {
+    "latestArticles": "Derniers articles",
+    "viewAll": "Voir tous les articles →"
+  }
+}

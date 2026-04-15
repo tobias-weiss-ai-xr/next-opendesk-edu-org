@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 import { PLAUSIBLE_DOMAIN, CLARITY_ID } from "@/lib/config";
 
 const CONSENT_KEY = "cookie-consent";

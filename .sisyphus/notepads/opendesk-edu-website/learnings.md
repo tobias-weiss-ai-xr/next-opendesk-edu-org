@@ -32,3 +32,11 @@ ext dev --turbopack\ for dev script (task requirement)
 - For next/link and next/image mocks in tests, use typed props (Record<string,unknown> causes type errors with href/children). Use explicit prop types instead.
 - SectionPage is an async server component - test by awaiting the result then rendering the returned JSX element.
 - Footer needs next/image mock even though it doesn't use Image directly (transitive via EmailLink import chain through Next.js).
+
+## [2026-04-15] Tasks 28-32: SEO Files + CI/CD
+- escapeXml test pitfall: escaped strings contain literal ampersand inside entities, so not.toContain("&") fails
+- Next.js MetadataRoute.Robots rules type is a union - use Array.isArray() cast for length checks
+- feed.xml/route.ts uses force-static dynamic export for static RSS generation
+- CI workflow: lint/test/build parallel, deploy only on push to main (not PR)
+- Deploy uses appleboy/ssh-action with secrets, then curl health check against opendesk-edu.org
+- 117 tests passing (15 new: 9 xml + 6 seo)

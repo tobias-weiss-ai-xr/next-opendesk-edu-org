@@ -11,17 +11,31 @@ vi.mock("next/image", () => ({
   ),
 }));
 
-// Mock next/link
-vi.mock("next/link", () => ({
-  default: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
+// Mock next-intl/navigation Link
+vi.mock("@/i18n/navigation", () => ({
+  Link: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
     <a href={props.href}>{props.children}</a>
   ),
+}));
+
+// Mock next-intl useTranslations
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      home: "Home",
+      components: "Components",
+      architecture: "Architecture",
+      "get-started": "Get Started",
+      blog: "Blog",
+    };
+    return translations[key] ?? key;
+  },
 }));
 
 function renderHeader() {
   return render(
     <ThemeProvider>
-      <Header />
+      <Header locale="en" />
     </ThemeProvider>
   );
 }

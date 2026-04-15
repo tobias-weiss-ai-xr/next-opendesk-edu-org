@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
+import createNextIntlPlugin from 'next-intl/plugin';
 import path from "path";
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
@@ -25,4 +28,4 @@ const withMDX = createMDX({
   options: { remarkPlugins: [], rehypePlugins: [] },
 });
 
-export default withMDX(nextConfig);
+export default withMDX(withNextIntl(nextConfig));

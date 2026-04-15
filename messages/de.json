@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "Startseite",
+    "components": "Komponenten",
+    "architecture": "Architektur",
+    "getStarted": "Erste Schritte",
+    "blog": "Blog",
+    "about": "Über uns"
+  },
+  "footer": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "contact": "Kontakt",
+    "copyright": "© {year} openDesk Edu. Lizenziert unter Apache-2.0."
+  },
+  "cookieConsent": {
+    "message": "Wir verwenden datenschutzfreundliche Analysen, um zu verstehen, wie Besucher diese Website nutzen. Standardmäßig werden keine Cookies gesetzt.",
+    "privacyLink": "Datenschutzerklärung",
+    "decline": "Ablehnen",
+    "accept": "Akzeptieren"
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "Seite nicht gefunden",
+    "message": "Die angeforderte Seite existiert nicht. Sie wurde möglicherweise verschoben oder gelöscht.",
+    "homepage": "Startseite"
+  },
+  "about": {
+    "title": "Über openDesk Edu",
+    "description": "openDesk Edu vereint openDesk CE und 15 Bildungs services für eine nahtlose digitale Transformation im Hochschulbereich.",
+    "services": "Integrierte Dienste",
+    "projects": "Entdecken",
+    "contact": "Kontakt aufnehmen"
+  },
+  "hero": {
+    "subtitle": "Digitale Bildungsinfrastruktur",
+    "description": "openDesk CE mit 15 integrierten Diensten für die nahtlose digitale Transformation im Hochschulbereich."
+  },
+  "sections": {
+    "latestArticles": "Neueste Artikel",
+    "viewAll": "Alle Artikel anzeigen →"
+  }
+}

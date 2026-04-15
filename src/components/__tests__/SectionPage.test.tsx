@@ -2,9 +2,9 @@ import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import SectionPage from "@/components/SectionPage";
 
-// Mock next/link
-vi.mock("next/link", () => ({
-  default: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
+// Mock @/i18n/navigation Link
+vi.mock("@/i18n/navigation", () => ({
+  Link: (props: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
     <a href={props.href}>{props.children}</a>
   ),
 }));

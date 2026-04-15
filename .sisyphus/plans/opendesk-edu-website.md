@@ -2316,7 +2316,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/lib/analytics.ts, src/lib/__tests__/analytics.test.ts
   - Pre-commit: `npm run lint && npm run test`
 
-- [ ] 28. Sitemap (sitemap.ts)
+- [x] 28. Sitemap (sitemap.ts)
 
   **What to do**:
   - Create src/app/sitemap.ts for SEO sitemap generation
@@ -2385,7 +2385,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/sitemap.ts
   - Pre-commit: `npm run lint`
 
-- [ ] 29. Robots.txt (robots.ts)
+- [x] 29. Robots.txt (robots.ts)
 
   **What to do**:
   - Create src/app/robots.ts for robots.txt generation
@@ -2449,7 +2449,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/robots.ts
   - Pre-commit: `npm run lint`
 
-- [ ] 30. RSS feed (feed.xml/route.ts)
+- [x] 30. RSS feed (feed.xml/route.ts)
 
   **What to do**:
   - Create src/app/feed.xml/route.ts for RSS feed generation
@@ -2519,7 +2519,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/app/feed.xml/route.ts, src/lib/xml.ts
   - Pre-commit: `npm run lint`
 
-- [ ] 31. GitHub Actions CI (lint, test, build, deploy)
+- [x] 31. GitHub Actions CI (lint, test, build, deploy)
 
   **What to do**:
   - Create .github/workflows/ci.yml for CI pipeline
@@ -2594,7 +2594,7 @@ Wave 13 (64-67): 31 - Final
   - Files: .github/workflows/ci.yml, .github/workflows/deploy.yml
   - Pre-commit: `npm run lint`
 
-- [ ] 32. Docker deploy verification (test SSH build)
+- [x] 32. Docker deploy verification (test SSH build)
 
   **What to do**:
   - Create test script to verify Docker build locally
@@ -2668,7 +2668,7 @@ Wave 13 (64-67): 31 - Final
 
 ### PHASE 2: i18n Layer (English + German)
 
-- [ ] 33. next-intl installation + config
+- [x] 33. next-intl installation + config
 
   **What to do**: Install `next-intl` package. Create src/i18n/routing.ts with locale configuration: locales = ['en', 'de', 'fr', 'zh'], defaultLocale = 'en'. Create src/i18n/request.ts with getRequestConfig for message loading. Configure next.config.ts to use createNextIntlPlugin.
   **Must NOT do**: Install before Phase 1 is complete; skip fr/zh locale configuration.
@@ -2685,7 +2685,7 @@ Wave 13 (64-67): 31 - Final
   ```
   **Commit**: YES — `feat(i18n): install and configure next-intl`
 
-- [ ] 34. Middleware (locale detection, subdirectory routing)
+- [x] 34. Middleware (locale detection, subdirectory routing)
 
   **What to do**: Create src/middleware.ts with next-intl middleware. Configure locale detection from URL path prefix (/en/, /de/, /fr/, /zh/). Redirect root (/) to /en/. Add Accept-Language header detection for automatic locale suggestion. Ensure static assets and API routes bypass middleware.
   **Must NOT do**: Allow missing locale prefix (all routes must have locale); skip fr/zh even if not fully translated.
@@ -2707,7 +2707,7 @@ Wave 13 (64-67): 31 - Final
   ```
   **Commit**: YES — `feat(i18n): add middleware for locale routing`
 
-- [ ] 35. Root layout split (html lang attribute, locale provider)
+- [x] 35. Root layout split (html lang attribute, locale provider)
 
   **What to do**: Modify src/app/layout.tsx to accept locale param. Split into src/app/[locale]/layout.tsx with NextIntlClientProvider wrapping. Set `<html lang={locale}>` dynamically. Pass messages from locale-specific message files.
   **Must NOT do**: Hardcode lang attribute; keep old layout.tsx if new [locale]/layout.tsx created.
@@ -2724,7 +2724,7 @@ Wave 13 (64-67): 31 - Final
   ```
   **Commit**: YES — `feat(i18n): split root layout with locale provider`
 
-- [ ] 36. Message files (en.json, de.json) — UI strings
+- [x] 36. Message files (en.json, de.json) — UI strings
 
   **What to do**: Create messages/en.json with all UI strings: header nav labels (Components, Architecture, Get Started, Blog), footer links (Imprint, Privacy), cookie consent (Accept/Decline text), 404 page (Not Found, Go Home), about page content, hero section (title, subtitle, CTA). Create messages/de.json with German translations. Create messages/fr.json and messages/zh.json with English placeholders (marked with TODO for translation).
   **Must NOT do**: Hardcode any UI string in components; skip any UI string.
@@ -2746,7 +2746,7 @@ Wave 13 (64-67): 31 - Final
   ```
   **Commit**: YES — `feat(i18n): add message files for EN, DE, FR, ZH`
 
-- [ ] 37. Content structure split (content/en/, content/de/)
+- [x] 37. Content structure split (content/en/, content/de/)
 
   **What to do**: Move existing content/ files into content/en/ subdirectory. Create content/de/ directory with German article stubs (TODO markers for actual translation). Create content/fr/ and content/zh/ with EN placeholder copies. Update content.ts getAllPosts/getPost to accept locale parameter and load from content/{locale}/{section}/.
   **Must NOT do**: Delete original content files without moving; skip locale parameter in content functions.

@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy | openDesk Edu",
-};
+interface PageProps {
+  params: Promise<{locale: string}>;
+}
 
-export default function PrivacyPage() {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  await params;
+  return {
+    title: "Privacy Policy | openDesk Edu",
+  };
+}
+
+export default async function PrivacyPage({params}: PageProps) {
+  await params;
+
   return (
     <div className="mx-auto max-w-4xl px-6 py-12">
       <article className="prose">

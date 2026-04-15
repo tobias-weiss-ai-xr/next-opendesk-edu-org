@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import {Link} from '@/i18n/navigation';
 
-export const metadata: Metadata = {
-  title: "Imprint | openDesk Edu",
-};
+interface PageProps {
+  params: Promise<{locale: string}>;
+}
 
-export default function ImprintPage() {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  await params;
+  return {
+    title: "Imprint | openDesk Edu",
+  };
+}
+
+export default async function ImprintPage({params}: PageProps) {
+  await params;
+
   return (
     <div className="mx-auto max-w-4xl px-6 py-12">
       <article className="prose">

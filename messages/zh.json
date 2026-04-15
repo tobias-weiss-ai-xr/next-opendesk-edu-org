@@ -1,0 +1,43 @@
+{
+  "header": {
+    "home": "首页",
+    "components": "组件",
+    "architecture": "架构",
+    "getStarted": "快速开始",
+    "blog": "博客",
+    "about": "关于"
+  },
+  "footer": {
+    "imprint": "法律声明",
+    "privacy": "隐私政策",
+    "contact": "联系方式",
+    "copyright": "© {year} openDesk Edu. 基于 Apache-2.0 许可。"
+  },
+  "cookieConsent": {
+    "message": "我们使用注重隐私的分析工具来了解访客如何使用本站。默认不设置任何 Cookie。",
+    "privacyLink": "隐私政策",
+    "decline": "拒绝",
+    "accept": "接受"
+  },
+  "notFound": {
+    "title": "404",
+    "heading": "页面未找到",
+    "message": "请求的页面不存在。可能已被移动或删除。",
+    "homepage": "首页"
+  },
+  "about": {
+    "title": "关于 openDesk Edu",
+    "description": "openDesk Edu 将 openDesk CE 与 15 个教育服务整合，为高等教育提供无缝数字化转型。",
+    "services": "集成服务",
+    "projects": "探索",
+    "contact": "联系我们"
+  },
+  "hero": {
+    "subtitle": "教育数字基础设施",
+    "description": "openDesk CE 集成 15 个服务，为高等教育提供无缝数字化转型。"
+  },
+  "sections": {
+    "latestArticles": "最新文章",
+    "viewAll": "查看所有文章 →"
+  }
+}
