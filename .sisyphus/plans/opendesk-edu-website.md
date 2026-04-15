@@ -1251,7 +1251,7 @@ Wave 13 (64-67): 31 - Final
   - Files: public/static/**/*, public/manifest.json
   - Pre-commit: `npm run lint`
 
-- [ ] 14. Root layout (SEO, theme, structured data)
+- [x] 14. Root layout (SEO, theme, structured data)
 
   **What to do**:
   - Create src/app/layout.tsx as root layout for App Router
@@ -1701,7 +1701,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/Badges.tsx, src/components/__tests__/Badges.test.ts
   - Pre-commit: `npm run lint`
 
-- [ ] 20. ArticlePage (full article + TOC sidebar + JSON-LD)
+- [x] 20. ArticlePage (full article + TOC sidebar + JSON-LD)
 
   **What to do**:
   - Create src/components/ArticlePage.tsx for full article view
@@ -1776,7 +1776,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/ArticlePage.tsx, src/components/__tests__/ArticlePage.test.ts, e2e/articlepage.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 21. TableOfContents (IntersectionObserver active tracking)
+- [x] 21. TableOfContents (IntersectionObserver active tracking)
 
   **What to do**:
   - Create src/components/TableOfContents.tsx for article TOC
@@ -1846,7 +1846,7 @@ Wave 13 (64-67): 31 - Final
   - Files: src/components/TableOfContents.tsx, src/components/__tests__/TableOfContents.test.ts, e2e/tableofcontents.spec.ts
   - Pre-commit: `npm run lint && npm run test && npx playwright test`
 
-- [ ] 22. Dynamic route [section]/[slug]/page.tsx
+- [x] 22. Dynamic route [section]/[slug]/page.tsx
 
   **What to do**:
   - Create src/app/[section]/[slug]/page.tsx dynamic route for articles
