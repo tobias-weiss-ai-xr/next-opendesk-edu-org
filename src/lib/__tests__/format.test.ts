@@ -21,4 +21,16 @@ describe("formatDate", () => {
     // Should use "March 20, 2024" style, not "2024-03-20"
     expect(result).not.toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
+
+  it("uses the provided locale", () => {
+    const result = formatDate("2024-01-15", "de");
+    expect(result).toContain("2024");
+    expect(result).toContain("Januar");
+    expect(result).toContain("15");
+  });
+
+  it("defaults to 'en' locale when none provided", () => {
+    const result = formatDate("2024-01-15");
+    expect(result).toContain("January");
+  });
 });
