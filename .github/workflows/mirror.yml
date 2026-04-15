@@ -15,6 +15,7 @@ jobs:
         with:
           remote: git@codeberg.org:opendesk-edu/opendesk-edu-website.git
           remote_name: codeberg
-          push_args: --force
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_KEY }}
+          git_push_args: --tags --force --prune
+          git_ssh_no_verify_host: true
+          GIT_SSH_PRIVATE_KEY: ${{ secrets.CODEBERG_SSH_KEY }}
+          GIT_SSH_KNOWN_HOSTS: ${{ secrets.CODEBERG_SSH_KNOWN_HOSTS }}
