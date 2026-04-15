@@ -40,3 +40,14 @@ ext dev --turbopack\ for dev script (task requirement)
 - CI workflow: lint/test/build parallel, deploy only on push to main (not PR)
 - Deploy uses appleboy/ssh-action with secrets, then curl health check against opendesk-edu.org
 - 117 tests passing (15 new: 9 xml + 6 seo)
+2026-04-15 08:32 Tasks 33-37: next-intl i18n setup
+
+- next-intl v3+ uses defineRouting, createMiddleware, createNavigation, getRequestConfig
+- Next.js 16 params are Promise<{locale: string}> - must await
+- next-intl Link has STRICT typing for pathnames defined in routing config
+- For dynamic section hrefs (not in pathnames config), use 'as any' with eslint-disable
+- Root layout in [locale]/layout.tsx wraps with NextIntlClientProvider + getMessages()
+- Root layout.tsx must return children only (no html/body) when using [locale] subdirectory
+- content.ts locale param defaults to 'en' for backward compat
+- Test mocks: mock '@/i18n/navigation' Link instead of 'next/link' for locale-aware components
+- next-intl plugin must wrap MDX plugin: withMDX(withNextIntl(config))

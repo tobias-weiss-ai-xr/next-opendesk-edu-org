@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import {Link} from '@/i18n/navigation';
 import { PLAUSIBLE_DOMAIN, CLARITY_ID } from "@/lib/config";
+import {useTranslations} from 'next-intl';
 
 const CONSENT_KEY = "cookie-consent";
 
@@ -47,6 +48,7 @@ function loadAnalyticsScripts(): void {
 export default function CookieConsent() {
   // Server renders hidden (null). Client hydrates consent from localStorage.
   const [consent, setConsent] = useState<ConsentState | null>(null);
+  const t = useTranslations('cookieConsent');
 
   useEffect(() => {
     const stored = readConsent();
@@ -83,9 +85,9 @@ export default function CookieConsent() {
     <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-t border-border p-4">
       <div className="mx-auto max-w-4xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-sm text-foreground-secondary">
-          We use privacy-friendly analytics. No cookies are set by default.{" "}
+          {t('message')}{" "}
           <Link href="/privacy" className="text-accent hover:underline">
-            Learn more
+            {t('privacyLink')}
           </Link>
         </p>
         <div className="flex gap-3">
@@ -93,13 +95,13 @@ export default function CookieConsent() {
             onClick={decline}
             className="rounded-lg border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-background-secondary transition-colors"
           >
-            Decline
+            {t('decline')}
           </button>
           <button
             onClick={accept}
             className="rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white hover:bg-accent-button transition-colors"
           >
-            Accept
+            {t('accept')}
           </button>
         </div>
       </div>

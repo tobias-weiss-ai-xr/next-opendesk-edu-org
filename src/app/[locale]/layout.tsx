@@ -34,6 +34,12 @@ export async function generateMetadata({params}: {params: Promise<{locale: strin
       locale,
       siteName: SITE_NAME,
       images: ["/static/brand/icon.svg"],
+      alternateLocale: routing.locales.filter((l) => l !== locale),
+    },
+    alternates: {
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `${SITE_URL}/${l}`])
+      ),
     },
     twitter: {
       card: "summary_large_image",
@@ -44,7 +50,7 @@ export async function generateMetadata({params}: {params: Promise<{locale: strin
   };
 }
 
-function JsonLdOrganization() {
+function JsonLdOrganization({ locale }: { locale: string }) {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -52,6 +58,7 @@ function JsonLdOrganization() {
     url: SITE_URL,
     logo: `${SITE_URL}/static/brand/icon.svg`,
     description: "Open-source digital workplace for higher education.",
+    inLanguage: locale,
     contactPoint: {
       "@type": "ContactPoint",
       email: "info@opendesk-edu.org",
@@ -96,7 +103,7 @@ export default async function LocaleLayout({
       <head>
         <meta name="theme-color" content="#341291" />
         <ThemeScript />
-        <JsonLdOrganization />
+        <JsonLdOrganization locale={locale} />
       </head>
       <body>
         <ThemeProvider>
@@ -106,16 +113,16 @@ export default async function LocaleLayout({
           >
             Skip to content
           </a>
-          <Header locale={locale} />
-          <ErrorBoundary>
-            <main id="main-content">
-              <NextIntlClientProvider messages={messages}>
+          <NextIntlClientProvider messages={messages}>
+            <Header />
+            <ErrorBoundary>
+              <main id="main-content">
                 {children}
-              </NextIntlClientProvider>
-            </main>
-          </ErrorBoundary>
-          <Footer locale={locale} />
-          <CookieConsent />
+              </main>
+            </ErrorBoundary>
+            <Footer />
+            <CookieConsent />
+          </NextIntlClientProvider>
         </ThemeProvider>
       </body>
     </html>

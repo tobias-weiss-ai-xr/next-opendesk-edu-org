@@ -2,18 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { SECTIONS, SECTION_LABELS } from "@/lib/config";
+import { SECTIONS } from "@/lib/config";
 import { useTheme } from "@/components/ThemeProvider";
 import {Link} from '@/i18n/navigation';
 import {useTranslations} from 'next-intl';
 
-interface HeaderProps {
-  locale: string;
-}
-
-// The locale prop is reserved for future locale-dependent behavior
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default function Header(_props: HeaderProps) {
+export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const t = useTranslations('header');
@@ -21,7 +15,7 @@ export default function Header(_props: HeaderProps) {
   const NAV_ITEMS = [
     { href: "/" as const, label: t('home') },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...SECTIONS.map((s) => ({ href: `/${s}` as any, label: SECTION_LABELS[s] })),
+    ...SECTIONS.map((s) => ({ href: `/${s}` as any, label: t(s === 'get-started' ? 'getStarted' : s) })),
   ];
 
   return (

@@ -25,7 +25,7 @@ vi.mock("next-intl", () => ({
       home: "Home",
       components: "Components",
       architecture: "Architecture",
-      "get-started": "Get Started",
+      getStarted: "Get Started",
       blog: "Blog",
     };
     return translations[key] ?? key;
@@ -35,7 +35,7 @@ vi.mock("next-intl", () => ({
 function renderHeader() {
   return render(
     <ThemeProvider>
-      <Header locale="en" />
+      <Header />
     </ThemeProvider>
   );
 }

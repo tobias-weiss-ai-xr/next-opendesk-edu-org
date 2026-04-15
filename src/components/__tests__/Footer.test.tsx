@@ -17,6 +17,25 @@ vi.mock("next/image", () => ({
   ),
 }));
 
+// Mock next-intl useTranslations
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string, params?: Record<string, string | number>) => {
+    const translations: Record<string, string> = {
+      imprint: "Imprint",
+      privacy: "Privacy",
+      contact: "Contact",
+      copyright: "© {year} openDesk Edu. Licensed under Apache-2.0.",
+    };
+    let text = translations[key] ?? key;
+    if (params) {
+      for (const [k, v] of Object.entries(params)) {
+        text = text.replace(`{${k}}`, String(v));
+      }
+    }
+    return text;
+  },
+}));
+
 describe("Footer", () => {
   beforeEach(() => {
     vi.useFakeTimers();
@@ -28,38 +47,38 @@ describe("Footer", () => {
   });
 
   it("renders the Imprint link", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     expect(screen.getByText("Imprint")).toBeInTheDocument();
   });
 
   it("renders the Privacy link", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     expect(screen.getByText("Privacy")).toBeInTheDocument();
   });
 
   it("renders the Contact email link", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     expect(screen.getByText("Contact")).toBeInTheDocument();
   });
 
   it("copyright text contains 'openDesk Edu'", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     expect(screen.getByText(/openDesk Edu/)).toBeInTheDocument();
   });
 
   it("copyright includes current year", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     expect(screen.getByText(/2024/)).toBeInTheDocument();
   });
 
   it("Imprint link points to /imprint", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     const link = screen.getByText("Imprint").closest("a");
     expect(link).toHaveAttribute("href", "/imprint");
   });
 
   it("Privacy link points to /privacy", () => {
-    render(<Footer locale="en" />);
+    render(<Footer />);
     const link = screen.getByText("Privacy").closest("a");
     expect(link).toHaveAttribute("href", "/privacy");
   });
@@ -72,7 +91,7 @@ describe("Footer", () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).location = { href: "" };
 
-    render(<Footer locale="en" />);
+    render(<Footer />);
     fireEvent.click(screen.getByText("Contact"));
     expect(window.location.href).toBe("mailto:info@opendesk-edu.org");
 

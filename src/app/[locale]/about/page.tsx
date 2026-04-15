@@ -1,6 +1,7 @@
 import {Link} from '@/i18n/navigation';
 import EmailLink from "@/components/EmailLink";
 import type { Metadata } from "next";
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
   params: Promise<{locale: string}>;
@@ -44,21 +45,21 @@ const PROJECTS = [
 ];
 
 export default async function AboutPage({params}: PageProps) {
-  const _params = await params;
-  void _params;
+  const _locale = await params;
+  void _locale;
+  const t = await getTranslations('about');
 
   return (
     <main className="max-w-6xl mx-auto px-6 py-16">
       <div className="mb-16">
-        <h1 className="text-4xl font-bold text-foreground mb-4">About openDesk Edu</h1>
+        <h1 className="text-4xl font-bold text-foreground mb-4">{t('title')}</h1>
         <p className="text-lg text-foreground-secondary max-w-2xl">
-          openDesk Edu brings the openDesk digital workplace to higher education — connecting
-          learning management, collaboration, and productivity under one open-source platform.
+          {t('description')}
         </p>
       </div>
 
       <section className="mb-16">
-        <h2 className="text-2xl font-bold text-foreground mb-8">Services</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-8">{t('services')}</h2>
         <div className="grid gap-6 md:grid-cols-2">
           {SERVICES.map((service) => (
             <div
@@ -73,7 +74,7 @@ export default async function AboutPage({params}: PageProps) {
       </section>
 
       <section className="mb-16">
-        <h2 className="text-2xl font-bold text-foreground mb-8">Explore</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-8">{t('projects')}</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {PROJECTS.map((project) => (
             <Link
@@ -91,7 +92,7 @@ export default async function AboutPage({params}: PageProps) {
       </section>
 
       <section className="rounded-lg border border-border bg-background-secondary p-8 text-center">
-        <h2 className="text-2xl font-bold text-foreground mb-3">Get in Touch</h2>
+        <h2 className="text-2xl font-bold text-foreground mb-3">{t('contact')}</h2>
         <p className="text-foreground-secondary mb-4">
           Interested in deploying openDesk Edu at your university?
         </p>

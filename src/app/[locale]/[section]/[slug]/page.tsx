@@ -9,6 +9,7 @@ import {
 import { SITE_URL, SITE_NAME } from "@/lib/config";
 import type { Metadata } from "next";
 import ArticlePage from "@/components/ArticlePage";
+import { routing } from "@/i18n/routing";
 
 interface PageProps {
   params: Promise<{ locale: string; section: string; slug: string }>;
@@ -19,7 +20,9 @@ export async function generateStaticParams() {
   for (const section of SECTION_INFO) {
     const slugs = await getStaticPathsForSection(section.slug);
     for (const slug of slugs) {
-      paths.push({ locale: 'en', section: section.slug, slug });
+      for (const locale of routing.locales) {
+        paths.push({ locale, section: section.slug, slug });
+      }
     }
   }
   return paths;

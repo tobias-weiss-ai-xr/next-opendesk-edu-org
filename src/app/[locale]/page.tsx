@@ -2,9 +2,10 @@ import Image from "next/image";
 import EmailLink from "@/components/EmailLink";
 import { getAllPosts } from "@/lib/content";
 import { SECTION_INFO } from "@/lib/content";
-import { SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
+import { SITE_NAME } from "@/lib/config";
 import PostCard from "@/components/PostCard";
 import {Link} from '@/i18n/navigation';
+import { getTranslations } from 'next-intl/server';
 
 interface PageProps {
   params: Promise<{locale: string}>;
@@ -12,6 +13,7 @@ interface PageProps {
 
 export default async function Home({ params }: PageProps) {
   const {locale} = await params;
+  const t = await getTranslations();
   const allPosts = await getAllPosts(locale);
   const latestPosts = allPosts.slice(0, 3);
 
@@ -30,10 +32,10 @@ export default async function Home({ params }: PageProps) {
         </div>
         <h1 className="text-4xl font-bold text-foreground mb-4">{SITE_NAME}</h1>
         <h2 className="text-lg text-foreground-secondary mb-4">
-          {SECTION_INFO.map((s) => s.name).join(" / ")}
+          {t('hero.subtitle')}
         </h2>
         <p className="text-foreground-secondary mb-8 max-w-2xl mx-auto">
-          {SITE_DESCRIPTION}
+          {t('hero.description')}
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           {SECTION_INFO.map((section) => (
@@ -52,7 +54,7 @@ export default async function Home({ params }: PageProps) {
       {/* Latest Posts */}
       {latestPosts.length > 0 && (
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-foreground mb-6">Latest Posts</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-6">{t('sections.latestArticles')}</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {latestPosts.map((post) => (
               <PostCard key={`${post.section}/${post.slug}`} post={post} />
@@ -64,7 +66,7 @@ export default async function Home({ params }: PageProps) {
               href={"/blog" as any}
               className="text-accent hover:text-accent-button transition-colors font-semibold"
             >
-              View all articles &rarr;
+              {t('sections.viewAll')}
             </Link>
           </div>
         </section>

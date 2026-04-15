@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 
 interface SectionPageProps {
   section: string;
+  locale?: string;
 }
 
 export async function generateMetadata({ section }: SectionPageProps): Promise<Metadata> {
@@ -18,9 +19,9 @@ export async function generateMetadata({ section }: SectionPageProps): Promise<M
   };
 }
 
-export default async function SectionPage({ section }: SectionPageProps) {
+export default async function SectionPage({ section, locale }: SectionPageProps) {
   const sectionInfo = getSectionBySlug(section);
-  const posts = await getPostsBySection(section);
+  const posts = await getPostsBySection(section, locale);
 
   if (!sectionInfo) {
     return (

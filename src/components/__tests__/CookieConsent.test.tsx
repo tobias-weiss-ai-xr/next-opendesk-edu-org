@@ -17,6 +17,19 @@ vi.mock("@/lib/config", () => ({
   CLARITY_ID: "test-clarity-id",
 }));
 
+// Mock next-intl useTranslations
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => {
+    const translations: Record<string, string> = {
+      message: "We use privacy-friendly analytics to understand how visitors use this site. No cookies are set by default.",
+      privacyLink: "Privacy Policy",
+      decline: "Decline",
+      accept: "Accept",
+    };
+    return translations[key] ?? key;
+  },
+}));
+
 describe("CookieConsent", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -46,7 +59,7 @@ describe("CookieConsent", () => {
     expect(screen.getByText("Decline")).toBeInTheDocument();
     expect(screen.getByText("Accept")).toBeInTheDocument();
     expect(
-      screen.getByText(/We use privacy-friendly analytics/)
+      screen.getByText(/We use privacy-friendly analytics to understand/)
     ).toBeInTheDocument();
   });
 
@@ -82,7 +95,7 @@ describe("CookieConsent", () => {
 
   it("privacy policy link points to /privacy", () => {
     render(<CookieConsent />);
-    const link = screen.getByText("Learn more");
+    const link = screen.getByText("Privacy Policy");
     expect(link).toHaveAttribute("href", "/privacy");
   });
 
