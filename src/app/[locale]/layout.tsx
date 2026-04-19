@@ -10,9 +10,11 @@ import {ThemeProvider} from '@/components/ThemeProvider';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import ScrollToTop from '@/components/ScrollToTop';
-import CookieConsent from '@/components/CookieConsent';
-import SearchDialogWrapper from '@/components/SearchDialogWrapper';
+import dynamic from 'next/dynamic';
+
+const ScrollToTop = dynamic(() => import('@/components/ScrollToTop'), { ssr: false });
+const CookieConsent = dynamic(() => import('@/components/CookieConsent'), { ssr: false });
+const SearchDialogWrapper = dynamic(() => import('@/components/SearchDialogWrapper'), { ssr: false });
 import {SearchProvider} from '@/components/SearchContext';
 import {SITE_URL, SITE_NAME, SITE_DESCRIPTION} from '@/lib/config';
 import Script from 'next/script';
