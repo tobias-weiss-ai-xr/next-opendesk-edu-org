@@ -22,7 +22,9 @@
     "contact": "联系方式",
     "copyright": "© {year} openDesk Edu. 基于 Apache-2.0 许可。",
     "sourceCode": "源代码",
-    "rss": "RSS"
+    "rss": "RSS",
+    "aiStatement": "AI 声明",
+    "openSourceStatement": "开源"
   },
   "cookieConsent": {
     "message": "我们使用注重隐私的分析工具来了解访客如何使用本站。默认不设置任何 Cookie。",
@@ -199,5 +201,42 @@
     "contactMessagePlaceholder": "您的消息...",
     "contactCancel": "取消",
     "contactNotice": "您的数据将按照我们的隐私政策进行处理。"
+  },
+  "aiStatement": {
+    "title": "AI 声明",
+    "intro": "openDesk Edu — 一个免费、开源的学校数字学习平台 — 在能透明地改善教学和学习的地方使用人工智能。本页说明了我们在何处以及如何使用人工智能。",
+    "principles": "我们的原则",
+    "principleHuman": "人工智能辅助；教师和人们做决定。",
+    "principleAI": "所有人工智能辅助的工作都在人类监督下进行。",
+    "principleMeasured": "只有在能够以可衡量的方式改善教育成果时才使用人工智能。",
+    "principleTransparency": "我们在本页公开披露人工智能的使用。",
+    "whereWeUseAI": "我们使用人工智能的地方",
+    "useContent": "结构和起草教育内容 — 始终由人类教师进行审查。",
+    "useSoftware": "软件工程，用于构建和维护平台。",
+    "useLearning": "数据，用于改进学习体验。",
+    "infrastructure": "我们的基础设施",
+    "infrastructureText": "我们的大部分人工智能在自托管的、保护隐私的硬件上运行。第三方云计算人工智能以合规方式使用。",
+    "protectingUsers": "保护用户",
+    "protectData": "个人数据绝不用来训练人工智能模型。",
+    "protectAutomation": "自动化决策仅在透明且可审查的地方使用。",
+    "contact": "联系"
+  },
+  "openSourceStatement": {
+    "title": "开源声明",
+    "intro": "关于 openDesk Edu 如何使用和贡献开源软件的信息。",
+    "whatIsOpenSource": "什么是开源？",
+    "whatIsOpenSourceText": "开源是指源代码公开、可供检查、使用、修改和再分发的软件。",
+    "ourStance": "我们的立场",
+    "ourStanceText": "openDesk Edu 本身是开源的。我们倡导透明度、隐私、协作和数据司法权。",
+    "openSourceWeUse": "我们在 openDesk Edu 中使用的开源软件",
+    "techNext": "Next.js & React — Web 框架",
+    "techNode": "Node.js / TypeScript — 运行时与语言",
+    "techPostgres": "PostgreSQL — 数据库",
+    "techGit": "Git & GitHub — 版本控制，源代码公开",
+    "techDocker": "Docker — 容器基础设施",
+    "sourceAvailable": "完整源代码可在 GitHub 上获取。",
+    "otherLicenses": "其他许可证组件",
+    "otherLicensesText": "并非所有组件都是开源的。我们会在许可要求时予以披露。",
+    "contact": "联系"
   }
 }

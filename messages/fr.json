@@ -22,7 +22,9 @@
     "contact": "Contact",
     "copyright": "© {year} openDesk Edu. Sous licence Apache-2.0.",
     "sourceCode": "Code source",
-    "rss": "RSS"
+    "rss": "RSS",
+    "aiStatement": "Déclaration IA",
+    "openSourceStatement": "Open Source"
   },
   "cookieConsent": {
     "message": "Nous utilisons des analyses respectueuses de la vie privée pour comprendre comment les visiteurs utilisent ce site. Aucun cookie n'est défini par défaut.",
@@ -199,5 +201,42 @@
     "contactMessagePlaceholder": "Votre message...",
     "contactCancel": "Annuler",
     "contactNotice": "Vos données seront traitées conformément à notre politique de confidentialité."
+  },
+  "aiStatement": {
+    "title": "Déclaration IA",
+    "intro": "openDesk Edu — une plateforme d'apprentissage scolaire libre et open source — utilise l'intelligence artificielle là où elle améliore de façon transparente l'enseignement et l'apprentissage. Cette page documente où et comment nous utilisons l'IA.",
+    "principles": "Nos principes",
+    "principleHuman": "L'IA assiste ; les enseignants et les personnes décident.",
+    "principleAI": "Tout travail assisté par l'IA est effectué sous supervision humaine.",
+    "principleMeasured": "L'IA n'est utilisée que là où elle améliore de façon mesurable les résultats scolaires.",
+    "principleTransparency": "Notre usage de l'IA est ouvertement divulgué.",
+    "whereWeUseAI": "Où nous utilisons l'IA",
+    "useContent": "Structuration et rédaction de contenus pédagogiques — toujours relus par des enseignants.",
+    "useSoftware": "Génie logiciel pour construire et maintenir la plateforme.",
+    "useLearning": "Analyses pour améliorer l'apprentissage.",
+    "infrastructure": "Notre infrastructure",
+    "infrastructureText": "Une grande partie de notre IA s'exécute du matériel hébergé protégeant la confidentialité. L'IA en nuage tierce est utilisée en conformité avec la protection des données.",
+    "protectingUsers": "Protection des utilisateurs",
+    "protectData": "Les données personnelles ne sont jamais utilisées pour entraîner des modèles d'IA.",
+    "protectAutomation": "Les décisions automatisées ne sont utilisées que là où elles sont transparentes et révisables.",
+    "contact": "Contact"
+  },
+  "openSourceStatement": {
+    "title": "Déclaration Open Source",
+    "intro": "Transparence sur l'utilisation et la contribution aux logiciels open source dans openDesk Edu.",
+    "whatIsOpenSource": "Qu'est-ce que l'open source ?",
+    "whatIsOpenSourceText": "L'open source désigne un logiciel dont le code source est publiquement visible, utilisable, modifiable et redistribuable sous licence open source. La Open Source Initiative en public une définition largement reconnue.",
+    "ourStance": "Notre position",
+    "ourStanceText": "openDesk Edu est lui-même open source. Nous défendons les principes du logiciel ouvert — transparence, sécurité, collaboration et souveraineté numérique.",
+    "openSourceWeUse": "Open source dans openDesk Edu",
+    "techNext": "Next.js et React — framework web",
+    "techNode": "Node.js / TypeScript — runtime et langage",
+    "techPostgres": "PostgreSQL — base de données",
+    "techGit": "Git et GitHub — versionnement, code public",
+    "techDocker": "Docker — infrastructure de contenurs",
+    "sourceAvailable": "Le code source complet est disponible sur GitHub : tobias-weiss-ai-xr / next-opendesk-edu-org.",
+    "otherLicenses": "Composants sous autres licences",
+    "otherLicensesText": "Les composants sous licences propriétaires ou autres sont divulgués. Notre propre code est open source.",
+    "contact": "Contact"
   }
 }

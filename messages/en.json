@@ -24,7 +24,9 @@
     "contact": "Contact",
     "copyright": "© {year} openDesk Edu. Licensed under Apache-2.0.",
     "sourceCode": "Source Code",
-    "rss": "RSS"
+    "rss": "RSS",
+    "aiStatement": "AI Statement",
+    "openSourceStatement": "Open Source"
   },
   "cookieConsent": {
     "message": "We use privacy-friendly analytics to understand how visitors use this site. No cookies are set by default.",
@@ -201,5 +203,42 @@
     "contactMessagePlaceholder": "Your message...",
     "contactCancel": "Cancel",
     "contactNotice": "Your data will be processed in accordance with our privacy policy."
+  },
+  "aiStatement": {
+    "title": "AI Statement",
+    "intro": "openDesk Edu — a free, open-source digital school learning platform — uses artificial intelligence where it measurably improves teaching and learning. This page documents where and how we use AI, transparently.",
+    "principles": "Our Principles",
+    "principleHuman": "AI assists; teachers and people decide.",
+    "principleAI": "All AI-assisted work runs under human oversight and responsibility.",
+    "principleMeasured": "AI is used only where it measurably improves educational outcomes.",
+    "principleTransparency": "Our use of AI is disclosed openly on this page.",
+    "whereWeUseAI": "Where We Use AI",
+    "useContent": "Structuring and drafting educational content — always edited and reviewed by human teachers.",
+    "useSoftware": "Software engineering to build and maintain the open-source platform — all code is tested and reviewed.",
+    "useLearning": "Analysis to personalize and improve the learning experience.",
+    "infrastructure": "Our Infrastructure",
+    "infrastructureText": "Much of our AI runs on self-hosted, privacy-protecting hardware within openDesk Edu's own open-stack infrastructure. Where cloud AI is used, it is done privacy-compliantly.",
+    "protectingUsers": "Protecting Users",
+    "protectData": "Personal data is never used to train AI models.",
+    "protectAutomation": "Automated decisions are used only where transparent and reviewable.",
+    "contact": "Contact"
+  },
+  "openSourceStatement": {
+    "title": "Open Source Statement",
+    "intro": "Transparency about how openDesk Edu uses and contributes to open-source software.",
+    "whatIsOpenSource": "What Is Open Source",
+    "whatIsOpenSourceText": "Open source refers to software whose source code is publicly available for inspection, use, modification, and redistribution under open-source licenses. A widely used definition is published by the Open Source Initiative.",
+    "ourStance": "Our Stance",
+    "ourStanceText": "openDesk Edu is itself open source. We stand behind the principles of open source — transparency, security, collaboration, and digital sovereignty — and build on open technologies throughout.",
+    "openSourceWeUse": "Open Source in openDesk Edu",
+    "techNext": "Next.js & React — web framework",
+    "techNode": "Node.js / TypeScript — runtime and language",
+    "techPostgres": "PostgreSQL — database",
+    "techGit": "Git & GitHub — version control, with this site's source public",
+    "techDocker": "Docker — container infrastructure",
+    "sourceAvailable": "The full source code is available on GitHub: tobias-weiss-ai-xr / next-opendesk-edu-org.",
+    "otherLicenses": "Components With Other Licenses",
+    "otherLicensesText": "Not every component is open source. Where components use proprietary or other licenses, this is disclosed. Our own code is open source.",
+    "contact": "Contact"
   }
 }

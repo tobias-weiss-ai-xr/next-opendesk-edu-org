@@ -24,6 +24,18 @@ export const routing = defineRouting({
       fr: '/politique-de-confidentialite',
       zh: '/privacy'
     },
+    '/ai-statement': {
+      en: '/ai-statement',
+      de: '/ki-statement',
+      fr: '/declaration-ia',
+      zh: '/ai-statement'
+    },
+    '/open-source-statement': {
+      en: '/open-source-statement',
+      de: '/open-source-statement',
+      fr: '/declaration-open-source',
+      zh: '/open-source-statement'
+    },
     '/components': '/components',
     '/docs': '/docs',
     '/blog': '/blog',

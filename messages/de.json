@@ -24,7 +24,9 @@
     "contact": "Kontakt",
     "copyright": "© {year} openDesk Edu. Lizenziert unter Apache-2.0.",
     "sourceCode": "Quellcode",
-    "rss": "RSS"
+    "rss": "RSS",
+    "aiStatement": "KI-Statement",
+    "openSourceStatement": "Open Source"
   },
   "cookieConsent": {
     "message": "Wir verwenden datenschutzfreundliche Analysen, um zu verstehen, wie Besucher diese Website nutzen. Standardmäßig werden keine Cookies gesetzt.",
@@ -201,5 +203,42 @@
     "contactMessagePlaceholder": "Ihre Nachricht...",
     "contactCancel": "Abbrechen",
     "contactNotice": "Ihre Daten werden gemäß unserer Datenschutzerklärung verarbeitet."
+  },
+  "aiStatement": {
+    "title": "KI-Statement",
+    "intro": "openDesk Edu — eine freie, quelloffene digitale Schullernplattform — setzt Künstliche Intelligenz dort ein, wo sie den Unterricht und das Lernen nachvollziehbar verbessert. Diese Seite dokumentiert transparent, wo und wie wir KI nutzen.",
+    "principles": "Unsere Grundprinzipien",
+    "principleHuman": "KI unterstützt; Lehrkräfte und Menschen entscheiden.",
+    "principleAI": "Alle KI-gestützten Abläufe erfolgen unter menschlicher Aufsicht bzw. Verantwortung.",
+    "principleMeasured": "KI wird nur dort eingesetzt, wo sie Bildungsergebnisse messbar verbessert.",
+    "principleTransparency": "Unser KI-Einsatz wird auf dieser Seite offen offengelegt.",
+    "whereWeUseAI": "Wo wir KI einsetzen",
+    "useContent": "Strukturierung und Erstellung von Lerninhalten — stets von menschlichen Lehrkräften geprüft und bearbeitet.",
+    "useSoftware": "Software-Entwicklung für Aufbau und Wartung der Plattform — Code wird getestet und geprüft.",
+    "useLearning": "Analyse zur Verbesserung des Lernens.",
+    "infrastructure": "Unsere Infrastruktur",
+    "infrastructureText": "Ein wesentlicher Teil unserer KI läuft auf eigener, datenschutzschützender Hardware innerhalb des offenen open-source-Stacks von openDesk Edu. Soweit Cloud-KI genutzt wird, erfolgt dies datenschutzkonform.",
+    "protectingUsers": "Schutz der Nutzer:innen",
+    "protectData": "Persönliche Daten werden niemals zum Training von KI-Modellen verwendet.",
+    "protectAutomation": "Automatisierte Entscheidungen kommen nur dort zum Einsatz, wo sie transparent und prüfbar sind.",
+    "contact": "Kontakt"
+  },
+  "openSourceStatement": {
+    "title": "Open Source-Statement",
+    "intro": "Transparenz über den Einsatz von Open-Source-Software bei openDesk Edu.",
+    "whatIsOpenSource": "Was ist Open Source?",
+    "whatIsOpenSourceText": "Open Source bezeichnet Software, deren Quellcode öffentlich einsehbar, nutzbar, veränderbar und weiterverbreitbar ist. Eine maßgebliche Definition veröffentlichte die Open Source Initiative.",
+    "ourStance": "Unsere Haltung",
+    "ourStanceText": "openDesk Edu ist selbst Open Source. Wir setzen auf Transparenz, Datenschutz, Zusammenarbeit und digitale Souveränität und bauen durchgängig auf offenen Technologien auf.",
+    "openSourceWeUse": "Open Source in openDesk Edu",
+    "techNext": "Next.js & React — Web-Framework",
+    "techNode": "Node.js / TypeScript — Laufzeit und Sprache",
+    "techPostgres": "PostgreSQL — Datenbank",
+    "techGit": "Git & GitHub — Versionsverwaltung, Quellcode öffentlich",
+    "techDocker": "Docker — Container-Infrastruktur",
+    "sourceAvailable": "Der vollständige Quellcode ist auf GitHub verfügbar: tobias-weiss-ai-xr/next-opendesk-edu-org.",
+    "otherLicenses": "Komponenten mit anderen Lizenzen",
+    "otherLicensesText": "Nicht jede Komponente ist Open Source. Wo Komponenten proprietären oder anderen Lizenzen unterliegen, wird das offengelegt. Der eigene Code ist offen.",
+    "contact": "Kontakt"
   }
 }
