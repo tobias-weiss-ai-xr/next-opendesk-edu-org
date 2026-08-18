@@ -16,6 +16,143 @@ const HOME_TITLES: Record<string, string> = {
   zh: `${SITE_NAME} — 面向高等教育的开源数字化工作平台`,
 };
 
+interface FaqEntry {
+  question: string;
+  answer: string;
+}
+
+/**
+ * Homepage FAQ entries, localized per supported locale.
+ * Surfaced as FAQPage JSON-LD structured data for rich search results.
+ */
+const FAQ_ENTRIES: Record<string, FaqEntry[]> = {
+  en: [
+    {
+      question: 'What is openDesk Edu?',
+      answer:
+        'openDesk Edu is an open-source digital workplace for higher education that combines openDesk CE with 15 integrated education services for a seamless digital transformation.',
+    },
+    {
+      question: 'Is openDesk Edu free and open source?',
+      answer:
+        'Yes. openDesk Edu is fully open source and can be self-hosted by universities at no licensing cost, giving you full control over your digital infrastructure.',
+    },
+    {
+      question: 'What services are included?',
+      answer:
+        'openDesk Edu integrates 15 services, including learning management (Moodle, ILIAS), collaboration tools, cloud infrastructure, and single sign-on with your university identity provider.',
+    },
+    {
+      question: 'Who is openDesk Edu for?',
+      answer:
+        'openDesk Edu is designed for universities and higher education institutions that want a sovereign, self-hosted digital workplace with integrated teaching and collaboration services.',
+    },
+    {
+      question: 'How can my university get started?',
+      answer:
+        'Contact us at info@opendesk-edu.org to discuss deployment, integration with your campus SSO, and a tailored rollout for your institution.',
+    },
+  ],
+  de: [
+    {
+      question: 'Was ist openDesk Edu?',
+      answer:
+        'openDesk Edu ist ein Open-Source-Digitalarbeitsplatz für Hochschulen, der openDesk CE mit 15 integrierten Bildungsdiensten für eine nahtlose digitale Transformation verbindet.',
+    },
+    {
+      question: 'Ist openDesk Edu kostenlos und quelloffen?',
+      answer:
+        'Ja. openDesk Edu ist vollständig quelloffen und kann von Hochschulen ohne Lizenzkosten selbst gehostet werden, was Ihnen die volle Kontrolle über Ihre digitale Infrastruktur gibt.',
+    },
+    {
+      question: 'Welche Dienste sind enthalten?',
+      answer:
+        'openDesk Edu integriert 15 Dienste, darunter Lernmanagement (Moodle, ILIAS), Kollaborationswerkzeuge, Cloud-Infrastruktur und Single Sign-on mit Ihrem Hochschul-Identitätsanbieter.',
+    },
+    {
+      question: 'Für wen ist openDesk Edu gedacht?',
+      answer:
+        'openDesk Edu richtet sich an Universitäten und Hochschulen, die einen souveränen, selbst gehosteten Digitalarbeitsplatz mit integrierten Lehr- und Kollaborationsdiensten wünschen.',
+    },
+    {
+      question: 'Wie kann meine Hochschule starten?',
+      answer:
+        'Kontaktieren Sie uns unter info@opendesk-edu.org, um Deployment, die Integration in Ihr Campus-SSO und einen maßgeschneiderten Rollout für Ihre Einrichtung zu besprechen.',
+    },
+  ],
+  fr: [
+    {
+      question: "Qu'est-ce qu'openDesk Edu ?",
+      answer:
+        "openDesk Edu est un espace de travail numérique open source pour l'enseignement supérieur qui combine openDesk CE avec 15 services éducatifs intégrés pour une transformation numérique fluide.",
+    },
+    {
+      question: 'openDesk Edu est-il gratuit et open source ?',
+      answer:
+        "Oui. openDesk Edu est entièrement open source et peut être auto-hébergé par les universités sans frais de licence, vous donnant un contrôle total sur votre infrastructure numérique.",
+    },
+    {
+      question: 'Quels services sont inclus ?',
+      answer:
+        "openDesk Edu intègre 15 services, dont la gestion de l'apprentissage (Moodle, ILIAS), les outils de collaboration, l'infrastructure cloud et l'authentification unique avec votre fournisseur d'identité universitaire.",
+    },
+    {
+      question: 'À qui s\'adresse openDesk Edu ?',
+      answer:
+        'openDesk Edu est conçu pour les universités et établissements d\'enseignement supérieur souhaitant un espace de travail numérique souverain et auto-hébergé avec des services d\'enseignement et de collaboration intégrés.',
+    },
+    {
+      question: 'Comment mon université peut-elle commencer ?',
+      answer:
+        'Contactez-nous à info@opendesk-edu.org pour discuter du déploiement, de l\'intégration avec votre SSO de campus et d\'un déploiement adapté à votre établissement.',
+    },
+  ],
+  zh: [
+    {
+      question: '什么是 openDesk Edu？',
+      answer:
+        'openDesk Edu 是面向高等教育的一站式开源数字化工作平台，将 openDesk CE 与 15 项集成教育服务相结合，实现无缝的数字化转型。',
+    },
+    {
+      question: 'openDesk Edu 是否免费且开源？',
+      answer:
+        '是的。openDesk Edu 完全开源，高校可自行托管，无需支付许可费用，让您全面掌控自身的数字基础设施。',
+    },
+    {
+      question: '包含哪些服务？',
+      answer:
+        'openDesk Edu 集成了 15 项服务，包括学习管理（Moodle、ILIAS）、协作工具、云基础设施，以及与高校身份提供商的单点登录（SSO）。',
+    },
+    {
+      question: 'openDesk Edu 面向哪些用户？',
+      answer:
+        'openDesk Edu 面向希望拥有主权化、自托管的数字化工作平台并集成教学与协作服务的高校与高等教育机构。',
+    },
+    {
+      question: '我的高校如何开始使用？',
+      answer:
+        '请通过 info@opendesk-edu.org 联系我们，探讨部署方案、与校园 SSO 的集成，以及为贵机构量身定制的上线计划。',
+    },
+  ],
+};
+
+function buildFaqJsonLd(locale: string) {
+  const entries = FAQ_ENTRIES[locale] ?? FAQ_ENTRIES.en;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: locale,
+    mainEntity: entries.map(({ question, answer }) => ({
+      '@type': 'Question',
+      name: question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: answer,
+      },
+    })),
+  };
+}
+
 interface PageProps {
   params: Promise<{locale: string}>;
 }
@@ -35,9 +172,14 @@ export default async function Home({ params }: PageProps) {
   const allPosts = await getAllPosts(locale);
   const blogPosts = allPosts.filter(p => p.section === 'blog');
   const latestPosts = blogPosts.slice(0, 3);
+  const faqLd = buildFaqJsonLd(locale);
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       {/* Full-screen Animated Hero */}
       <section className="hero-background" aria-label="Hero">
         <div className="hero-gradient" aria-hidden="true" />
