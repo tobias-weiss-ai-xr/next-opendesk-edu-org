@@ -66,6 +66,10 @@ function JsonLdOrganization({ locale }: { locale: string }) {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/static/brand/icon.svg`,
+    sameAs: [
+      "https://codeberg.org/opendesk-edu",
+      "https://github.com/opendesk-edu",
+    ],
     description: locale === 'de'
       ? "Open-Source-Digitalarbeitsplatz für Hochschulen."
       : locale === 'fr'
