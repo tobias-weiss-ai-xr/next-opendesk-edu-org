@@ -30,8 +30,10 @@ export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }
     dateModified: post.date,
     url: `${SITE_URL}/${locale}/${post.section}/${post.slug}`,
     author: {
-      "@type": "Organization",
-      name: SITE_NAME,
+      "@type": "Person",
+      name: "Tobias Weiss",
+      url: `${SITE_URL}/en/about`,
+      sameAs: ["https://github.com/tobias-weiss-ai-xr"],
     },
     publisher: {
       "@type": "Organization",
