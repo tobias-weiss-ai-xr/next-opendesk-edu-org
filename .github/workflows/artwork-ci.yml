@@ -12,23 +12,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: "20"
+          bun-version: latest
 
-      - run: npm ci
+      - run: bun install --frozen-lockfile
 
       - name: Validate SVGs
-        run: npm run validate:svg
+        run: bun run validate:svg
 
       - name: Check color palette
-        run: npm run check:palette
+        run: bun run check:palette
 
       - name: Optimize SVGs
-        run: npm run optimize:svg
+        run: bun run optimize:svg
 
       - name: Export PNGs
-        run: npm run export:png
+        run: bun run export:png
 
       - name: Auto-commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
