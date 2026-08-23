@@ -1,0 +1,4 @@
+[install]
+# Packages whose install scripts are trusted to run (Bun blocks them by
+# default; npm used to run them unconditionally).
+trustedDependencies = ["@parcel/watcher", "@swc/core"]
