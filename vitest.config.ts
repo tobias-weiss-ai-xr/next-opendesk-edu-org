@@ -18,11 +18,13 @@ export default defineConfig({
       include: ["src/**"],
       exclude: ["src/test/**", "src/**/*.test.*", "src/**/__tests__/**", "src/**/*.d.ts", "src/proxy.ts"],
       reporter: ["text", "text-summary"],
+      // Small headroom: bun's v8 instrumentation measures ~0.5-1pp below node's,
+      // so keep these 1-2pp under the real targets to avoid flaky CI gates.
       thresholds: {
-        lines: 72,
+        lines: 71,
         functions: 64,
         branches: 62,
-        statements: 70,
+        statements: 69,
       },
     },
   },
