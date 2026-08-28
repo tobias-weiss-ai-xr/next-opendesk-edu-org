@@ -112,9 +112,10 @@ jobs:
             git reset --hard origin/main
             # Pull pre-built image from ghcr.io (avoids building on memory-constrained server)
             docker pull ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest
+            # Remove build: directive so docker compose uses the pre-built image, not local build
+            sed -i '/^    build:/d' docker-compose.yml
             # Update docker-compose.yml to use the ghcr.io image
             sed -i 's|image: opendesk-edu:latest|image: ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest|' docker-compose.yml
-            sed -i 's|build: .*|build: .|' docker-compose.yml
             docker compose up -d --force-recreate
 
       - name: Verify deployment
