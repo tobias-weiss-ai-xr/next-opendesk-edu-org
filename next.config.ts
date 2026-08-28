@@ -1,18 +1,18 @@
-import type { NextConfig } from "next";
 import createMDX from "@next/mdx";
-import createNextIntlPlugin from 'next-intl/plugin';
+import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
 import path from "path";
 
-const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://analytics.opendesk-edu.org",
+  "script-src 'self' 'unsafe-inline' https://analytics.opendesk-edu.org https://pagead2.googlesyndication.com",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   "img-src 'self' data: blob:",
-  "connect-src 'self' https://analytics.opendesk-edu.org",
-  "frame-src 'none'",
+  "connect-src 'self' https://analytics.opendesk-edu.org https://pagead2.googlesyndication.com",
+  "frame-src 'self' https://googleads.g.doubleclick.net",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

@@ -1,23 +1,26 @@
-import '../globals.css';
+import "../globals.css";
 
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import {routing} from '@/i18n/routing';
-import type {Metadata} from 'next';
-import {Inter} from 'next/font/google';
-import {ThemeProvider} from '@/components/ThemeProvider';
-import ErrorBoundary from '@/components/ErrorBoundary';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import dynamic from 'next/dynamic';
+import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+import { Inter } from "next/font/google";
+import { notFound } from "next/navigation";
+import Script from "next/script";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
+import AdSense from "@/components/AdSense";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import { SearchProvider } from "@/components/SearchContext";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { routing } from "@/i18n/routing";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/config";
 
-const ScrollToTop = dynamic(() => import('@/components/ScrollToTop'), { ssr: false });
-const CookieConsent = dynamic(() => import('@/components/CookieConsent'), { ssr: false });
-const SearchDialogWrapper = dynamic(() => import('@/components/SearchDialogWrapper'), { ssr: false });
-import {SearchProvider} from '@/components/SearchContext';
-import {SITE_URL, SITE_NAME, SITE_DESCRIPTION} from '@/lib/config';
-import Script from 'next/script';
+const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), { ssr: false });
+const CookieConsent = dynamic(() => import("@/components/CookieConsent"), { ssr: false });
+const SearchDialogWrapper = dynamic(() => import("@/components/SearchDialogWrapper"), {
+  ssr: false,
+});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -26,11 +29,15 @@ const inter = Inter({
 });
 
 export function generateStaticParams() {
-  return routing.locales.map((locale) => ({locale}));
+  return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
-  const {locale} = await params;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
 
   return {
     title: SITE_NAME,
@@ -46,9 +53,7 @@ export async function generateMetadata({params}: {params: Promise<{locale: strin
     },
     alternates: {
       canonical: `${SITE_URL}/${locale}`,
-      languages: Object.fromEntries(
-        routing.locales.map((l) => [l, `${SITE_URL}/${l}`])
-      ),
+      languages: Object.fromEntries(routing.locales.map((l) => [l, `${SITE_URL}/${l}`])),
     },
     twitter: {
       card: "summary_large_image",
@@ -66,17 +71,15 @@ function JsonLdOrganization({ locale }: { locale: string }) {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/static/brand/icon.svg`,
-    sameAs: [
-      "https://codeberg.org/opendesk-edu",
-      "https://github.com/opendesk-edu",
-    ],
-    description: locale === 'de'
-      ? "Open-Source-Digitalarbeitsplatz für Hochschulen."
-      : locale === 'fr'
-        ? "Espace de travail numérique open source pour l'enseignement supérieur."
-        : locale === 'zh'
-          ? "面向高等教育的开源数字化工作平台。"
-          : "Open-source digital workplace for higher education.",
+    sameAs: ["https://codeberg.org/opendesk-edu", "https://github.com/opendesk-edu"],
+    description:
+      locale === "de"
+        ? "Open-Source-Digitalarbeitsplatz für Hochschulen."
+        : locale === "fr"
+          ? "Espace de travail numérique open source pour l'enseignement supérieur."
+          : locale === "zh"
+            ? "面向高等教育的开源数字化工作平台。"
+            : "Open-source digital workplace for higher education.",
     inLanguage: locale,
     contactPoint: {
       "@type": "ContactPoint",
@@ -87,7 +90,7 @@ function JsonLdOrganization({ locale }: { locale: string }) {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${SITE_URL}/${locale}/api/search?q={search_term_string}`
+        urlTemplate: `${SITE_URL}/${locale}/api/search?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
@@ -116,21 +119,32 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{locale: string}>;
+  params: Promise<{ locale: string }>;
 }) {
-  const {locale} = await params;
-  if (!routing.locales.includes(locale as typeof routing.locales[number])) {
+  const { locale } = await params;
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     notFound();
   }
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} antialiased`} data-theme="dark" suppressHydrationWarning>
+    <html
+      lang={locale}
+      className={`${inter.variable} antialiased`}
+      data-theme="dark"
+      suppressHydrationWarning
+    >
       <head>
         <meta name="theme-color" content="#341291" />
         <ThemeScript />
         <JsonLdOrganization locale={locale} />
-        <link rel="alternate" type="application/rss+xml" title={`openDesk Edu - ${locale.toUpperCase()}`} href={`/${locale}/rss`} />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title={`openDesk Edu - ${locale.toUpperCase()}`}
+          href={`/${locale}/rss`}
+        />
+        <AdSense />
       </head>
       <body>
         <ThemeProvider>
@@ -143,20 +157,18 @@ export default async function LocaleLayout({
           <NextIntlClientProvider messages={messages}>
             <SearchProvider>
               <Header />
-            <ErrorBoundary>
-              <main id="main-content">
-                {children}
-              </main>
-            </ErrorBoundary>
-            <Footer />
-            <ScrollToTop />
-            <CookieConsent />
-            <SearchDialogWrapper />
-            <Script
-              src="https://analytics.opendesk-edu.org/script.js"
-              data-website-id="5c28fb2f-2d58-4be3-b800-dbbe64fd9272"
-              strategy="afterInteractive"
-            />
+              <ErrorBoundary>
+                <main id="main-content">{children}</main>
+              </ErrorBoundary>
+              <Footer />
+              <ScrollToTop />
+              <CookieConsent />
+              <SearchDialogWrapper />
+              <Script
+                src="https://analytics.opendesk-edu.org/script.js"
+                data-website-id="5c28fb2f-2d58-4be3-b800-dbbe64fd9272"
+                strategy="afterInteractive"
+              />
             </SearchProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
