@@ -1,7 +1,7 @@
 FROM node:20-alpine AS base
 
 FROM base AS deps
-RUN apk add --no-cache libc6-compat python3 make g++
+RUN apk add --no-cache libc6-compat python3 make g++ curl bash
 WORKDIR /app
 COPY package.json bun.lock ./
 RUN curl -fsSL https://bun.sh/install | bash
@@ -12,6 +12,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN apk add --no-cache curl bash
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 RUN bun run build
