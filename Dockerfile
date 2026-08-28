@@ -2,7 +2,7 @@ FROM node:20-slim AS base
 
 FROM base AS deps
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 make g++ curl ca-certificates && rm -rf /var/lib/apt/lists/*
+    python3 make g++ curl ca-certificates unzip && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package.json bun.lock ./
 RUN curl -fsSL https://bun.sh/install | bash
@@ -13,6 +13,7 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates unzip && rm -rf /var/lib/apt/lists/*
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 RUN bun run build
