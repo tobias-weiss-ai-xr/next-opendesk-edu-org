@@ -1,13 +1,13 @@
 import "../globals.css";
 
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import AdSense from "@/components/AdSense";
+import { ClientProviders } from "@/components/ClientProviders";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -15,12 +15,6 @@ import { SearchProvider } from "@/components/SearchContext";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { routing } from "@/i18n/routing";
 import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/config";
-
-const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), { ssr: false });
-const CookieConsent = dynamic(() => import("@/components/CookieConsent"), { ssr: false });
-const SearchDialogWrapper = dynamic(() => import("@/components/SearchDialogWrapper"), {
-  ssr: false,
-});
 
 const inter = Inter({
   variable: "--font-inter",
@@ -164,9 +158,7 @@ export default async function LocaleLayout({
                 <main id="main-content">{children}</main>
               </ErrorBoundary>
               <Footer />
-              <ScrollToTop />
-              <CookieConsent />
-              <SearchDialogWrapper />
+              <ClientProviders />
               <Script
                 src="https://analytics.opendesk-edu.org/script.js"
                 data-website-id="5c28fb2f-2d58-4be3-b800-dbbe64fd9272"
