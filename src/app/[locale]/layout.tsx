@@ -61,6 +61,9 @@ export async function generateMetadata({
     icons: [{ url: "/static/brand/icon.svg", type: "image/svg+xml" }],
     manifest: "/static/manifest.json",
     robots: { index: true, follow: true },
+    other: {
+      "google-adsense-account": "ca-pub-8452353139685392",
+    },
   };
 }
 
