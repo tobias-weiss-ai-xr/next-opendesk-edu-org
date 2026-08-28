@@ -7,7 +7,10 @@ WORKDIR /app
 COPY package.json bun.lock ./
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
-RUN bun install --frozen-lockfile
+# Install with --ignore-scripts to skip native builds (bun's bunx node-gyp has
+# undici/Node 20 compat issues), then rebuild native modules with npm's node-gyp
+RUN bun install --ignore-scripts
+RUN npm rebuild
 
 FROM base AS builder
 WORKDIR /app
