@@ -69,8 +69,14 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            cd ${{ secrets.DEPLOY_PATH }}
-            git pull
+            # Clone repo if DEPLOY_PATH doesn't exist or isn't a git repo
+            if [ ! -d "${{ secrets.DEPLOY_PATH }}/.git" ]; then
+              rm -rf "${{ secrets.DEPLOY_PATH }}"
+              git clone https://github.com/tobias-weiss-ai-xr/next-opendesk-edu-org.git "${{ secrets.DEPLOY_PATH }}"
+            fi
+            cd "${{ secrets.DEPLOY_PATH }}"
+            git fetch --all
+            git reset --hard origin/main
             export COMMIT_SHA=$(git rev-parse --short HEAD)
             export IMAGE_TAG="opendesk-edu:${COMMIT_SHA}"
             docker compose build --no-cache
