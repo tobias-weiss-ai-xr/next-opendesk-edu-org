@@ -139,14 +139,16 @@ jobs:
             docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null
             echo "=== Internal curl tests ==="
             docker exec opendesk-edu node -e "Promise.all([fetch('http://localhost:3000/ads.txt'),fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}),fetch('http://localhost:3000/en')]).then(([r1,r2,r3])=>{console.log('localhost /ads.txt:',r1.status,r1.headers.get('content-type'));console.log('Host=domain /ads.txt:',r2.status,r2.headers.get('content-type'));console.log('/en CSP:',r3.headers.get('content-security-policy')?.substring(0,100))}).catch(e=>console.error('Error:',e.message))"
-            echo "=== Container Traefik labels ==="
-            docker inspect opendesk-edu --format='{{range .Config.Labels}}{{println .}}{{end}}' 2>/dev/null | grep traefik || echo "No traefik labels"
-            echo "=== ALL running containers ==="
-            docker ps -a --format 'table {{.Names}}	{{.Image}}	{{.Status}}	{{.Ports}}' 2>/dev/null || echo "docker ps failed"
-            echo "=== Traefik API (port 8080) ==="
-            docker exec traefik wget -qO- http://localhost:8080/api/http/routers 2>/dev/null | python3 -c "import sys,json; [print(r.get('name','?'),r.get('rule','?'),[m for m in r.get('middlewares',[])]) for r in json.load(sys.stdin)]" 2>/dev/null || echo "API not on 8080"
-            echo "=== Traefik API: middlewares (port 8080) ==="
-            docker exec traefik wget -qO- http://localhost:8080/api/http/middlewares 2>/dev/null | python3 -c "import sys,json; [print(m.get('name','?'),m.get('provider','?')) for m in json.load(sys.stdin)]" 2>/dev/null || echo "API not on 8080"
+            echo "=== Container labels (JSON) ==="
+            docker inspect opendesk-edu --format='{{json .Config.Labels}}' 2>/dev/null || echo "No labels"
+            echo "=== docker-compose files ==="
+            ls -la docker-compose*.yml 2>/dev/null || echo "No docker-compose files"
+            echo "=== docker compose config (middlewares) ==="
+            docker compose config 2>/dev/null | grep -A 2 "middlewares" || echo "No middlewares in compose config"
+            echo "=== Traefik API (traefik-chemie) ==="
+            docker exec traefik wget -qO- http://192.168.42.10/api/http/routers 2>/dev/null | head -500 || echo "API not accessible"
+            echo "=== Traefik API: middlewares ==="
+            docker exec traefik wget -qO- http://192.168.42.10/api/http/middlewares 2>/dev/null | head -500 || echo "API not accessible"
 
       - name: Verify deployment
         continue-on-error: true
