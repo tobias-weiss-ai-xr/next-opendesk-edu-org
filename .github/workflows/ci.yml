@@ -139,6 +139,9 @@ jobs:
             docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null
             echo "=== Internal curl tests ==="
             docker exec opendesk-edu node -e "Promise.all([fetch('http://localhost:3000/ads.txt'),fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}),fetch('http://localhost:3000/en')]).then(([r1,r2,r3])=>{console.log('localhost /ads.txt:',r1.status,r1.headers.get('content-type'));console.log('Host=domain /ads.txt:',r2.status,r2.headers.get('content-type'));console.log('/en CSP:',r3.headers.get('content-security-policy')?.substring(0,100))}).catch(e=>console.error('Error:',e.message))"
+            echo "=== Restart Traefik to reload Docker labels ==="
+            docker restart traefik 2>/dev/null || echo "No traefik container or restart failed"
+            sleep 5
             echo "=== Container labels (JSON) ==="
             docker inspect opendesk-edu --format='{{json .Config.Labels}}' 2>/dev/null || echo "No labels"
             echo "=== docker-compose files ==="
