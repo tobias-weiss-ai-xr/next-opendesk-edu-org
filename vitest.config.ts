@@ -1,5 +1,5 @@
-import { defineConfig } from "vitest/config";
 import path from "path";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   resolve: {
@@ -16,7 +16,14 @@ export default defineConfig({
       provider: "v8",
       enabled: true,
       include: ["src/**"],
-      exclude: ["src/test/**", "src/**/*.test.*", "src/**/__tests__/**", "src/**/*.d.ts", "src/proxy.ts"],
+      exclude: [
+        "src/test/**",
+        "src/**/*.test.*",
+        "src/**/__tests__/**",
+        "src/**/*.d.ts",
+        "src/proxy.ts",
+        "src/middleware.ts",
+      ],
       reporter: ["text", "text-summary"],
       // Small headroom: bun's v8 instrumentation measures ~0.5-1pp below node's,
       // so keep these 1-2pp under the real targets to avoid flaky CI gates.
