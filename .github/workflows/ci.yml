@@ -85,7 +85,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest
             ghcr.io/${{ github.repository_owner }}/opendesk-edu:${{ github.sha }}
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest
+          no-cache: true
 
       - name: Make image public
         run: |
@@ -110,13 +110,18 @@ jobs:
             cd "${{ secrets.DEPLOY_PATH }}"
             git fetch --all
             git reset --hard origin/main
+            # Remove old local image to avoid stale cache
+            docker rmi opendesk-edu:latest 2>/dev/null || true
             # Pull pre-built image from ghcr.io (avoids building on memory-constrained server)
             docker pull ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest
-            # Remove build: directive so docker compose uses the pre-built image, not local build
-            sed -i '/^    build:/d' docker-compose.yml
-            # Update docker-compose.yml to use the ghcr.io image
-            sed -i 's|image: opendesk-edu:latest|image: ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest|' docker-compose.yml
+            # docker-compose.yml already uses ghcr.io image directly (no sed needed)
             docker compose up -d --force-recreate
+            # Verify the container is running the correct image
+            docker inspect opendesk-edu --format='Image: {{.Config.Image}}' || true
+            # Verify public/ads.txt exists in the container
+            docker exec opendesk-edu ls -la public/ads.txt 2>/dev/null || echo "warn: public/ads.txt not found in container"
+            # Verify the CSP includes pagead2.googlesyndication.com
+            docker exec opendesk-edu grep -r "pagead2.googlesyndication.com" /app/server.js 2>/dev/null || echo "warn: pagead2 not found in server.js"
 
       - name: Verify deployment
         continue-on-error: true
@@ -129,4 +134,12 @@ jobs:
             echo "✅ Site is live (HTTP 200)"
           else
             echo "⚠️ Site returned HTTP $STATUS"
+          fi
+          # Verify ads.txt is served
+          ADS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt) || true
+          echo "ads.txt HTTP status: $ADS_STATUS"
+          if [ "$ADS_STATUS" = "200" ]; then
+            echo "✅ ads.txt is served"
+          else
+            echo "⚠️ ads.txt returned HTTP $ADS_STATUS"
           fi

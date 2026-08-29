@@ -1,7 +1,6 @@
 services:
   opendesk-edu:
-    build: .
-    image: opendesk-edu:latest
+    image: ghcr.io/tobias-weiss-ai-xr/opendesk-edu:latest
     container_name: opendesk-edu
     restart: unless-stopped
     expose:
@@ -17,7 +16,8 @@ services:
       - traefik.http.routers.opendesk-edu-secure.entrypoints=websecure
       - traefik.http.routers.opendesk-edu-secure.tls=true
       - traefik.http.routers.opendesk-edu-secure.tls.certresolver=mytlschallenge
-      - traefik.http.routers.opendesk-edu-secure.middlewares=security-headers@file,compression@file
+      # security-headers are set by Next.js (next.config.ts headers()) — not Traefik
+      - traefik.http.routers.opendesk-edu-secure.middlewares=compression@file
       - traefik.http.services.opendesk-edu.loadbalancer.server.port=3000
     networks:
       - traefik-public
