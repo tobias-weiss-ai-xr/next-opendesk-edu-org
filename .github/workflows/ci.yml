@@ -125,15 +125,33 @@ jobs:
             docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null || echo "warn: could not read ads.txt.body"
             docker exec opendesk-edu grep -o '"/ads.txt"' .next/prerender-manifest.json 2>/dev/null || echo "warn: /ads.txt not in prerender-manifest.json"
             docker exec opendesk-edu grep -o '"/ads.txt/route"' .next/app-paths-manifest.json 2>/dev/null || echo "warn: /ads.txt/route not in app-paths-manifest.json"
-            # Debug: curl /ads.txt from inside the container
+            # Debug: curl /ads.txt from inside the container (with and without Host header)
             echo "=== Debug: curl /ads.txt from inside container ==="
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('Content-Type:',r.headers.get('content-type'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl from inside container"
+            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('Content-Type:',r.headers.get('content-type'));console.log('CSP:',r.headers.get('content-security-policy'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl from inside container"
+            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}).then(r=>{console.log('Status (with Host):',r.status);console.log('Content-Type:',r.headers.get('content-type'));console.log('CSP:',r.headers.get('content-security-policy'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl with Host header"
+            # Debug: curl /en from inside the container to check CSP
+            echo "=== Debug: curl /en from inside container ==="
+            docker exec opendesk-edu node -e "fetch('http://localhost:3000/en').then(r=>{console.log('Status:',r.status);console.log('CSP:',r.headers.get('content-security-policy'))}).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl /en from inside container"
             # Debug: Check CSP in build output
             echo "=== Debug: CSP in build output ==="
             docker exec opendesk-edu grep -r "pagead2.googlesyndication.com" .next/server/chunks/ 2>/dev/null | head -3 || echo "warn: pagead2 not found in chunks"
             # Debug: Check Traefik labels on container
             echo "=== Debug: Container Traefik labels ==="
-            docker inspect opendesk-edu --format='{{range .Config.Labels}}{{println .}}{{end}}' 2>/dev/null | grep -i traefik || echo "warn: no traefik labels found"
+            docker inspect opendesk-edu --format='{{range .Config.Labels}}{{println .}}{{end}}' 2>/dev/null | head -20
+            # Debug: Check for multiple containers
+            echo "=== Debug: docker ps ==="
+            docker ps --filter name=opendesk-edu --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
+            # Debug: Container logs (last 10 lines)
+            echo "=== Debug: Container logs ==="
+            docker logs opendesk-edu --tail 10 2>/dev/null || echo "warn: could not get logs"
+            # Debug: Check docker-compose.yml on server for security-headers
+            echo "=== Debug: docker-compose.yml security-headers check ==="
+            grep -n "security-headers" docker-compose.yml 2>/dev/null || echo "security-headers NOT found in docker-compose.yml (correct)"
+            grep -n "compression" docker-compose.yml 2>/dev/null || echo "compression NOT found in docker-compose.yml"
+            # Debug: Check if Traefik has a security-headers middleware in dynamic config
+            echo "=== Debug: Traefik dynamic config check ==="
+            docker exec traefik cat /etc/traefik/dynamic.yml 2>/dev/null | grep -A 5 "security-headers" || echo "No traefik container or no dynamic.yml"
+            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null | grep -A 5 "security" || echo "No security in traefik.yml"
 
       - name: Verify deployment
         continue-on-error: true
