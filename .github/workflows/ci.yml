@@ -139,9 +139,18 @@ jobs:
             docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null
             echo "=== Internal curl tests ==="
             docker exec opendesk-edu node -e "Promise.all([fetch('http://localhost:3000/ads.txt'),fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}),fetch('http://localhost:3000/en')]).then(([r1,r2,r3])=>{console.log('localhost /ads.txt:',r1.status,r1.headers.get('content-type'));console.log('Host=domain /ads.txt:',r2.status,r2.headers.get('content-type'));console.log('/en CSP:',r3.headers.get('content-security-policy')?.substring(0,100))}).catch(e=>console.error('Error:',e.message))"
-            echo "=== Traefik config ==="
-            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null | head -60 || echo "No traefik container"
+            echo "=== Traefik config (full) ==="
+            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null || echo "No traefik container"
+            echo "=== Traefik config dir ==="
             docker exec traefik ls /etc/traefik/ 2>/dev/null || echo "Cannot list traefik config dir"
+            echo "=== Traefik API: routers ==="
+            docker exec traefik wget -qO- http://localhost:8080/api/http/routers 2>/dev/null | head -200 || echo "Cannot access Traefik API"
+            echo "=== Traefik API: middlewares ==="
+            docker exec traefik wget -qO- http://localhost:8080/api/http/middlewares 2>/dev/null | head -200 || echo "Cannot access Traefik API"
+            echo "=== Traefik: grep security-headers in config ==="
+            docker exec traefik grep -A 20 "security-headers" /etc/traefik/traefik.yml 2>/dev/null || echo "No security-headers in traefik.yml"
+            echo "=== Traefik: grep opendesk in config ==="
+            docker exec traefik grep -B 5 -A 10 "opendesk" /etc/traefik/traefik.yml 2>/dev/null || echo "No opendesk in traefik.yml"
 
       - name: Verify deployment
         continue-on-error: true
