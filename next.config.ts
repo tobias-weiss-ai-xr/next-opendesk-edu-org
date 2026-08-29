@@ -1,7 +1,6 @@
 import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import path from "path";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -37,7 +36,7 @@ const cacheHeaders = [
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
-  turbopack: { root: path.resolve(__dirname, "..") },
+  outputFileTracingRoot: __dirname,
   images: { unoptimized: false },
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   async headers() {
