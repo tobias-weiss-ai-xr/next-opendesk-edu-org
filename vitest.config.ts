@@ -22,7 +22,6 @@ export default defineConfig({
         "src/**/__tests__/**",
         "src/**/*.d.ts",
         "src/proxy.ts",
-        "src/middleware.ts",
       ],
       reporter: ["text", "text-summary"],
       // Small headroom: bun's v8 instrumentation measures ~0.5-1pp below node's,
