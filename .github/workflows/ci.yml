@@ -118,10 +118,22 @@ jobs:
             docker compose up -d --force-recreate
             # Verify the container is running the correct image
             docker inspect opendesk-edu --format='Image: {{.Config.Image}}' || true
-            # Verify public/ads.txt exists in the container
-            docker exec opendesk-edu ls -la public/ads.txt 2>/dev/null || echo "warn: public/ads.txt not found in container"
-            # Verify the CSP includes pagead2.googlesyndication.com
-            docker exec opendesk-edu grep -r "pagead2.googlesyndication.com" /app/server.js 2>/dev/null || echo "warn: pagead2 not found in server.js"
+            # Debug: Check if ads.txt route handler is in the container
+            echo "=== Debug: ads.txt route handler ==="
+            docker exec opendesk-edu ls -la .next/server/app/ads.txt.body 2>/dev/null || echo "warn: .next/server/app/ads.txt.body not found"
+            docker exec opendesk-edu ls -la .next/server/app/ads.txt.meta 2>/dev/null || echo "warn: .next/server/app/ads.txt.meta not found"
+            docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null || echo "warn: could not read ads.txt.body"
+            docker exec opendesk-edu grep -o '"/ads.txt"' .next/prerender-manifest.json 2>/dev/null || echo "warn: /ads.txt not in prerender-manifest.json"
+            docker exec opendesk-edu grep -o '"/ads.txt/route"' .next/app-paths-manifest.json 2>/dev/null || echo "warn: /ads.txt/route not in app-paths-manifest.json"
+            # Debug: curl /ads.txt from inside the container
+            echo "=== Debug: curl /ads.txt from inside container ==="
+            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('Content-Type:',r.headers.get('content-type'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl from inside container"
+            # Debug: Check CSP in build output
+            echo "=== Debug: CSP in build output ==="
+            docker exec opendesk-edu grep -r "pagead2.googlesyndication.com" .next/server/chunks/ 2>/dev/null | head -3 || echo "warn: pagead2 not found in chunks"
+            # Debug: Check Traefik labels on container
+            echo "=== Debug: Container Traefik labels ==="
+            docker inspect opendesk-edu --format='{{range .Config.Labels}}{{println .}}{{end}}' 2>/dev/null | grep -i traefik || echo "warn: no traefik labels found"
 
       - name: Verify deployment
         continue-on-error: true
@@ -136,6 +148,7 @@ jobs:
             echo "⚠️ Site returned HTTP $STATUS"
           fi
           # Verify ads.txt is served
+          sleep 5
           ADS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt) || true
           echo "ads.txt HTTP status: $ADS_STATUS"
           if [ "$ADS_STATUS" = "200" ]; then
@@ -143,3 +156,10 @@ jobs:
           else
             echo "⚠️ ads.txt returned HTTP $ADS_STATUS"
           fi
+          # Debug: curl /ads.txt with full response headers
+          echo "=== Debug: /ads.txt full response ==="
+          curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null || true
+          echo "=== Debug: /ads.txt body ==="
+          curl -s --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null | head -5 || true
+          echo "=== Debug: /en status ==="
+          curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null || true
