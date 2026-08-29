@@ -160,6 +160,16 @@ jobs:
             docker exec opendesk-edu node -e "fetch('http://localhost:3000/en').then(r=>{console.log('CSP:',r.headers.get('content-security-policy'));console.log('HSTS:',r.headers.get('strict-transport-security'));console.log('PP:',r.headers.get('permissions-policy'))})" 2>/dev/null || echo "curl failed"
             echo "=== curl /ads.txt from inside container (full headers) ==="
             docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('CSP:',r.headers.get('content-security-policy'));console.log('HSTS:',r.headers.get('strict-transport-security'));console.log('PP:',r.headers.get('permissions-policy'));console.log('CT:',r.headers.get('content-type'))})" 2>/dev/null || echo "curl failed"
+            echo "=== curl from SERVER to https://opendesk-edu.org/en (through Traefik) ==="
+            curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy|x-frame|x-content-type|x-xss|referrer|server:|via:|x-cache|cf-|x-served" || echo "curl failed"
+            echo "=== curl from SERVER to https://opendesk-edu.org/ads.txt (through Traefik) ==="
+            curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy|x-frame|x-content-type|x-xss|referrer|server:|via:|x-cache|cf-|x-served|content-type|http/" || echo "curl failed"
+            echo "=== curl from Traefik container to opendesk-edu:3000/en (direct, bypassing Traefik) ==="
+            docker exec traefik wget -qO- --header="Host: opendesk-edu.org" http://opendesk-edu:3000/en 2>/dev/null | head -5 || echo "wget failed"
+            echo "=== DNS resolution for opendesk-edu.org ==="
+            dig +short opendesk-edu.org 2>/dev/null || nslookup opendesk-edu.org 2>/dev/null || echo "DNS lookup failed"
+            echo "=== curl from Traefik container to opendesk-edu:3000/ads.txt (direct) ==="
+            docker exec traefik wget -S -qO- http://opendesk-edu:3000/ads.txt 2>&1 | head -20 || echo "wget failed"
 
       - name: Verify deployment
         continue-on-error: true
