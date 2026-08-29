@@ -102,56 +102,46 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
-            # Clone repo if DEPLOY_PATH doesn't exist or isn't a git repo
-            if [ ! -d "${{ secrets.DEPLOY_PATH }}/.git" ]; then
-              rm -rf "${{ secrets.DEPLOY_PATH }}"
+            cd "${{ secrets.DEPLOY_PATH }}" || {
               git clone https://github.com/tobias-weiss-ai-xr/next-opendesk-edu-org.git "${{ secrets.DEPLOY_PATH }}"
-            fi
-            cd "${{ secrets.DEPLOY_PATH }}"
-            git fetch --all
-            git reset --hard origin/main
-            # Remove old local image to avoid stale cache
+              cd "${{ secrets.DEPLOY_PATH }}"
+            }
+            git fetch --all && git reset --hard origin/main
             docker rmi opendesk-edu:latest 2>/dev/null || true
-            # Pull pre-built image from ghcr.io (avoids building on memory-constrained server)
             docker pull ghcr.io/${{ github.repository_owner }}/opendesk-edu:latest
-            # docker-compose.yml already uses ghcr.io image directly (no sed needed)
-            docker compose up -d --force-recreate
-            # Verify the container is running the correct image
-            docker inspect opendesk-edu --format='Image: {{.Config.Image}}' || true
-            # Debug: Check if ads.txt route handler is in the container
-            echo "=== Debug: ads.txt route handler ==="
-            docker exec opendesk-edu ls -la .next/server/app/ads.txt.body 2>/dev/null || echo "warn: .next/server/app/ads.txt.body not found"
-            docker exec opendesk-edu ls -la .next/server/app/ads.txt.meta 2>/dev/null || echo "warn: .next/server/app/ads.txt.meta not found"
-            docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null || echo "warn: could not read ads.txt.body"
-            docker exec opendesk-edu grep -o '"/ads.txt"' .next/prerender-manifest.json 2>/dev/null || echo "warn: /ads.txt not in prerender-manifest.json"
-            docker exec opendesk-edu grep -o '"/ads.txt/route"' .next/app-paths-manifest.json 2>/dev/null || echo "warn: /ads.txt/route not in app-paths-manifest.json"
-            # Debug: curl /ads.txt from inside the container (with and without Host header)
-            echo "=== Debug: curl /ads.txt from inside container ==="
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('Content-Type:',r.headers.get('content-type'));console.log('CSP:',r.headers.get('content-security-policy'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl from inside container"
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}).then(r=>{console.log('Status (with Host):',r.status);console.log('Content-Type:',r.headers.get('content-type'));console.log('CSP:',r.headers.get('content-security-policy'));return r.text()}).then(t=>console.log('Body:',t.substring(0,200))).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl with Host header"
-            # Debug: curl /en from inside the container to check CSP
-            echo "=== Debug: curl /en from inside container ==="
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/en').then(r=>{console.log('Status:',r.status);console.log('CSP:',r.headers.get('content-security-policy'))}).catch(e=>console.error('Error:',e.message))" 2>/dev/null || echo "warn: could not curl /en from inside container"
-            # Debug: Check CSP in build output
-            echo "=== Debug: CSP in build output ==="
-            docker exec opendesk-edu grep -r "pagead2.googlesyndication.com" .next/server/chunks/ 2>/dev/null | head -3 || echo "warn: pagead2 not found in chunks"
-            # Debug: Check Traefik labels on container
-            echo "=== Debug: Container Traefik labels ==="
-            docker inspect opendesk-edu --format='{{range .Config.Labels}}{{println .}}{{end}}' 2>/dev/null | head -20
-            # Debug: Check for multiple containers
-            echo "=== Debug: docker ps ==="
-            docker ps --filter name=opendesk-edu --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}' 2>/dev/null || true
-            # Debug: Container logs (last 10 lines)
-            echo "=== Debug: Container logs ==="
-            docker logs opendesk-edu --tail 10 2>/dev/null || echo "warn: could not get logs"
-            # Debug: Check docker-compose.yml on server for security-headers
-            echo "=== Debug: docker-compose.yml security-headers check ==="
-            grep -n "security-headers" docker-compose.yml 2>/dev/null || echo "security-headers NOT found in docker-compose.yml (correct)"
-            grep -n "compression" docker-compose.yml 2>/dev/null || echo "compression NOT found in docker-compose.yml"
-            # Debug: Check if Traefik has a security-headers middleware in dynamic config
-            echo "=== Debug: Traefik dynamic config check ==="
-            docker exec traefik cat /etc/traefik/dynamic.yml 2>/dev/null | grep -A 5 "security-headers" || echo "No traefik container or no dynamic.yml"
-            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null | grep -A 5 "security" || echo "No security in traefik.yml"
+            MAX_RETRIES=3
+            for i in $(seq 1 $MAX_RETRIES); do
+              echo "Attempt $i/$MAX_RETRIES: docker compose up"
+              if docker compose up -d --force-recreate 2>&1; then
+                echo "Container started successfully"
+                break
+              else
+                echo "Attempt $i failed (likely OOM)"
+                if [ $i -lt $MAX_RETRIES ]; then
+                  echo "Waiting 15s before retry..."
+                  sleep 15
+                else
+                  echo "All $MAX_RETRIES attempts failed"
+                fi
+              fi
+            done
+            sleep 10
+            echo "=== Container Status ==="
+            docker ps -a --filter name=opendesk-edu --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
+            CONTAINER_STATUS=$(docker inspect -f '{{.State.Status}}' opendesk-edu 2>/dev/null || echo "not found")
+            echo "Container state: $CONTAINER_STATUS"
+            if [ "$CONTAINER_STATUS" != "running" ]; then
+              echo "Container is not running - aborting"
+              exit 1
+            fi
+            echo "=== ads.txt route handler ==="
+            docker exec opendesk-edu ls -la .next/server/app/ads.txt.body 2>/dev/null || echo "warn: ads.txt.body not found"
+            docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null
+            echo "=== Internal curl tests ==="
+            docker exec opendesk-edu node -e "Promise.all([fetch('http://localhost:3000/ads.txt'),fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}),fetch('http://localhost:3000/en')]).then(([r1,r2,r3])=>{console.log('localhost /ads.txt:',r1.status,r1.headers.get('content-type'));console.log('Host=domain /ads.txt:',r2.status,r2.headers.get('content-type'));console.log('/en CSP:',r3.headers.get('content-security-policy')?.substring(0,100))}).catch(e=>console.error('Error:',e.message))"
+            echo "=== Traefik config ==="
+            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null | head -60 || echo "No traefik container"
+            docker exec traefik ls /etc/traefik/ 2>/dev/null || echo "Cannot list traefik config dir"
 
       - name: Verify deployment
         continue-on-error: true
@@ -159,25 +149,16 @@ jobs:
           sleep 10
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org) || true
           if [ "$STATUS" = "000" ]; then
-            echo "⚠️ Site unreachable from CI runner (expected for private/intranet deployments). Deployment itself succeeded."
+            echo "Site unreachable from CI runner"
           elif [ "$STATUS" = "200" ]; then
-            echo "✅ Site is live (HTTP 200)"
+            echo "Site is live (HTTP 200)"
           else
-            echo "⚠️ Site returned HTTP $STATUS"
+            echo "Site returned HTTP $STATUS"
           fi
-          # Verify ads.txt is served
           sleep 5
           ADS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt) || true
           echo "ads.txt HTTP status: $ADS_STATUS"
-          if [ "$ADS_STATUS" = "200" ]; then
-            echo "✅ ads.txt is served"
-          else
-            echo "⚠️ ads.txt returned HTTP $ADS_STATUS"
-          fi
-          # Debug: curl /ads.txt with full response headers
-          echo "=== Debug: /ads.txt full response ==="
+          echo "=== External: /ads.txt headers ==="
           curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null || true
-          echo "=== Debug: /ads.txt body ==="
-          curl -s --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null | head -5 || true
-          echo "=== Debug: /en status ==="
-          curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null || true
+          echo "=== External: /en CSP ==="
+          curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy" || true
