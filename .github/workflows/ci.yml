@@ -122,71 +122,22 @@ jobs:
                   sleep 15
                 else
                   echo "All $MAX_RETRIES attempts failed"
+                  exit 1
                 fi
               fi
             done
             sleep 10
-            echo "=== Container Status ==="
-            docker ps -a --filter name=opendesk-edu --format 'table {{.Names}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}'
             CONTAINER_STATUS=$(docker inspect -f '{{.State.Status}}' opendesk-edu 2>/dev/null || echo "not found")
             echo "Container state: $CONTAINER_STATUS"
             if [ "$CONTAINER_STATUS" != "running" ]; then
               echo "Container is not running - aborting"
               exit 1
             fi
-            echo "=== ads.txt route handler ==="
-            docker exec opendesk-edu ls -la .next/server/app/ads.txt.body 2>/dev/null || echo "warn: ads.txt.body not found"
-            docker exec opendesk-edu cat .next/server/app/ads.txt.body 2>/dev/null
-            echo "=== Internal curl tests ==="
-            docker exec opendesk-edu node -e "Promise.all([fetch('http://localhost:3000/ads.txt'),fetch('http://localhost:3000/ads.txt',{headers:{'Host':'opendesk-edu.org'}}),fetch('http://localhost:3000/en')]).then(([r1,r2,r3])=>{console.log('localhost /ads.txt:',r1.status,r1.headers.get('content-type'));console.log('Host=domain /ads.txt:',r2.status,r2.headers.get('content-type'));console.log('/en CSP:',r3.headers.get('content-security-policy')?.substring(0,100))}).catch(e=>console.error('Error:',e.message))"
-            echo "=== Restart Traefik to reload Docker labels ==="
-            docker restart traefik 2>/dev/null || echo "No traefik container or restart failed"
-            sleep 5
-            echo "=== Check for docker-compose.override.yml ==="
-            ls -la docker-compose*.yml docker-compose.override.yml 2>/dev/null || echo "No override file"
-            echo "=== docker-compose-umami.yml content ==="
-            cat docker-compose-umami.yml 2>/dev/null || echo "No umami compose file"
-            echo "=== Traefik static config (full) ==="
-            docker exec traefik cat /etc/traefik/traefik.yml 2>/dev/null || echo "No traefik container or config"
-            echo "=== Traefik config dir ==="
-            docker exec traefik ls -la /etc/traefik/ 2>/dev/null || echo "Cannot list"
-            echo "=== Traefik dynamic config files ==="
-            docker exec traefik find /etc/traefik -name '*.yml' -o -name '*.yaml' 2>/dev/null || echo "Cannot find"
-            echo "=== ALL Docker containers (with Traefik labels) ==="
-            docker ps -a --format '{{.Names}}' 2>/dev/null | while read name; do echo "--- $name ---"; docker inspect "$name" --format '{{json .Config.Labels}}' 2>/dev/null | python3 -c "import sys,json; [print(f'  {k}: {v}') for k,v in sorted(json.load(sys.stdin).items()) if k.startswith('traefik')]" 2>/dev/null || true; done
-            echo "=== Traefik logs (last 50 lines) ==="
-            docker logs traefik --tail 50 2>&1 || echo "No traefik logs"
-            echo "=== curl /en from inside container (full CSP) ==="
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/en').then(r=>{console.log('CSP:',r.headers.get('content-security-policy'));console.log('HSTS:',r.headers.get('strict-transport-security'));console.log('PP:',r.headers.get('permissions-policy'))})" 2>/dev/null || echo "curl failed"
-            echo "=== curl /ads.txt from inside container (full headers) ==="
-            docker exec opendesk-edu node -e "fetch('http://localhost:3000/ads.txt').then(r=>{console.log('Status:',r.status);console.log('CSP:',r.headers.get('content-security-policy'));console.log('HSTS:',r.headers.get('strict-transport-security'));console.log('PP:',r.headers.get('permissions-policy'));console.log('CT:',r.headers.get('content-type'))})" 2>/dev/null || echo "curl failed"
-            echo "=== curl from SERVER to https://opendesk-edu.org/en (through Traefik) ==="
-            curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy|x-frame|x-content-type|x-xss|referrer|server:|via:|x-cache|cf-|x-served" || echo "curl failed"
-            echo "=== curl from SERVER to https://opendesk-edu.org/ads.txt (through Traefik) ==="
-            curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy|x-frame|x-content-type|x-xss|referrer|server:|via:|x-cache|cf-|x-served|content-type|http/" || echo "curl failed"
-            echo "=== curl from Traefik container to opendesk-edu:3000/en (direct, bypassing Traefik) ==="
-            docker exec traefik wget -qO- --header="Host: opendesk-edu.org" http://opendesk-edu:3000/en 2>/dev/null | head -5 || echo "wget failed"
-            echo "=== DNS resolution for opendesk-edu.org ==="
-            dig +short opendesk-edu.org 2>/dev/null || nslookup opendesk-edu.org 2>/dev/null || echo "DNS lookup failed"
-            echo "=== curl from Traefik container to opendesk-edu:3000/ads.txt (direct) ==="
-            docker exec traefik wget -S -qO- http://opendesk-edu:3000/ads.txt 2>&1 | head -20 || echo "wget failed"
 
       - name: Verify deployment
         continue-on-error: true
         run: |
           sleep 10
-          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org) || true
-          if [ "$STATUS" = "000" ]; then
-            echo "Site unreachable from CI runner"
-          elif [ "$STATUS" = "200" ]; then
-            echo "Site is live (HTTP 200)"
-          else
-            echo "Site returned HTTP $STATUS"
-          fi
-          sleep 5
           ADS_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt) || true
           echo "ads.txt HTTP status: $ADS_STATUS"
-          echo "=== External: /ads.txt headers ==="
-          curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/ads.txt 2>/dev/null || true
-          echo "=== External: /en CSP ==="
           curl -sI --connect-timeout 5 --max-time 10 https://opendesk-edu.org/en 2>/dev/null | grep -iE "content-security-policy|strict-transport|permissions-policy" || true
