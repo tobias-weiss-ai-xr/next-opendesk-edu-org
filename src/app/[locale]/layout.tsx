@@ -142,8 +142,14 @@ export default async function LocaleLayout({
           href={`/${locale}/rss`}
         />
         <AdSense />
+        <script
+          async
+          custom-element="amp-auto-ads"
+          src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+        />
       </head>
       <body>
+        <amp-auto-ads type="adsense" data-ad-client="ca-pub-8452353139685392" />
         <ThemeProvider>
           <a
             href="#main-content"

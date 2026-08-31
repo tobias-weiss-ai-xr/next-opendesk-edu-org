@@ -6,12 +6,12 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://analytics.opendesk-edu.org https://pagead2.googlesyndication.com",
+  "script-src 'self' 'unsafe-inline' https://analytics.opendesk-edu.org https://pagead2.googlesyndication.com https://cdn.ampproject.org",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   "img-src 'self' data: blob:",
   "connect-src 'self' https://analytics.opendesk-edu.org https://pagead2.googlesyndication.com",
-  "frame-src 'self' https://googleads.g.doubleclick.net",
+  "frame-src 'self' https://googleads.g.doubleclick.net https://cdn.ampproject.org",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
