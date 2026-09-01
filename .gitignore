@@ -51,3 +51,4 @@ jest-report.json
 
 # local data
 /data/
+.tf-worktrees/
