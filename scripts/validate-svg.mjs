@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 
 const SVG_DIR = "public/static";
@@ -41,13 +41,13 @@ function validateSvg(filePath) {
 
   // Check for <svg root element
   if (!/<svg[\s>]/.test(content)) {
-    errors.push('missing <svg> root element');
+    errors.push("missing <svg> root element");
     return errors;
   }
 
   // Check for proper closing
   if (!/<\/svg>\s*$/.test(content.trim()) && !/<svg[^>]*\/>\s*$/.test(content.trim())) {
-    errors.push('missing proper </svg> closing tag');
+    errors.push("missing proper </svg> closing tag");
   }
 
   // Check viewBox OR width+height

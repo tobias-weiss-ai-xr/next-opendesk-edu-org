@@ -1,21 +1,21 @@
 import Image from "next/image";
-import {Link} from '@/i18n/navigation';
-import { formatDate } from "@/lib/format";
-import { Tag, CategoryBadge, StatusBadge } from "@/components/Badges";
+import { CategoryBadge, StatusBadge, Tag } from "@/components/Badges";
+import { Link } from "@/i18n/navigation";
 import { BLUR_TEASER } from "@/lib/blur";
 import type { Post } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 
 type LinkProps = React.ComponentProps<typeof Link>;
-type Href = LinkProps['href'];
+type Href = LinkProps["href"];
 
 interface PostCardProps {
   post: Post;
   locale?: string;
 }
 
-export default function PostCard({ post, locale = 'en' }: PostCardProps) {
-  const isBeta = post.categories?.includes('beta') || post.tags?.includes('beta');
-  const isComponent = post.section === 'components';
+export default function PostCard({ post, locale = "en" }: PostCardProps) {
+  const isBeta = post.categories?.includes("beta") || post.tags?.includes("beta");
+  const isComponent = post.section === "components";
 
   return (
     <article className="rounded-lg border border-border bg-background hover:shadow-lg transition-shadow">
@@ -44,28 +44,24 @@ export default function PostCard({ post, locale = 'en' }: PostCardProps) {
           </time>
           <span className="text-foreground-secondary mx-1.5">·</span>
           <span className="text-sm text-foreground-secondary">{post.readingTime} min read</span>
-          {post.version && post.section === 'components' && (
+          {post.version && post.section === "components" && (
             <span className="text-xs px-2 py-0.5 rounded bg-background-secondary text-foreground-secondary border border-border ml-auto">
               v{post.version}
             </span>
           )}
-          {isComponent && (
-            <StatusBadge status={isBeta ? "Beta" : "Stable"} />
-          )}
+          {isComponent && <StatusBadge status={isBeta ? "Beta" : "Stable"} />}
         </div>
-      {post.description && (
-        <p className="text-sm text-foreground-secondary mb-4 line-clamp-2">
-          {post.description}
-        </p>
-      )}
-      <div className="flex flex-wrap gap-2">
-        {post.categories?.map((category) => (
-          <CategoryBadge key={category}>{category}</CategoryBadge>
-        ))}
-        {post.tags?.map((tag) => (
-          <Tag key={tag}>{tag}</Tag>
-        ))}
-      </div>
+        {post.description && (
+          <p className="text-sm text-foreground-secondary mb-4 line-clamp-2">{post.description}</p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {post.categories?.map((category) => (
+            <CategoryBadge key={category}>{category}</CategoryBadge>
+          ))}
+          {post.tags?.map((tag) => (
+            <Tag key={tag}>{tag}</Tag>
+          ))}
+        </div>
       </div>
     </article>
   );

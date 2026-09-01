@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 
 interface SearchContextType {
   open: boolean;

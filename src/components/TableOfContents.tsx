@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 
 interface TocItem {
   id: string;
@@ -45,7 +45,7 @@ export default function TableOfContents({ html }: TableOfContentsProps) {
           }
         }
       },
-      { rootMargin: "-80px 0px -70% 0px", threshold: 0 }
+      { rootMargin: "-80px 0px -70% 0px", threshold: 0 },
     );
 
     observerRef.current = observer;
@@ -97,5 +97,5 @@ export default function TableOfContents({ html }: TableOfContentsProps) {
   );
 }
 
-export { extractHeadings };
 export type { TocItem };
+export { extractHeadings };

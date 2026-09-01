@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import cytoscape from "cytoscape";
-import type { Post } from "@/lib/content";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
+import type { Post } from "@/lib/content";
 
 const CATEGORY_GROUP: Record<string, string> = {
   "scientific-computing": "Scientific Computing & Research",
@@ -185,8 +185,7 @@ export default function ServiceGraph({ posts, section, locale }: ServiceGraphPro
             height: "data(size)",
             "border-width": 2,
             "border-color": "#1e293b",
-            "transition-property":
-              "width, height, border-width, background-color",
+            "transition-property": "width, height, border-width, background-color",
             "transition-duration": 200,
           },
         },
@@ -268,16 +267,14 @@ export default function ServiceGraph({ posts, section, locale }: ServiceGraphPro
     };
   }, [filteredPosts, locale, section, router]);
 
-  const selectedPost = selectedNode
-    ? filteredPosts.find((p) => p.slug === selectedNode)
-    : null;
+  const selectedPost = selectedNode ? filteredPosts.find((p) => p.slug === selectedNode) : null;
 
   return (
     <div className="relative">
       {/* Legend */}
       <div className="mb-6 flex flex-wrap gap-4 text-sm">
         {CLUSTER_ORDER.filter(
-          (g) => g !== "Other" || filteredPosts.some((p) => getPrimaryGroup(p) === "Other")
+          (g) => g !== "Other" || filteredPosts.some((p) => getPrimaryGroup(p) === "Other"),
         ).map((group) => (
           <span key={group} className="flex items-center gap-1.5">
             <span
@@ -311,9 +308,7 @@ export default function ServiceGraph({ posts, section, locale }: ServiceGraphPro
       {/* Tooltip */}
       {selectedPost && (
         <div className="absolute top-20 right-4 w-64 rounded-xl border border-border bg-background p-4 shadow-lg text-sm z-10">
-          <div className="font-semibold text-foreground mb-1">
-            {selectedPost.title}
-          </div>
+          <div className="font-semibold text-foreground mb-1">{selectedPost.title}</div>
           {selectedPost.version && (
             <div className="text-xs text-foreground-secondary font-mono mb-1">
               v{selectedPost.version}
@@ -351,9 +346,7 @@ export default function ServiceGraph({ posts, section, locale }: ServiceGraphPro
                 </span>
               ))}
           </div>
-          <div className="mt-2 text-xs text-accent">
-            Click to open →
-          </div>
+          <div className="mt-2 text-xs text-accent">Click to open →</div>
         </div>
       )}
     </div>

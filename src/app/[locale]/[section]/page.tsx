@@ -1,16 +1,11 @@
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import {
-  getPostsBySection,
-  getSectionBySlug,
-  isValidSection,
-  SECTION_INFO,
-} from "@/lib/content";
-import { SITE_URL, SITE_NAME } from "@/lib/config";
-import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import PostList from "@/components/PostList";
 import ServiceGraphWrapper from "@/components/ServiceGraphWrapper";
+import { routing } from "@/i18n/routing";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
+import { getPostsBySection, getSectionBySlug, isValidSection, SECTION_INFO } from "@/lib/content";
 
 export const revalidate = 3600;
 
@@ -28,9 +23,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({
-  params,
-}: SectionPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: SectionPageProps): Promise<Metadata> {
   const { section } = await params;
   const sectionInfo = getSectionBySlug(section);
   if (!sectionInfo) return { title: SITE_NAME };
@@ -61,41 +54,43 @@ export default async function SectionPage({ params }: SectionPageProps) {
 
   const posts = await getPostsBySection(section, locale);
   const t = await getTranslations("section");
-  
+
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/${locale}` },
-      { "@type": "ListItem", position: 2, name: sectionInfo.title, item: `${SITE_URL}/${locale}/${section}` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: sectionInfo.title,
+        item: `${SITE_URL}/${locale}/${section}`,
+      },
     ],
   };
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
+      />
       <main className="max-w-6xl mx-auto px-6 py-16">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold text-foreground mb-4">
-          {sectionInfo.title}
-        </h1>
-        {sectionInfo.description && (
-          <p className="text-lg text-foreground-secondary max-w-2xl">
-            {sectionInfo.description}
-          </p>
-        )}
-      </div>
+        <div className="mb-12">
+          <h1 className="text-4xl font-bold text-foreground mb-4">{sectionInfo.title}</h1>
+          {sectionInfo.description && (
+            <p className="text-lg text-foreground-secondary max-w-2xl">{sectionInfo.description}</p>
+          )}
+        </div>
 
         {posts.length === 0 ? (
-        <p className="text-foreground-secondary">
-          {t("noPosts")}
-        </p>
-      ) : section === "components" ? (
-        <ServiceGraphWrapper posts={posts} section={section} locale={locale} />
-      ) : (
-        <PostList posts={posts} section={section} locale={locale} />
-      )}
-    </main>
+          <p className="text-foreground-secondary">{t("noPosts")}</p>
+        ) : section === "components" ? (
+          <ServiceGraphWrapper posts={posts} section={section} locale={locale} />
+        ) : (
+          <PostList posts={posts} section={section} locale={locale} />
+        )}
+      </main>
     </>
   );
 }

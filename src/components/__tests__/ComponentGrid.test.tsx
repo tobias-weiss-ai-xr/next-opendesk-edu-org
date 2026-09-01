@@ -1,17 +1,21 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import ComponentGrid from "@/components/ComponentGrid";
 import type { Post } from "@/lib/content";
 
 vi.mock("@/i18n/navigation", () => ({
   Link: ({ children, href, ...props }: { children: React.ReactNode; href: string }) => (
-    <a href={href} {...props}>{children}</a>
+    <a href={href} {...props}>
+      {children}
+    </a>
   ),
 }));
 
 vi.mock("@/components/Badges", () => ({
   StatusBadge: ({ status, className }: { status: string; className?: string }) => (
-    <span data-testid="status-badge" data-status={status} className={className}>{status}</span>
+    <span data-testid="status-badge" data-status={status} className={className}>
+      {status}
+    </span>
   ),
   CategoryBadge: ({ children }: { children: React.ReactNode }) => (
     <span data-testid="category-badge">{children}</span>

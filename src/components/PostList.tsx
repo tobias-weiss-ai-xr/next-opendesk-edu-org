@@ -1,12 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useMemo, useState } from "react";
+import { CategoryBadge, StatusBadge, Tag } from "@/components/Badges";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/format";
-import { Tag, CategoryBadge, StatusBadge } from "@/components/Badges";
 import { BLUR_TEASER } from "@/lib/blur";
 import type { Post } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -36,9 +36,7 @@ export default function PostList({ posts, section, locale }: PostListProps) {
   const filteredPosts = useMemo(() => {
     if (!activeFilter) return posts;
     return posts.filter(
-      (post) =>
-        post.tags?.includes(activeFilter) ||
-        post.categories?.includes(activeFilter)
+      (post) => post.tags?.includes(activeFilter) || post.categories?.includes(activeFilter),
     );
   }, [posts, activeFilter]);
 
@@ -100,8 +98,7 @@ export default function PostList({ posts, section, locale }: PostListProps) {
 
       <div className="grid gap-6 md:grid-cols-2">
         {visiblePosts.map((post) => {
-          const isBeta =
-            post.categories?.includes("beta") || post.tags?.includes("beta");
+          const isBeta = post.categories?.includes("beta") || post.tags?.includes("beta");
           const isComponent = post.section === "components";
 
           return (
@@ -134,15 +131,10 @@ export default function PostList({ posts, section, locale }: PostListProps) {
                     {post.title}
                   </h2>
                   <div className="flex items-center gap-2 mb-3">
-                    <time
-                      dateTime={post.date}
-                      className="text-sm text-foreground-secondary"
-                    >
+                    <time dateTime={post.date} className="text-sm text-foreground-secondary">
                       {formatDate(post.date, locale)}
                     </time>
-                    {isComponent && (
-                      <StatusBadge status={isBeta ? "Beta" : "Stable"} />
-                    )}
+                    {isComponent && <StatusBadge status={isBeta ? "Beta" : "Stable"} />}
                   </div>
                   {post.description && (
                     <p className="text-sm text-foreground-secondary mb-4 line-clamp-2">

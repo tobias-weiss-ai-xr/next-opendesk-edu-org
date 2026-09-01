@@ -1,10 +1,10 @@
-import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import { getPostsByTag, getAllTags, getPostsBySection } from "@/lib/content";
-import { SITE_URL, SITE_NAME } from "@/lib/config";
-import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import PostList from "@/components/PostList";
+import { routing } from "@/i18n/routing";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
+import { getAllTags, getPostsBySection, getPostsByTag } from "@/lib/content";
 
 export const revalidate = 3600;
 
@@ -23,9 +23,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({
-  params,
-}: TagPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { locale, tag } = await params;
   const posts = await getPostsByTag(tag, locale);
 
@@ -92,12 +90,9 @@ export default async function TagPage({ params }: TagPageProps) {
       />
       <main className="max-w-6xl mx-auto px-6 py-16">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4">
-            Tag: {tag}
-          </h1>
+          <h1 className="text-4xl font-bold text-foreground mb-4">Tag: {tag}</h1>
           <p className="text-lg text-foreground-secondary max-w-2xl">
-            {posts.length} article{posts.length !== 1 ? "s" : ""} tagged with
-            &ldquo;{tag}&rdquo;
+            {posts.length} article{posts.length !== 1 ? "s" : ""} tagged with &ldquo;{tag}&rdquo;
           </p>
         </div>
 

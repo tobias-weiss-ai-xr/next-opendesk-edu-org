@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
 import Database from "better-sqlite3";
-import path from "path";
 import fs from "fs";
+import { NextResponse } from "next/server";
+import path from "path";
 
 const DB_PATH = path.join(process.cwd(), "data", "newsletter.db");
 
@@ -32,10 +32,7 @@ export async function POST(request: Request) {
     const { email } = body;
 
     if (!email || !email.includes("@") || email.length > 254) {
-      return NextResponse.json(
-        { error: "Valid email address is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Valid email address is required." }, { status: 400 });
     }
 
     const db = getDb();
@@ -59,7 +56,7 @@ export async function POST(request: Request) {
     console.error("[subscribe] Failed:", error);
     return NextResponse.json(
       { error: "Failed to subscribe. Please try again later." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

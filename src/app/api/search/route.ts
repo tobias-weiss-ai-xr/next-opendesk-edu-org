@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from "next/server";
-import { getAllPosts } from "@/lib/content";
+import { type NextRequest, NextResponse } from "next/server";
 import { routing } from "@/i18n/routing";
+import { getAllPosts } from "@/lib/content";
 
 export interface SearchEntry {
   title: string;
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const locale = searchParams.get("locale") ?? routing.defaultLocale;
 
-  if (!routing.locales.includes(locale as typeof routing.locales[number])) {
+  if (!routing.locales.includes(locale as (typeof routing.locales)[number])) {
     return NextResponse.json({ error: "Invalid locale" }, { status: 400 });
   }
 

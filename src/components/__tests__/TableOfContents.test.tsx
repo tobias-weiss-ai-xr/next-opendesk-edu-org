@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
+import { describe, expect, it, vi } from "vitest";
 import TableOfContents, { extractHeadings } from "@/components/TableOfContents";
 
 const messages = { tableOfContents: { title: "On this page" } };
@@ -9,7 +9,7 @@ function renderWithProvider(ui: React.ReactElement) {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
       {ui}
-    </NextIntlClientProvider>
+    </NextIntlClientProvider>,
   );
 }
 
@@ -49,7 +49,7 @@ describe("TableOfContents", () => {
 
   it("renders nav with On this page label", () => {
     renderWithProvider(
-      <TableOfContents html='<h2 id="sec1">Section 1</h2><h3 id="sub1">Sub 1</h3>' />
+      <TableOfContents html='<h2 id="sec1">Section 1</h2><h3 id="sub1">Sub 1</h3>' />,
     );
     expect(screen.getByText("On this page")).toBeInTheDocument();
   });

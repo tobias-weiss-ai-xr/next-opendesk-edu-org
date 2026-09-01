@@ -1,19 +1,16 @@
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
-import { formatDate } from "@/lib/format";
-import { getPostsBySection, getAllPosts } from "@/lib/content";
 import { BLUR_TEASER } from "@/lib/blur";
 import type { Post } from "@/lib/content";
+import { getAllPosts, getPostsBySection } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 
 interface RelatedPostsProps {
   currentPost: Post;
   locale: string;
 }
 
-export default async function RelatedPosts({
-  currentPost,
-  locale,
-}: RelatedPostsProps) {
+export default async function RelatedPosts({ currentPost, locale }: RelatedPostsProps) {
   // Find posts sharing tags with current post
   let related = await getAllPosts(locale);
   related = related.filter((p) => p.slug !== currentPost.slug);
@@ -30,9 +27,7 @@ export default async function RelatedPosts({
     });
 
     // Filter to only those with at least 1 matching tag if any exist
-    const withTags = related.filter((p) =>
-      (p.tags ?? []).some((t) => currentTags.includes(t))
-    );
+    const withTags = related.filter((p) => (p.tags ?? []).some((t) => currentTags.includes(t)));
     if (withTags.length > 0) {
       related = withTags;
     }
@@ -49,9 +44,7 @@ export default async function RelatedPosts({
 
   return (
     <section className="max-w-6xl mx-auto px-6 pb-12">
-      <h2 className="text-2xl font-bold text-foreground mb-6 mt-16">
-        Related Posts
-      </h2>
+      <h2 className="text-2xl font-bold text-foreground mb-6 mt-16">Related Posts</h2>
       <div className="grid gap-6 md:grid-cols-2">
         {displayPosts.map((post) => (
           <Link
@@ -73,16 +66,11 @@ export default async function RelatedPosts({
             <h3 className="text-lg font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
               {post.title}
             </h3>
-            <time
-              dateTime={post.date}
-              className="text-sm text-foreground-secondary block mb-3"
-            >
+            <time dateTime={post.date} className="text-sm text-foreground-secondary block mb-3">
               {formatDate(post.date, locale)}
             </time>
             {post.description && (
-              <p className="text-sm text-foreground-secondary line-clamp-2">
-                {post.description}
-              </p>
+              <p className="text-sm text-foreground-secondary line-clamp-2">{post.description}</p>
             )}
           </Link>
         ))}

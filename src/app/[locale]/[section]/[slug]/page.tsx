@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
-import {
-  getPostBySlug,
-  getStaticPathsForSection,
-  getSectionBySlug,
-  isValidSection,
-  SECTION_INFO,
-} from "@/lib/content";
-import { SITE_URL, SITE_NAME } from "@/lib/config";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import ArticlePage from "@/components/ArticlePage";
 import RelatedPosts from "@/components/RelatedPosts";
 import { routing } from "@/i18n/routing";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
+import {
+  getPostBySlug,
+  getSectionBySlug,
+  getStaticPathsForSection,
+  isValidSection,
+  SECTION_INFO,
+} from "@/lib/content";
 
 export const revalidate = 3600;
 

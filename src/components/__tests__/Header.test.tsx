@@ -1,6 +1,6 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { describe, expect, it, vi } from "vitest";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
 
@@ -15,9 +15,14 @@ vi.mock("next/image", () => ({
 // Mock next-intl/navigation
 const mockReplace = vi.fn();
 vi.mock("@/i18n/navigation", () => ({
-  Link: ({ children, ...props }: { href?: string; children?: React.ReactNode; [key: string]: unknown }) => (
-    <a {...props}>{children}</a>
-  ),
+  Link: ({
+    children,
+    ...props
+  }: {
+    href?: string;
+    children?: React.ReactNode;
+    [key: string]: unknown;
+  }) => <a {...props}>{children}</a>,
   useRouter: () => ({ replace: mockReplace }),
   usePathname: () => "/en",
   getPathname: () => "/en",
@@ -55,7 +60,7 @@ function renderHeader() {
   return render(
     <ThemeProvider>
       <Header />
-    </ThemeProvider>
+    </ThemeProvider>,
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
 import { useLocale } from "next-intl";
+import { useCallback, useEffect, useState } from "react";
 import type { SearchEntry } from "@/app/api/search/route";
 
 interface UseSearchDataReturn {

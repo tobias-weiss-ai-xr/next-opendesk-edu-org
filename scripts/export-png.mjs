@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import sharp from "sharp";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import sharp from "sharp";
 
 const SOURCE_SVG = "public/static/brand/icon.svg";
 const OUTPUT_DIR = "public/static/brand";
@@ -27,7 +27,7 @@ async function exportPngs() {
       pipeline = pipeline.composite([
         {
           input: Buffer.from(
-            `<svg width="${width}" height="${height}"><rect width="100%" height="100%" fill="#341291"/></svg>`
+            `<svg width="${width}" height="${height}"><rect width="100%" height="100%" fill="#341291"/></svg>`,
           ),
           blend: "dest-over",
         },

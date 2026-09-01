@@ -1,14 +1,14 @@
-import {Link} from '@/i18n/navigation';
-import { formatDate } from "@/lib/format";
-import { Tag, CategoryBadge, StatusBadge } from "@/components/Badges";
-import TableOfContents from "@/components/TableOfContents";
 import Image from "next/image";
+import { CategoryBadge, StatusBadge, Tag } from "@/components/Badges";
 import ShareButtons from "@/components/ShareButtons";
-import type { Post } from "@/lib/content";
-import { SITE_URL, SITE_NAME } from "@/lib/config";
+import TableOfContents from "@/components/TableOfContents";
+import { Link } from "@/i18n/navigation";
 import { BLUR_TEASER } from "@/lib/blur";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
+import type { Post } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 
-type Href = React.ComponentProps<typeof Link>['href'];
+type Href = React.ComponentProps<typeof Link>["href"];
 
 interface ArticlePageProps {
   post: Post;
@@ -17,9 +17,14 @@ interface ArticlePageProps {
   locale?: string;
 }
 
-export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }: ArticlePageProps) {
+export default function ArticlePage({
+  post,
+  backHref,
+  backLabel,
+  locale = "en",
+}: ArticlePageProps) {
   // Strip first h1 from rendered HTML to avoid duplicate with the explicit h1 below
-  const contentWithoutH1 = post.htmlContent.replace(/<h1[^>]*>[\s\S]*?<\/h1>\s*/, '');
+  const contentWithoutH1 = post.htmlContent.replace(/<h1[^>]*>[\s\S]*?<\/h1>\s*/, "");
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -50,23 +55,23 @@ export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }
   const breadcrumbLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
+        position: 1,
+        name: "Home",
         item: `${SITE_URL}/${locale}`,
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": backLabel,
+        position: 2,
+        name: backLabel,
         item: `${SITE_URL}/${locale}/${post.section}`,
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": post.title,
+        position: 3,
+        name: post.title,
         item: `${SITE_URL}/${locale}/${post.section}/${post.slug}`,
       },
     ],
@@ -91,11 +96,17 @@ export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }
         </Link>
 
         <div className="flex items-center gap-2 text-sm mb-8">
-          <Link href="/" className="text-foreground-secondary hover:text-foreground transition-colors">
+          <Link
+            href="/"
+            className="text-foreground-secondary hover:text-foreground transition-colors"
+          >
             Home
           </Link>
           <span className="text-foreground-secondary">/</span>
-          <Link href={backHref as Href} className="text-foreground-secondary hover:text-foreground transition-colors">
+          <Link
+            href={backHref as Href}
+            className="text-foreground-secondary hover:text-foreground transition-colors"
+          >
             {backLabel}
           </Link>
           <span className="text-foreground-secondary">/</span>
@@ -117,26 +128,22 @@ export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }
         )}
 
         <header className="mb-10">
-           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
-             {post.title}
-           </h1>
-              <div className="flex items-center gap-1 text-sm text-foreground-secondary mb-4">
-                <time dateTime={post.date}>
-                  {formatDate(post.date, locale)}
-                </time>
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-3">{post.title}</h1>
+          <div className="flex items-center gap-1 text-sm text-foreground-secondary mb-4">
+            <time dateTime={post.date}>{formatDate(post.date, locale)}</time>
+            <span aria-hidden="true">·</span>
+            <span>{post.readingTime} min read</span>
+            {post.version && (
+              <>
                 <span aria-hidden="true">·</span>
-                <span>{post.readingTime} min read</span>
-                {post.version && (
-                  <>
-                    <span aria-hidden="true">·</span>
-                    <span className="text-xs px-2 py-0.5 rounded bg-background-secondary text-foreground-secondary border border-border">
-                      v{post.version}
-                    </span>
-                  </>
-                )}
-                <span aria-hidden="true">·</span>
-                <span>By {SITE_NAME}</span>
-              </div>
+                <span className="text-xs px-2 py-0.5 rounded bg-background-secondary text-foreground-secondary border border-border">
+                  v{post.version}
+                </span>
+              </>
+            )}
+            <span aria-hidden="true">·</span>
+            <span>By {SITE_NAME}</span>
+          </div>
           {post.categories && post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-2">
               {post.categories.map((category) => (
@@ -144,9 +151,9 @@ export default function ArticlePage({ post, backHref, backLabel, locale = 'en' }
               ))}
             </div>
           )}
-          {post.section === 'components' && (
+          {post.section === "components" && (
             <StatusBadge
-              status={post.categories?.includes('beta') ? 'Beta' : 'Stable'}
+              status={post.categories?.includes("beta") ? "Beta" : "Stable"}
               className="mt-2"
             />
           )}

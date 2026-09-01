@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 
 describe("SEO route files exist and export correctly", () => {
   it("sitemap.ts exports a default function", async () => {
@@ -18,7 +18,7 @@ describe("SEO route files exist and export correctly", () => {
 
   it("xml.ts escapeXml handles special characters", async () => {
     const { escapeXml } = await import("@/lib/xml");
-    const input = '<title>"Hello" & \'World\'</title>';
+    const input = "<title>\"Hello\" & 'World'</title>";
     const escaped = escapeXml(input);
     expect(escaped).not.toContain("<title>");
     expect(escaped).not.toContain("</title>");

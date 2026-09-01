@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { createInterface } from "node:readline/promises";
 
@@ -47,14 +47,23 @@ async function main() {
 
   const description = await ask(rl, "Description (meta description)", "");
   const categoriesRaw = await ask(rl, "Categories (comma-separated)", "general");
-  const categories = categoriesRaw.split(",").map((s) => s.trim()).filter(Boolean);
+  const categories = categoriesRaw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
   const tagsRaw = await ask(rl, "Tags (comma-separated)", "");
-  const tags = tagsRaw.split(",").map((s) => s.trim()).filter(Boolean);
+  const tags = tagsRaw
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
   const version = await ask(rl, "Version (for components only)", "");
   const date = await ask(rl, "Date (YYYY-MM-DD)", today());
 
   const localeList = await ask(rl, `Locales (comma-separated: ${LOCALES.join(",")})`, "en");
-  const locales = localeList.split(",").map((s) => s.trim()).filter(Boolean);
+  const locales = localeList
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   console.log("\n--- Frontmatter Preview ---");
   const frontmatter = [
@@ -62,7 +71,9 @@ async function main() {
     `title: "${title}"`,
     `date: "${date}"`,
     description ? `description: "${description}"` : null,
-    categories.length > 0 ? `categories: [${categories.map((c) => JSON.stringify(c)).join(", ")}]` : null,
+    categories.length > 0
+      ? `categories: [${categories.map((c) => JSON.stringify(c)).join(", ")}]`
+      : null,
     tags.length > 0 ? `tags: [${tags.map((t) => JSON.stringify(t)).join(", ")}]` : null,
     version && section === "components" ? `version: "${version}"` : null,
     "---",

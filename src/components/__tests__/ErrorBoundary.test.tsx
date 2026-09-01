@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
-import React from "react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { NextIntlClientProvider } from "next-intl";
+import type React from "react";
+import { describe, expect, it, vi } from "vitest";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 // Component that throws on render
@@ -26,7 +26,7 @@ function renderWithProvider(ui: React.ReactElement) {
   return render(
     <NextIntlClientProvider locale="en" messages={messages}>
       {ui}
-    </NextIntlClientProvider>
+    </NextIntlClientProvider>,
   );
 }
 
@@ -44,7 +44,7 @@ describe("ErrorBoundary", () => {
     renderWithProvider(
       <ErrorBoundary>
         <GoodComponent />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
     expect(screen.getByText("Good content")).toBeInTheDocument();
   });
@@ -53,7 +53,7 @@ describe("ErrorBoundary", () => {
     renderWithProvider(
       <ErrorBoundary>
         <ThrowingComponent />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();
     expect(screen.getByText("Try again")).toBeInTheDocument();
@@ -63,7 +63,7 @@ describe("ErrorBoundary", () => {
     renderWithProvider(
       <ErrorBoundary fallback={<div>Custom fallback</div>}>
         <ThrowingComponent />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
     expect(screen.getByText("Custom fallback")).toBeInTheDocument();
     expect(screen.queryByText("Something went wrong")).not.toBeInTheDocument();
@@ -73,7 +73,7 @@ describe("ErrorBoundary", () => {
     renderWithProvider(
       <ErrorBoundary>
         <ThrowingComponent />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
     expect(console.error).toHaveBeenCalled();
   });
@@ -89,7 +89,7 @@ describe("ErrorBoundary", () => {
     renderWithProvider(
       <ErrorBoundary>
         <ConditionalThrower />
-      </ErrorBoundary>
+      </ErrorBoundary>,
     );
 
     expect(screen.getByText("Something went wrong")).toBeInTheDocument();

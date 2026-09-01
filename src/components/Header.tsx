@@ -1,36 +1,40 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { SECTIONS } from "@/lib/config";
 import { useTheme } from "@/components/ThemeProvider";
-import {Link} from '@/i18n/navigation';
-import {useTranslations} from 'next-intl';
-import LanguageSwitcher from './LanguageSwitcher';
-import { useSearchOpen } from './SearchContext';
+import { Link } from "@/i18n/navigation";
+import { SECTIONS } from "@/lib/config";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { useSearchOpen } from "./SearchContext";
 
-type Href = React.ComponentProps<typeof Link>['href'];
+type Href = React.ComponentProps<typeof Link>["href"];
 
 export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const t = useTranslations('header');
+  const t = useTranslations("header");
   const { openSearch } = useSearchOpen();
 
   const NAV_ITEMS: { href: string & Href; label: string }[] = [
-    { href: "/" as const, label: t('home') },
+    { href: "/" as const, label: t("home") },
     ...SECTIONS.map((s) => ({ href: `/${s}` as string & Href, label: t(s) })),
   ];
 
   const EXTERNAL_LINKS: { href: string; label: string; icon: string }[] = [
-    { href: 'https://landscape.opendesk-edu.org', label: t('landscape'), icon: '🌄' },
-    { href: 'https://spec.opendesk-edu.org', label: t('openspec'), icon: '📋' },
+    { href: "https://landscape.opendesk-edu.org", label: t("landscape"), icon: "🌄" },
+    { href: "https://spec.opendesk-edu.org", label: t("openspec"), icon: "📋" },
   ];
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity" aria-label="openDesk Edu home">
+        <Link
+          href="/"
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          aria-label="openDesk Edu home"
+        >
           <Image src="/static/brand/icon.svg" alt="" width={32} height={32} />
           <span className="font-semibold text-foreground">openDesk Edu</span>
         </Link>
@@ -156,7 +160,7 @@ export default function Header() {
         id="mobile-nav"
         aria-label="Mobile navigation"
         className={`md:hidden border-t border-border bg-background px-4 py-4 space-y-2 transition-all duration-300 ${
-          mobileMenuOpen ? 'max-h-[500px]' : 'max-h-0 overflow-hidden'
+          mobileMenuOpen ? "max-h-[500px]" : "max-h-0 overflow-hidden"
         }`}
         aria-hidden={!mobileMenuOpen}
       >

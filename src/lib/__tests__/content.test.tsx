@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import type { PathLike } from "fs";
 import fs from "fs";
 import matter from "gray-matter";
-import type { PathLike } from "fs";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock fs module
 vi.mock("fs", () => ({
@@ -30,7 +30,17 @@ vi.mock("remark", () => ({
 }));
 
 // Import after mocks
-import { getPostBySlug, getPostsBySection, getAllPosts, isValidSection, getSectionBySlug, getStaticPathsForSection, getPostsByTag, getAllTags, getStaticPathsForTags } from "@/lib/content";
+import {
+  getAllPosts,
+  getAllTags,
+  getPostBySlug,
+  getPostsBySection,
+  getPostsByTag,
+  getSectionBySlug,
+  getStaticPathsForSection,
+  getStaticPathsForTags,
+  isValidSection,
+} from "@/lib/content";
 
 const mockExistsSync = vi.mocked(fs.existsSync);
 const mockReaddirSync = vi.mocked(fs.readdirSync);
@@ -76,7 +86,12 @@ tags: [security, compliance]
   mockMatter.mockImplementation(((raw: string) => {
     if (raw.includes("Tagged Post") || raw.includes("Tagged Content")) {
       return {
-        data: { title: "Tagged Post", date: "2024-06-01", description: "A post with specific tags", tags: ["security", "compliance"] },
+        data: {
+          title: "Tagged Post",
+          date: "2024-06-01",
+          description: "A post with specific tags",
+          tags: ["security", "compliance"],
+        },
         content: "# Tagged Content\n",
         excerpt: "",
       } as never;
@@ -260,7 +275,9 @@ describe("content.ts", () => {
         return true;
       });
       mockReaddirSync.mockReturnValue(["bad-frontmatter.md"] as never);
-      await expect(getPostBySlug("components", "bad-frontmatter")).rejects.toThrow("Invalid frontmatter");
+      await expect(getPostBySlug("components", "bad-frontmatter")).rejects.toThrow(
+        "Invalid frontmatter",
+      );
     });
 
     it("throws on invalid frontmatter (missing title)", async () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const mockGetAllPosts = vi.fn();
 const mockEscapeXml = vi.fn((str: string) => str);
@@ -69,7 +69,9 @@ describe("RSS Feed API route", () => {
     expect(xml).toContain("<title>openDesk Edu</title>");
     expect(xml).toContain("<link>https://opendesk-edu.org</link>");
     expect(xml).toContain("<description>Educational resources</description>");
-    expect(xml).toContain('<atom:link href="https://opendesk-edu.org/feed.xml" rel="self" type="application/rss+xml"/>');
+    expect(xml).toContain(
+      '<atom:link href="https://opendesk-edu.org/feed.xml" rel="self" type="application/rss+xml"/>',
+    );
   });
 
   it("includes lastBuildDate in RSS feed", async () => {
@@ -181,7 +183,7 @@ describe("RSS Feed API route", () => {
   it("escapes special XML characters in post data", async () => {
     const mockPosts = [
       {
-        title: "Test <Post> & \"Quotes\"",
+        title: 'Test <Post> & "Quotes"',
         slug: "test-post",
         section: "docs",
         description: "Description with <special> chars",
@@ -196,7 +198,7 @@ describe("RSS Feed API route", () => {
     const { GET } = await import("@/app/feed.xml/route");
     await GET();
 
-    expect(mockEscapeXml).toHaveBeenCalledWith("Test <Post> & \"Quotes\"");
+    expect(mockEscapeXml).toHaveBeenCalledWith('Test <Post> & "Quotes"');
     expect(mockEscapeXml).toHaveBeenCalledWith("Description with <special> chars");
   });
 

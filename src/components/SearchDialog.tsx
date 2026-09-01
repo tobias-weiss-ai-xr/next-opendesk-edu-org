@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { useSearchData } from "@/hooks/useSearchData";
-import { useDebounce } from "@/hooks/useDebounce";
-import { BLUR_TEASER } from "@/lib/blur";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { SearchEntry } from "@/app/api/search/route";
+import { useDebounce } from "@/hooks/useDebounce";
+import { useSearchData } from "@/hooks/useSearchData";
+import { useRouter } from "@/i18n/navigation";
+import { BLUR_TEASER } from "@/lib/blur";
 
 /* Href type matches the PostCard pattern */
 
@@ -46,9 +46,13 @@ function highlightMatch(text: string, query: string): React.ReactNode {
   const parts = text.split(new RegExp(`(${escaped})`, "gi"));
   if (parts.length === 1) return text;
   return parts.map((part, i) =>
-    part.toLowerCase() === query.toLowerCase()
-      ? <mark key={i} className="bg-accent/20 text-inherit rounded-sm px-0.5">{part}</mark>
-      : part
+    part.toLowerCase() === query.toLowerCase() ? (
+      <mark key={i} className="bg-accent/20 text-inherit rounded-sm px-0.5">
+        {part}
+      </mark>
+    ) : (
+      part
+    ),
   );
 }
 
@@ -141,7 +145,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
     }
     return flat;
   }, [results]);
-  
+
   const totalResults = allResults.length;
 
   // Reset state when opening/closing dialog
@@ -179,7 +183,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
     function handleTab(e: KeyboardEvent) {
       if (e.key !== "Tab") return;
       const focusable = dialog.querySelectorAll<HTMLElement>(
-        'input, button, [href], [tabindex]:not([tabindex="-1"])'
+        'input, button, [href], [tabindex]:not([tabindex="-1"])',
       );
       if (focusable.length === 0) return;
       const first = focusable[0];
@@ -201,7 +205,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
       router.push(`/${entry.section}/${entry.slug}` as Parameters<typeof router.push>[0]);
       onClose();
     },
-    [router, onClose]
+    [router, onClose],
   );
 
   // Keyboard navigation within results
@@ -221,7 +225,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
         }
       }
     },
-    [activeIndex, totalResults, flatResults, navigateTo]
+    [activeIndex, totalResults, flatResults, navigateTo],
   );
 
   // Scroll active item into view
@@ -237,7 +241,9 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
     if (!debouncedQuery.trim()) return;
     // fire-and-forget — Plausible might not be loaded yet
     try {
-      const w = window as typeof window & { plausible?: (event: string, opts?: { props?: Record<string, string> }) => void };
+      const w = window as typeof window & {
+        plausible?: (event: string, opts?: { props?: Record<string, string> }) => void;
+      };
       w.plausible?.("Search", { props: { query: debouncedQuery } });
     } catch (err) {
       console.warn("SearchDialog: Plausible tracking failed: %s", err);
@@ -251,7 +257,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
         onClose();
       }
     },
-    [onClose]
+    [onClose],
   );
 
   // Compute suggestions for zero-result state
@@ -291,9 +297,7 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
       <div
         ref={dialogRef}
         className={`relative w-full max-w-xl mx-4 rounded-xl border border-border bg-background shadow-2xl transition-all duration-200 ${
-          animating
-            ? "opacity-100 scale-100"
-            : "opacity-0 scale-95"
+          animating ? "opacity-100 scale-100" : "opacity-0 scale-95"
         }`}
         style={{
           maxHeight: "min(70vh, 560px)",
@@ -335,107 +339,109 @@ export default function SearchDialog({ open, onClose }: SearchDialogProps) {
           aria-live="polite"
           aria-label="Search results"
         >
-           {loading ? (
-             <div className="flex items-center justify-center py-12 text-foreground-secondary text-sm">
-               <LoadingSpinner label={t("loading")} />
-             </div>
-            ) : totalResults === 0 ? (
-              <div className="py-8 text-center text-foreground-secondary text-sm">
-                <p className="mb-3">{t("noResults")}</p>
-                {suggestions.length > 0 && (
-                  <div>
-                    <p className="text-xs font-medium uppercase tracking-wider mb-2 text-foreground-secondary">
-                      Try searching for:
-                    </p>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {suggestions.map((tag) => (
-                        <button
-                          key={tag}
-                          onClick={() => setQuery(tag)}
-                          className="px-3 py-1 rounded-full border border-border text-xs text-foreground-secondary hover:text-foreground hover:bg-background-secondary transition-colors cursor-pointer"
-                        >
-                          {tag}
-                        </button>
-                      ))}
-                    </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-12 text-foreground-secondary text-sm">
+              <LoadingSpinner label={t("loading")} />
+            </div>
+          ) : totalResults === 0 ? (
+            <div className="py-8 text-center text-foreground-secondary text-sm">
+              <p className="mb-3">{t("noResults")}</p>
+              {suggestions.length > 0 && (
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-wider mb-2 text-foreground-secondary">
+                    Try searching for:
+                  </p>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {suggestions.map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => setQuery(tag)}
+                        className="px-3 py-1 rounded-full border border-border text-xs text-foreground-secondary hover:text-foreground hover:bg-background-secondary transition-colors cursor-pointer"
+                      >
+                        {tag}
+                      </button>
+                    ))}
                   </div>
-                )}
-              </div>
-           ) : (
-             <div role="listbox" aria-label="Search results" id="search-results-listbox">
-               {Array.from(displayResults.entries()).map(([section, items], groupIdx) => {
-                 // Calculate start index for this section based on displayResults (not allResults)
-                 const startIndex = flatResults.findIndex(
-                   (f) => f.section === section
-                 );
-                 return (
-                   <div key={section} className="mb-2">
-                     <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-foreground-secondary">
-                       {sectionLabel(section)}
-                     </div>
-                     {items.map((entry, itemIdx) => {
-                       const globalIdx = startIndex + itemIdx;
-                       const isActive = globalIdx === activeIndex;
-                       return (
-                         <button
-                           key={`${entry.section}-${entry.slug}`}
-                           id={`search-result-${globalIdx}`}
-                           role="option"
-                           aria-selected={isActive}
-                           className={`w-full text-left px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-start gap-3 ${isActive ? "bg-accent text-white" : "hover:bg-background-secondary text-foreground"}`}
-                           onClick={() => navigateTo(entry)}
-                           onMouseEnter={() => setActiveIndex(globalIdx)}
-                         >
-                             {entry.image && (
-                               <Image
-                                 src={entry.image}
-                                 alt=""
-                                 width={96}
-                                 height={50}
-                                 placeholder="blur"
-                                 blurDataURL={BLUR_TEASER}
-                                 className={`w-12 h-auto rounded aspect-[1200/630] object-cover shrink-0 ${isActive ? "opacity-90" : ""}`}
-                               />
-                             )}
-                            <div className="flex-1 min-w-0">
-                              <div className="font-medium text-sm truncate">
-                                {debouncedQuery ? highlightMatch(entry.title, debouncedQuery) : entry.title}
-                              </div>
-                              {entry.description && (
-                                <div
-                                  className={`text-xs mt-0.5 line-clamp-1 ${isActive ? "text-white/70" : "text-foreground-secondary"}`}
-                                >
-                                  {debouncedQuery ? highlightMatch(entry.description, debouncedQuery) : entry.description}
-                                </div>
-                              )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div role="listbox" aria-label="Search results" id="search-results-listbox">
+              {Array.from(displayResults.entries()).map(([section, items], groupIdx) => {
+                // Calculate start index for this section based on displayResults (not allResults)
+                const startIndex = flatResults.findIndex((f) => f.section === section);
+                return (
+                  <div key={section} className="mb-2">
+                    <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-foreground-secondary">
+                      {sectionLabel(section)}
+                    </div>
+                    {items.map((entry, itemIdx) => {
+                      const globalIdx = startIndex + itemIdx;
+                      const isActive = globalIdx === activeIndex;
+                      return (
+                        <button
+                          key={`${entry.section}-${entry.slug}`}
+                          id={`search-result-${globalIdx}`}
+                          role="option"
+                          aria-selected={isActive}
+                          className={`w-full text-left px-3 py-2.5 rounded-lg transition-colors cursor-pointer flex items-start gap-3 ${isActive ? "bg-accent text-white" : "hover:bg-background-secondary text-foreground"}`}
+                          onClick={() => navigateTo(entry)}
+                          onMouseEnter={() => setActiveIndex(globalIdx)}
+                        >
+                          {entry.image && (
+                            <Image
+                              src={entry.image}
+                              alt=""
+                              width={96}
+                              height={50}
+                              placeholder="blur"
+                              blurDataURL={BLUR_TEASER}
+                              className={`w-12 h-auto rounded aspect-[1200/630] object-cover shrink-0 ${isActive ? "opacity-90" : ""}`}
+                            />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-medium text-sm truncate">
+                              {debouncedQuery
+                                ? highlightMatch(entry.title, debouncedQuery)
+                                : entry.title}
                             </div>
-                           {entry.categories && entry.categories.length > 0 && (
-                             <span
-                               className={`text-xs px-1.5 py-0.5 rounded shrink-0 ${isActive ? "bg-white/20 text-white/80" : "bg-background-secondary text-foreground-secondary"}`}
-                             >
-                               {entry.categories[0]}
-                             </span>
-                           )}
-                         </button>
-                       );
-                     })}
-                     {/* Scroll anchor for active item */}
-                     {groupIdx === Array.from(displayResults.entries()).length - 1 && (
-                       <div ref={resultsEndRef} />
-                     )}
-                   </div>
-                 );
-               })}
-               {totalResults > MAX_INITIAL_PER_SECTION * displayResults.size && !showAll && (
-                 <button
-                   onClick={() => setShowAll(true)}
-                   className="w-full text-center py-3 text-sm text-accent hover:text-accent/80 transition-colors font-medium"
-                 >
-                   Show all {totalResults} results
-                 </button>
-               )}
-             </div>
-           )}
+                            {entry.description && (
+                              <div
+                                className={`text-xs mt-0.5 line-clamp-1 ${isActive ? "text-white/70" : "text-foreground-secondary"}`}
+                              >
+                                {debouncedQuery
+                                  ? highlightMatch(entry.description, debouncedQuery)
+                                  : entry.description}
+                              </div>
+                            )}
+                          </div>
+                          {entry.categories && entry.categories.length > 0 && (
+                            <span
+                              className={`text-xs px-1.5 py-0.5 rounded shrink-0 ${isActive ? "bg-white/20 text-white/80" : "bg-background-secondary text-foreground-secondary"}`}
+                            >
+                              {entry.categories[0]}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
+                    {/* Scroll anchor for active item */}
+                    {groupIdx === Array.from(displayResults.entries()).length - 1 && (
+                      <div ref={resultsEndRef} />
+                    )}
+                  </div>
+                );
+              })}
+              {totalResults > MAX_INITIAL_PER_SECTION * displayResults.size && !showAll && (
+                <button
+                  onClick={() => setShowAll(true)}
+                  className="w-full text-center py-3 text-sm text-accent hover:text-accent/80 transition-colors font-medium"
+                >
+                  Show all {totalResults} results
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

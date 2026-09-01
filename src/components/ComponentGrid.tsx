@@ -1,8 +1,8 @@
 "use client";
 
+import { CategoryBadge, StatusBadge } from "@/components/Badges";
 import { Link } from "@/i18n/navigation";
 import type { Post } from "@/lib/content";
-import { StatusBadge, CategoryBadge } from "@/components/Badges";
 
 const CATEGORY_GROUP: Record<string, string> = {
   "scientific-computing": "Scientific Computing & Research",
@@ -48,7 +48,7 @@ interface ComponentGridProps {
 }
 
 type LinkProps = React.ComponentProps<typeof Link>;
-type Href = LinkProps['href'];
+type Href = LinkProps["href"];
 
 const GROUP_ORDER = [
   "Scientific Computing & Research",

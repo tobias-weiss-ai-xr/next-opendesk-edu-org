@@ -1,6 +1,6 @@
-import { getAllPosts } from "@/lib/content";
-import { SITE_NAME, SITE_URL } from "@/lib/config";
 import type { NextRequest } from "next/server";
+import { SITE_NAME, SITE_URL } from "@/lib/config";
+import { getAllPosts } from "@/lib/content";
 
 export async function GET(
   _request: NextRequest,
@@ -10,15 +10,16 @@ export async function GET(
 
   const posts = await getAllPosts(locale);
 
-  const recentPosts = posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  ).slice(0, 20);
+  const recentPosts = posts
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 20);
 
-  const feedItems = recentPosts.map((post) => {
-    const url = `${SITE_URL}/${locale}/${post.section}/${post.slug}`;
-    const pubDate = new Date(post.date).toUTCString();
+  const feedItems = recentPosts
+    .map((post) => {
+      const url = `${SITE_URL}/${locale}/${post.section}/${post.slug}`;
+      const pubDate = new Date(post.date).toUTCString();
 
-    return `
+      return `
     <item>
       <title>${post.title}</title>
       <link>${url}</link>
@@ -29,7 +30,8 @@ export async function GET(
       <category>${post.section}</category>
       ${post.image ? `<media:content url="${SITE_URL}${post.image}" medium="image" width="1200" height="630" />` : ""}
     </item>`;
-  }).join("");
+    })
+    .join("");
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:media="http://search.yahoo.com/mrss/">

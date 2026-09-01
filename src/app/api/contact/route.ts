@@ -26,23 +26,17 @@ export async function POST(request: Request) {
 
     // Validate required fields
     if (!email || !message) {
-      return NextResponse.json(
-        { error: "Email and message are required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email and message are required." }, { status: 400 });
     }
 
     if (!email.includes("@") || email.length > 254) {
-      return NextResponse.json(
-        { error: "Invalid email address." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
     if (message.length < 10 || message.length > 10000) {
       return NextResponse.json(
         { error: "Message must be between 10 and 10,000 characters." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -51,14 +45,14 @@ export async function POST(request: Request) {
     if (!transporter) {
       // SMTP not configured — log the attempt and return 501
       console.log(
-        `[contact] SMTP not configured. Would send: from=${email}, name=${name || "—"}, subject=${subject || "(no subject)"}, message length=${message.length}`
+        `[contact] SMTP not configured. Would send: from=${email}, name=${name || "—"}, subject=${subject || "(no subject)"}, message length=${message.length}`,
       );
       return NextResponse.json(
         {
           error:
             "Contact form is not yet configured. Please send an email directly to info@opendesk-edu.org.",
         },
-        { status: 501 }
+        { status: 501 },
       );
     }
 
@@ -82,7 +76,7 @@ ${message}`,
     console.error("[contact] Failed to send email:", error);
     return NextResponse.json(
       { error: "Failed to send message. Please try again later." },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { useTranslations, useLocale } from "next-intl";
-import { usePathname } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
 
 interface LanguageSwitcherProps {
   onLocaleChange?: () => void;
@@ -32,7 +32,9 @@ export default function LanguageSwitcher({ onLocaleChange }: LanguageSwitcherPro
     const pathWithoutLocale = rawPathname.startsWith(localePrefix)
       ? rawPathname.slice(localePrefix.length) || "/"
       : rawPathname;
-    router.replace(pathWithoutLocale as Parameters<typeof router.replace>[0], { locale: newLocale });
+    router.replace(pathWithoutLocale as Parameters<typeof router.replace>[0], {
+      locale: newLocale,
+    });
     setIsOpen(false);
     onLocaleChange?.();
   };
@@ -49,11 +51,11 @@ export default function LanguageSwitcher({ onLocaleChange }: LanguageSwitcherPro
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
 
@@ -83,7 +85,11 @@ export default function LanguageSwitcher({ onLocaleChange }: LanguageSwitcherPro
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-24 bg-background border border-border rounded-lg shadow-lg z-50" role="listbox" aria-label={t("label")}>
+        <div
+          className="absolute right-0 mt-2 w-24 bg-background border border-border rounded-lg shadow-lg z-50"
+          role="listbox"
+          aria-label={t("label")}
+        >
           {routing.locales
             .filter((locale) => locale !== currentLocale)
             .map((locale) => (

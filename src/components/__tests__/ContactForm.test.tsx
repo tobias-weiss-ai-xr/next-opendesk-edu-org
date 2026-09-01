@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import ContactForm from "../ContactForm";
 
 const mockT = vi.fn((key: string) => {
@@ -116,7 +116,7 @@ describe("ContactForm", () => {
           subject: "Test Subject",
           message: "This is a test message",
         }),
-      })
+      }),
     );
   });
 
@@ -148,7 +148,7 @@ describe("ContactForm", () => {
       () =>
         new Promise((resolve) => {
           setTimeout(() => resolve({ ok: true, json: async () => ({}) }), 100);
-        })
+        }),
     );
 
     render(<ContactForm onClose={mockOnClose} t={mockT} />);
@@ -172,7 +172,7 @@ describe("ContactForm", () => {
       () =>
         new Promise((resolve) => {
           setTimeout(() => resolve({ ok: true, json: async () => ({}) }), 200);
-        })
+        }),
     );
 
     render(<ContactForm onClose={mockOnClose} t={mockT} />);
@@ -219,7 +219,7 @@ describe("ContactForm", () => {
             subject: "Test",
             message: "Message",
           }),
-        })
+        }),
       );
     });
   });

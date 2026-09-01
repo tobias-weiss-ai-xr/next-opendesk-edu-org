@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import CookieConsent from "@/components/CookieConsent";
 
 // Mock @/i18n/navigation Link
@@ -21,7 +21,8 @@ vi.mock("@/lib/config", () => ({
 vi.mock("next-intl", () => ({
   useTranslations: () => (key: string) => {
     const translations: Record<string, string> = {
-      message: "We use privacy-friendly analytics to understand how visitors use this site. No cookies are set by default.",
+      message:
+        "We use privacy-friendly analytics to understand how visitors use this site. No cookies are set by default.",
       privacyLink: "Privacy Policy",
       decline: "Decline",
       accept: "Accept",
@@ -34,8 +35,8 @@ describe("CookieConsent", () => {
   beforeEach(() => {
     localStorage.clear();
     // Clean up any scripts added by previous tests
-    document.querySelectorAll('script[data-domain]').forEach((s) => s.remove());
-    document.querySelectorAll('script').forEach((s) => {
+    document.querySelectorAll("script[data-domain]").forEach((s) => s.remove());
+    document.querySelectorAll("script").forEach((s) => {
       if (s.textContent?.includes("clarity")) s.remove();
     });
   });
@@ -58,9 +59,7 @@ describe("CookieConsent", () => {
     render(<CookieConsent />);
     expect(screen.getByText("Decline")).toBeInTheDocument();
     expect(screen.getByText("Accept")).toBeInTheDocument();
-    expect(
-      screen.getByText(/We use privacy-friendly analytics to understand/)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/We use privacy-friendly analytics to understand/)).toBeInTheDocument();
   });
 
   it("accept button hides banner and loads analytics", () => {
@@ -75,8 +74,8 @@ describe("CookieConsent", () => {
     expect(plausible).toBeInTheDocument();
 
     // Clarity script should be added to document.head
-    const clarityScript = Array.from(document.querySelectorAll("script")).find(
-      (s) => s.textContent?.includes("clarity")
+    const clarityScript = Array.from(document.querySelectorAll("script")).find((s) =>
+      s.textContent?.includes("clarity"),
     );
     expect(clarityScript).toBeInTheDocument();
   });

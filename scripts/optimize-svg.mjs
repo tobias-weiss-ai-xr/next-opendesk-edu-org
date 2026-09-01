@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { optimize } from "svgo";
 
@@ -21,13 +21,7 @@ function findSvgFiles(dir) {
 }
 
 const svgoConfig = {
-  plugins: [
-    "removeComments",
-    "removeMetadata",
-    "removeEmptyAttrs",
-    "collapseGroups",
-    "sortAttrs",
-  ],
+  plugins: ["removeComments", "removeMetadata", "removeEmptyAttrs", "collapseGroups", "sortAttrs"],
 };
 
 const svgFiles = findSvgFiles(SVG_DIR);
@@ -57,7 +51,7 @@ for (const filePath of svgFiles) {
   const arrow = afterSize < beforeSize ? "↓" : afterSize > beforeSize ? "↑" : "=";
 
   console.log(
-    `${arrow} ${relPath}: ${(beforeSize / 1024).toFixed(1)}KB → ${(afterSize / 1024).toFixed(1)}KB (${savings}%)`
+    `${arrow} ${relPath}: ${(beforeSize / 1024).toFixed(1)}KB → ${(afterSize / 1024).toFixed(1)}KB (${savings}%)`,
   );
 
   writeFileSync(filePath, result.data, "utf-8");
@@ -65,5 +59,5 @@ for (const filePath of svgFiles) {
 
 const totalSavings = ((1 - totalAfter / totalBefore) * 100).toFixed(1);
 console.log(
-  `\nTotal: ${(totalBefore / 1024).toFixed(1)}KB → ${(totalAfter / 1024).toFixed(1)}KB (${totalSavings}% saved)`
+  `\nTotal: ${(totalBefore / 1024).toFixed(1)}KB → ${(totalAfter / 1024).toFixed(1)}KB (${totalSavings}% saved)`,
 );

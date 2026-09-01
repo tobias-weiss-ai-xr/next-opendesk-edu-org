@@ -1,15 +1,14 @@
 import type { MetadataRoute } from "next";
-import { getAllPosts } from "@/lib/content";
-import { SITE_URL } from "@/lib/config";
-import { SECTION_INFO } from "@/lib/content";
 import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/config";
+import { getAllPosts, SECTION_INFO } from "@/lib/content";
 
 function getLocalizedPath(pathname: string, locale: string): string {
   const pathnameConfig = routing.pathnames[pathname as keyof typeof routing.pathnames];
-  if (typeof pathnameConfig === 'string') {
+  if (typeof pathnameConfig === "string") {
     return `${SITE_URL}/${locale}${pathnameConfig}`;
   }
-  if (typeof pathnameConfig === 'object' && pathnameConfig) {
+  if (typeof pathnameConfig === "object" && pathnameConfig) {
     const localized = pathnameConfig[locale as keyof typeof pathnameConfig];
     return `${SITE_URL}/${locale}${localized ?? pathname}`;
   }
@@ -35,14 +34,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: now,
         changeFrequency: "weekly",
         priority: 1.0,
-        alternates: { languages: buildAlternates('/') },
+        alternates: { languages: buildAlternates("/") },
       },
       {
-        url: getLocalizedPath('/about', locale),
+        url: getLocalizedPath("/about", locale),
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.7,
-        alternates: { languages: buildAlternates('/about') },
+        alternates: { languages: buildAlternates("/about") },
       },
       ...SECTION_INFO.map((s) => ({
         url: `${SITE_URL}/${locale}/${s.slug}`,
@@ -52,19 +51,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         alternates: { languages: buildAlternates(`/${s.slug}`) },
       })),
       {
-        url: getLocalizedPath('/imprint', locale),
+        url: getLocalizedPath("/imprint", locale),
         lastModified: now,
         changeFrequency: "yearly",
         priority: 0.3,
-        alternates: { languages: buildAlternates('/imprint') },
+        alternates: { languages: buildAlternates("/imprint") },
       },
       {
-        url: getLocalizedPath('/privacy', locale),
+        url: getLocalizedPath("/privacy", locale),
         lastModified: now,
         changeFrequency: "yearly",
         priority: 0.3,
-        alternates: { languages: buildAlternates('/privacy') },
-      }
+        alternates: { languages: buildAlternates("/privacy") },
+      },
     );
 
     const posts = await getAllPosts(locale);

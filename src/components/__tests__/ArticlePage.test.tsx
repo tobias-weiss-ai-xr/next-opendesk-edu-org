@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import ArticlePage from "@/components/ArticlePage";
 import type { Post } from "@/lib/content";
 
@@ -24,9 +24,15 @@ vi.mock("@/components/ShareButtons", () => ({
     <div data-testid="share-buttons">
       <p>Share this article</p>
       <button aria-label="Copy Link">Copy Link</button>
-      <a aria-label="Share on X" href="#">X</a>
-      <a aria-label="Share on LinkedIn" href="#">LinkedIn</a>
-      <a aria-label="Share on Matrix" href="#">Matrix</a>
+      <a aria-label="Share on X" href="#">
+        X
+      </a>
+      <a aria-label="Share on LinkedIn" href="#">
+        LinkedIn
+      </a>
+      <a aria-label="Share on Matrix" href="#">
+        Matrix
+      </a>
     </div>
   ),
 }));
@@ -59,7 +65,7 @@ describe("ArticlePage", () => {
     render(<ArticlePage post={mockPost} backHref="/blog" backLabel="Blog" />);
     expect(screen.getByText("March 15, 2024")).toBeInTheDocument();
   });
-  
+
   it("renders the author byline", () => {
     render(<ArticlePage post={mockPost} backHref="/blog" backLabel="Blog" />);
     expect(screen.getByText(/By openDesk Edu/)).toBeInTheDocument();
@@ -105,12 +111,12 @@ describe("ArticlePage", () => {
     render(<ArticlePage post={mockPost} backHref="/blog" backLabel="Blog" />);
     expect(screen.getByText("Content here.")).toBeInTheDocument();
   });
-  
+
   it("renders the share buttons section", () => {
     render(<ArticlePage post={mockPost} backHref="/blog" backLabel="Blog" />);
     expect(screen.getByText("Share this article")).toBeInTheDocument();
   });
-  
+
   it("renders share buttons for each platform", () => {
     render(<ArticlePage post={mockPost} backHref="/blog" backLabel="Blog" />);
     expect(screen.getByLabelText("Copy Link")).toBeInTheDocument();

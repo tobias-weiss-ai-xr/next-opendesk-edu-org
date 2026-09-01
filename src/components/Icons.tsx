@@ -5,9 +5,43 @@ type IconProps = {
   size?: number;
 };
 
-const SERVICES = ['bigbluebutton', 'bookstack', 'collabora', 'cryptpad', 'drawio', 'element', 'etherpad', 'excalidraw', 'grommunio', 'ilias', 'jitsi', 'limesurvey', 'moodle', 'nextcloud', 'notes', 'nubus', 'opencloud', 'openproject', 'ox-app-suite', 'planka', 'sogo', 'ssp', 'typo3', 'xwiki', 'zammad'] as const;
+const SERVICES = [
+  "bigbluebutton",
+  "bookstack",
+  "collabora",
+  "cryptpad",
+  "drawio",
+  "element",
+  "etherpad",
+  "excalidraw",
+  "grommunio",
+  "ilias",
+  "jitsi",
+  "limesurvey",
+  "moodle",
+  "nextcloud",
+  "notes",
+  "nubus",
+  "opencloud",
+  "openproject",
+  "ox-app-suite",
+  "planka",
+  "sogo",
+  "ssp",
+  "typo3",
+  "xwiki",
+  "zammad",
+] as const;
 
-export function ServiceIcon({ service, size = 48, className }: { service: string; size?: number; className?: string }) {
+export function ServiceIcon({
+  service,
+  size = 48,
+  className,
+}: {
+  service: string;
+  size?: number;
+  className?: string;
+}) {
   return (
     <Image
       src={`/static/icons/${service}-icon.svg`}
@@ -18,7 +52,7 @@ export function ServiceIcon({ service, size = 48, className }: { service: string
       unoptimized
       onError={(e) => {
         const target = e.target as HTMLImageElement;
-        target.src = '/static/icons/edu-services-icon-set.svg';
+        target.src = "/static/icons/edu-services-icon-set.svg";
       }}
     />
   );
@@ -26,8 +60,8 @@ export function ServiceIcon({ service, size = 48, className }: { service: string
 
 export function EduServicesIconSet({ className }: { className?: string }) {
   return (
-    <div className={`grid grid-cols-4 gap-4 ${className ?? ''}`}>
-      {SERVICES.map(service => (
+    <div className={`grid grid-cols-4 gap-4 ${className ?? ""}`}>
+      {SERVICES.map((service) => (
         <ServiceIcon key={service} service={service} size={48} />
       ))}
     </div>
@@ -35,7 +69,9 @@ export function EduServicesIconSet({ className }: { className?: string }) {
 }
 
 // Named exports for each service
-export const BigBlueButtonIcon = (props: IconProps) => <ServiceIcon service="bigbluebutton" {...props} />;
+export const BigBlueButtonIcon = (props: IconProps) => (
+  <ServiceIcon service="bigbluebutton" {...props} />
+);
 export const BookStackIcon = (props: IconProps) => <ServiceIcon service="bookstack" {...props} />;
 export const CollaboraIcon = (props: IconProps) => <ServiceIcon service="collabora" {...props} />;
 export const CryptpadIcon = (props: IconProps) => <ServiceIcon service="cryptpad" {...props} />;
@@ -52,8 +88,12 @@ export const NextcloudIcon = (props: IconProps) => <ServiceIcon service="nextclo
 export const NotesIcon = (props: IconProps) => <ServiceIcon service="notes" {...props} />;
 export const NubusIcon = (props: IconProps) => <ServiceIcon service="nubus" {...props} />;
 export const OpenCloudIcon = (props: IconProps) => <ServiceIcon service="opencloud" {...props} />;
-export const OpenProjectIcon = (props: IconProps) => <ServiceIcon service="openproject" {...props} />;
-export const OxAppSuiteIcon = (props: IconProps) => <ServiceIcon service="ox-app-suite" {...props} />;
+export const OpenProjectIcon = (props: IconProps) => (
+  <ServiceIcon service="openproject" {...props} />
+);
+export const OxAppSuiteIcon = (props: IconProps) => (
+  <ServiceIcon service="ox-app-suite" {...props} />
+);
 export const PlankaIcon = (props: IconProps) => <ServiceIcon service="planka" {...props} />;
 export const SOGoIcon = (props: IconProps) => <ServiceIcon service="sogo" {...props} />;
 export const SSPIcon = (props: IconProps) => <ServiceIcon service="ssp" {...props} />;

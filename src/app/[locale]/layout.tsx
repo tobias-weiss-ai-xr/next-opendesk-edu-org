@@ -80,6 +80,13 @@ function JsonLdOrganization({ locale }: { locale: string }) {
       addressCountry: "DE",
     },
     sameAs: ["https://codeberg.org/opendesk-edu", "https://github.com/opendesk-edu"],
+    knowsAbout: [
+      "Open source",
+      "Digital workplace",
+      "Higher education",
+      "Educational technology",
+      "Self-hosted infrastructure",
+    ],
     description:
       locale === "de"
         ? "Open-Source-Digitalarbeitsplatz für Hochschulen."

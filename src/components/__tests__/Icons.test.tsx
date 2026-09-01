@@ -1,13 +1,32 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { ServiceIcon, EduServicesIconSet, BigBlueButtonIcon, MoodleIcon } from "@/components/Icons";
+import { describe, expect, it } from "vitest";
+import { BigBlueButtonIcon, EduServicesIconSet, MoodleIcon, ServiceIcon } from "@/components/Icons";
 
 // Mock next/image
 vi.mock("next/image", () => ({
-  default: function MockImage({ src, alt, width, height, className }: { src: string; alt: string; width: number; height: number; className?: string }) {
+  default: function MockImage({
+    src,
+    alt,
+    width,
+    height,
+    className,
+  }: {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+    className?: string;
+  }) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={src} alt={alt} width={width} height={height} className={className} data-testid="service-icon" />
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={className}
+        data-testid="service-icon"
+      />
     );
   },
 }));

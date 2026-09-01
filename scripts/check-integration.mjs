@@ -2,8 +2,8 @@
  * Checks integration status by scanning blog content for service/deployment counts.
  * Run: node scripts/check-integration.mjs
  */
-import { readFileSync, existsSync } from "fs";
-import { join, dirname } from "path";
+import { existsSync, readFileSync } from "fs";
+import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -39,7 +39,4 @@ if (deployedCount === 0) {
   process.exit(1);
 }
 
-console.log(
-  `Integration status: ${deployedCount} services deployed`
-);
-
+console.log(`Integration status: ${deployedCount} services deployed`);

@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
 import PostCard from "@/components/PostCard";
 import type { Post } from "@/lib/content";
 
@@ -35,7 +35,9 @@ describe("PostCard", () => {
 
   it("renders the description", () => {
     render(<PostCard post={mockPost} />);
-    expect(screen.getByText("Learn how to deploy openDesk for your university.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Learn how to deploy openDesk for your university."),
+    ).toBeInTheDocument();
   });
 
   it("renders category badges", () => {

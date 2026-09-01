@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ShareButtons from "@/components/ShareButtons";
 
 describe("ShareButtons", () => {
@@ -28,7 +28,9 @@ describe("ShareButtons", () => {
     const linkedinLink = screen.getByLabelText("Share on LinkedIn");
     expect(linkedinLink).toHaveAttribute("href");
     expect(linkedinLink.getAttribute("href")).toContain("linkedin.com/sharing");
-    expect(linkedinLink.getAttribute("href")).toContain(encodeURIComponent("https://opendesk-edu.org/test"));
+    expect(linkedinLink.getAttribute("href")).toContain(
+      encodeURIComponent("https://opendesk-edu.org/test"),
+    );
   });
 
   it("renders Matrix share link", () => {

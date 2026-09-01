@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from "vitest";
 import { NextRequest } from "next/server";
+import { describe, expect, it, vi } from "vitest";
 import { GET } from "./route";
 
 vi.mock("@/lib/content", () => ({
@@ -59,7 +59,11 @@ describe("RSS feed route", () => {
 
   it("limits to 20 most recent posts", async () => {
     const posts = Array.from({ length: 25 }, (_, i) =>
-      makePost({ title: `Post ${i}`, slug: `post-${i}`, date: `2026-06-${String(i + 1).padStart(2, "0")}` }),
+      makePost({
+        title: `Post ${i}`,
+        slug: `post-${i}`,
+        date: `2026-06-${String(i + 1).padStart(2, "0")}`,
+      }),
     );
     mockGetAllPosts.mockResolvedValue(posts);
     const request = new NextRequest("http://localhost/en/rss");

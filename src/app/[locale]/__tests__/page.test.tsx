@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next-intl/server", () => ({ getTranslations: vi.fn() }));
 vi.mock("@/i18n/navigation", () => ({ Link: vi.fn() }));

@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import LanguageSwitcher from "../LanguageSwitcher";
 
 const mockReplace = vi.fn();
@@ -118,7 +118,7 @@ describe("LanguageSwitcher", () => {
       <div>
         <LanguageSwitcher />
         <div data-testid="outside">Outside</div>
-      </div>
+      </div>,
     );
 
     const button = screen.getByRole("button");

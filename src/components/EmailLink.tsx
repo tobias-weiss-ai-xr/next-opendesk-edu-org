@@ -5,11 +5,7 @@ interface EmailLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export default function EmailLink({ className, children, ...props }: EmailLinkProps) {
   return (
-    <a
-      href="mailto:info@opendesk-edu.org"
-      className={className}
-      {...props}
-    >
+    <a href="mailto:info@opendesk-edu.org" className={className} {...props}>
       {children}
     </a>
   );

@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { SearchProvider, useSearchOpen } from "../SearchContext";
 
 function TestComponent() {
@@ -7,9 +7,15 @@ function TestComponent() {
   return (
     <div>
       <span data-testid="search-state">{open ? "open" : "closed"}</span>
-      <button onClick={openSearch} data-testid="open-btn">Open</button>
-      <button onClick={closeSearch} data-testid="close-btn">Close</button>
-      <button onClick={toggleSearch} data-testid="toggle-btn">Toggle</button>
+      <button onClick={openSearch} data-testid="open-btn">
+        Open
+      </button>
+      <button onClick={closeSearch} data-testid="close-btn">
+        Close
+      </button>
+      <button onClick={toggleSearch} data-testid="toggle-btn">
+        Toggle
+      </button>
     </div>
   );
 }
@@ -23,7 +29,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
     expect(screen.getByTestId("search-state")).toHaveTextContent("closed");
   });
@@ -32,7 +38,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.click(screen.getByTestId("open-btn"));
@@ -43,7 +49,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.click(screen.getByTestId("open-btn"));
@@ -57,7 +63,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.click(screen.getByTestId("toggle-btn"));
@@ -74,7 +80,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.keyDown(document, { key: "k", metaKey: true });
@@ -85,7 +91,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.keyDown(document, { key: "k", ctrlKey: true });
@@ -96,7 +102,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.keyDown(document, { key: "k", metaKey: true, preventDefault: () => {} });
@@ -110,7 +116,7 @@ describe("SearchContext", () => {
     render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     fireEvent.keyDown(document, { key: "k", metaKey: true });
@@ -125,7 +131,7 @@ describe("SearchContext", () => {
     const { unmount } = render(
       <SearchProvider>
         <TestComponent />
-      </SearchProvider>
+      </SearchProvider>,
     );
 
     unmount();

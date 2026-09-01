@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "vitest";
 import { ThemeProvider, useTheme } from "@/components/ThemeProvider";
 
 function TestConsumer() {
@@ -22,7 +22,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <div>Child content</div>
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.getByText("Child content")).toBeInTheDocument();
   });
@@ -31,7 +31,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.getByTestId("theme").textContent).toBe("dark");
   });
@@ -41,7 +41,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(screen.getByTestId("theme").textContent).toBe("light");
   });
@@ -50,7 +50,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     fireEvent.click(screen.getByText("Toggle"));
     expect(screen.getByTestId("theme").textContent).toBe("light");
@@ -62,7 +62,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     fireEvent.click(screen.getByText("Toggle"));
     expect(screen.getByTestId("theme").textContent).toBe("dark");
@@ -73,7 +73,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
   });
@@ -82,7 +82,7 @@ describe("ThemeProvider", () => {
     render(
       <ThemeProvider>
         <TestConsumer />
-      </ThemeProvider>
+      </ThemeProvider>,
     );
     fireEvent.click(screen.getByText("Toggle"));
     expect(document.documentElement.getAttribute("data-theme")).toBe("light");

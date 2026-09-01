@@ -1,7 +1,8 @@
 "use client";
 
-import React, { Component, ReactNode } from "react";
 import { useTranslations } from "next-intl";
+import type React from "react";
+import { Component, type ReactNode } from "react";
 
 function ErrorFallback({ onReset }: { onReset: () => void }) {
   const t = useTranslations("errorBoundary");
@@ -27,12 +28,8 @@ function ErrorFallback({ onReset }: { onReset: () => void }) {
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
         </div>
-        <h2 className="text-xl font-bold text-foreground mb-2">
-          {t("title")}
-        </h2>
-        <p className="text-sm text-foreground-secondary mb-6">
-          {t("message")}
-        </p>
+        <h2 className="text-xl font-bold text-foreground mb-2">{t("title")}</h2>
+        <p className="text-sm text-foreground-secondary mb-6">{t("message")}</p>
         <button
           onClick={onReset}
           className="w-full px-4 py-2 text-sm rounded-lg bg-accent text-white hover:opacity-90 transition-opacity cursor-pointer"
@@ -54,10 +51,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-export class ErrorBoundary extends Component<
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-> {
+export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false, error: null };

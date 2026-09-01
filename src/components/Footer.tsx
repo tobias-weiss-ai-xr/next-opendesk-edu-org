@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useCallback } from "react";
-import { Link } from "@/i18n/navigation";
-import EmailLink from "@/components/EmailLink";
+import { useLocale, useTranslations } from "next-intl";
+import { useCallback, useState } from "react";
 import ContactForm from "@/components/ContactForm";
-import { useTranslations, useLocale } from "next-intl";
+import EmailLink from "@/components/EmailLink";
+import { Link } from "@/i18n/navigation";
 
 function ExternalLink({
   href,
@@ -16,12 +16,7 @@ function ExternalLink({
   className?: string;
 }) {
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={className}
-    >
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
       {children}
       <span className="sr-only"> (opens in new tab)</span>
     </a>
@@ -61,16 +56,14 @@ export default function Footer() {
         setNewsletterState("error");
       }
     },
-    [newsletterEmail, newsletterState]
+    [newsletterEmail, newsletterState],
   );
 
   return (
     <footer className="border-t border-border bg-background-secondary">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex flex-col items-center gap-3 pb-6 mb-6 border-b border-border">
-          <p className="text-sm font-medium text-foreground">
-            {tSub("heading")}
-          </p>
+          <p className="text-sm font-medium text-foreground">{tSub("heading")}</p>
           <p className="text-xs text-foreground-secondary text-center max-w-md">
             {tSub("description")}
           </p>
@@ -94,9 +87,7 @@ export default function Footer() {
               disabled={newsletterState === "submitting"}
               className="px-3 py-1.5 bg-foreground text-background rounded-lg text-sm hover:opacity-90 transition-opacity disabled:opacity-50 whitespace-nowrap"
             >
-              {newsletterState === "submitting"
-                ? "..."
-                : tSub("newsletterButton")}
+              {newsletterState === "submitting" ? "..." : tSub("newsletterButton")}
             </button>
           </form>
           {newsletterState === "success" && (
@@ -179,11 +170,17 @@ export default function Footer() {
             >
               {t("privacy")}
             </Link>
-            <Link href="/ai-statement" className="text-sm text-foreground-secondary hover:text-foreground transition-colors">
-              {t('aiStatement')}
+            <Link
+              href="/ai-statement"
+              className="text-sm text-foreground-secondary hover:text-foreground transition-colors"
+            >
+              {t("aiStatement")}
             </Link>
-            <Link href="/open-source-statement" className="text-sm text-foreground-secondary hover:text-foreground transition-colors">
-              {t('openSourceStatement')}
+            <Link
+              href="/open-source-statement"
+              className="text-sm text-foreground-secondary hover:text-foreground transition-colors"
+            >
+              {t("openSourceStatement")}
             </Link>
             <EmailLink className="text-sm text-foreground-secondary hover:text-foreground transition-colors">
               {t("contact")}
@@ -229,10 +226,7 @@ export default function Footer() {
       </div>
 
       {showContactForm && (
-        <ContactForm
-          onClose={() => setShowContactForm(false)}
-          t={(key: string) => tCf(key)}
-        />
+        <ContactForm onClose={() => setShowContactForm(false)} t={(key: string) => tCf(key)} />
       )}
     </footer>
   );
@@ -241,7 +235,7 @@ export default function Footer() {
 function CodebergIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5zm0 19.7c-5.1 0-9.2-4.1-9.2-9.2S6.9 2.8 12 2.8s9.2 4.1 9.2 9.2-4.1 9.2-9.2 9.2zm2.8-14.8c-.1 0-.2.1-.3.1l-2.4.8-2.4-.8c-.1-.1-.2-.1-.3-.1-.3 0-.5.2-.5.5v7.8c0 .3.2.5.5.5.1 0 .2 0 .3-.1l2.4-.8 2.4.8c.1.1.2.1.3.1.3 0 .5-.2.5-.5V7c0-.3-.2-.5-.5-.5z"/>
+      <path d="M12 1.5C6.2 1.5 1.5 6.2 1.5 12S6.2 22.5 12 22.5 22.5 17.8 22.5 12 17.8 1.5 12 1.5zm0 19.7c-5.1 0-9.2-4.1-9.2-9.2S6.9 2.8 12 2.8s9.2 4.1 9.2 9.2-4.1 9.2-9.2 9.2zm2.8-14.8c-.1 0-.2.1-.3.1l-2.4.8-2.4-.8c-.1-.1-.2-.1-.3-.1-.3 0-.5.2-.5.5v7.8c0 .3.2.5.5.5.1 0 .2 0 .3-.1l2.4-.8 2.4.8c.1.1.2.1.3.1.3 0 .5-.2.5-.5V7c0-.3-.2-.5-.5-.5z" />
     </svg>
   );
 }
@@ -249,7 +243,7 @@ function CodebergIcon({ className }: { className?: string }) {
 function GitHubIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <path d="M12 .3C5.4.3 0 5.7 0 12.3c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4C24 5.7 18.6.3 12 .3z"/>
+      <path d="M12 .3C5.4.3 0 5.7 0 12.3c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2 1-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.6 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.8-1.6 8.2-6.1 8.2-11.4C24 5.7 18.6.3 12 .3z" />
     </svg>
   );
 }

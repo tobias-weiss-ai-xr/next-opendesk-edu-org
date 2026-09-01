@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import PostList from "@/components/PostList";
 import type { Post } from "@/lib/content";
 
@@ -49,7 +49,10 @@ describe("PostList", () => {
   });
 
   it("renders posts in a grid", () => {
-    const posts = [makePost({ title: "Post One", slug: "post-one" }), makePost({ title: "Post Two", slug: "post-two" })];
+    const posts = [
+      makePost({ title: "Post One", slug: "post-one" }),
+      makePost({ title: "Post Two", slug: "post-two" }),
+    ];
     render(<PostList posts={posts} section="blog" locale="en" />);
 
     expect(screen.getByText("Post One")).toBeInTheDocument();
@@ -62,9 +65,7 @@ describe("PostList", () => {
   });
 
   it("renders filter pills for tags and categories", () => {
-    const posts = [
-      makePost({ tags: ["alpha", "beta"], categories: ["guide"] }),
-    ];
+    const posts = [makePost({ tags: ["alpha", "beta"], categories: ["guide"] })];
     render(<PostList posts={posts} section="blog" locale="en" />);
 
     const group = getFilterGroup();
@@ -108,7 +109,7 @@ describe("PostList", () => {
         title: `Post ${i + 1}`,
         tags: i < 12 ? ["group-a"] : ["group-b"],
         slug: `post-${i + 1}`,
-      })
+      }),
     );
     render(<PostList posts={posts} section="blog" locale="en" />);
 
@@ -126,7 +127,7 @@ describe("PostList", () => {
 
   it("shows pagination controls when there are more than 10 posts", () => {
     const posts = Array.from({ length: 15 }, (_, i) =>
-      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` })
+      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` }),
     );
     render(<PostList posts={posts} section="blog" locale="en" />);
 
@@ -136,7 +137,7 @@ describe("PostList", () => {
 
   it("shows only the first 10 posts on page 1", () => {
     const posts = Array.from({ length: 12 }, (_, i) =>
-      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` })
+      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` }),
     );
     render(<PostList posts={posts} section="blog" locale="en" />);
 
@@ -147,7 +148,7 @@ describe("PostList", () => {
 
   it("disables previous button on first page", () => {
     const posts = Array.from({ length: 12 }, (_, i) =>
-      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` })
+      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` }),
     );
     render(<PostList posts={posts} section="blog" locale="en" />);
 
@@ -157,7 +158,7 @@ describe("PostList", () => {
 
   it("disables next button on last page", () => {
     const posts = Array.from({ length: 12 }, (_, i) =>
-      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` })
+      makePost({ title: `Post ${i + 1}`, slug: `post-${i + 1}` }),
     );
     render(<PostList posts={posts} section="blog" locale="en" />);
 

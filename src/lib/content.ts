@@ -1,13 +1,12 @@
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
+import path from "path";
+import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
-import rehypeSlug from "rehype-slug";
-import rehypeStringify from "rehype-stringify";
 import { SECTIONS } from "@/lib/config";
-
 
 export interface PostMeta {
   title: string;
@@ -35,7 +34,13 @@ export interface Post {
   version?: string;
 }
 
-function buildPost(data: PostMeta, htmlContent: string, slug: string, section: string, rawContent: string): Post {
+function buildPost(
+  data: PostMeta,
+  htmlContent: string,
+  slug: string,
+  section: string,
+  rawContent: string,
+): Post {
   const wordCount = rawContent.split(/\s+/).filter(Boolean).length;
   const readingTime = Math.max(1, Math.round(wordCount / 200));
   return {
@@ -73,7 +78,9 @@ async function readFile(filePath: string): Promise<{ data: PostMeta; content: st
   }
 
   if (!isValidPostMeta(data)) {
-    throw new Error(`Invalid frontmatter in ${filePath}: missing required "title" or "date" fields`);
+    throw new Error(
+      `Invalid frontmatter in ${filePath}: missing required "title" or "date" fields`,
+    );
   }
   return { data, content };
 }
@@ -108,7 +115,7 @@ function getContentDirectory(locale: string): string {
 export async function getPostBySlug(
   section: string,
   slug: string,
-  locale: string = 'en'
+  locale: string = "en",
 ): Promise<Post | null> {
   const sectionDir = path.join(getContentDirectory(locale), section);
   if (!fs.existsSync(sectionDir)) return null;
@@ -117,13 +124,17 @@ export async function getPostBySlug(
   const candidatePath = path.join(sectionDir, `${slug}.md`);
   if (fs.existsSync(candidatePath)) {
     try {
-       const { data, content } = await readFile(candidatePath);
-       if (getSlugFromFilename(`${slug}.md`, data) === slug) {
-         const htmlContent = await markdownToHtml(content);
-         return buildPost(data, htmlContent, slug, section, content);
-       }
+      const { data, content } = await readFile(candidatePath);
+      if (getSlugFromFilename(`${slug}.md`, data) === slug) {
+        const htmlContent = await markdownToHtml(content);
+        return buildPost(data, htmlContent, slug, section, content);
+      }
     } catch (err) {
-      console.warn("Content: no direct match for slug '%s', falling back to full scan: %s", slug, err);
+      console.warn(
+        "Content: no direct match for slug '%s', falling back to full scan: %s",
+        slug,
+        err,
+      );
     }
   }
 
@@ -133,15 +144,15 @@ export async function getPostBySlug(
     if (!isValidContentFile(file)) continue;
     const { data, content } = await readFile(path.join(sectionDir, file));
     const fileSlug = getSlugFromFilename(file, data);
-     if (fileSlug === slug) {
-       const htmlContent = await markdownToHtml(content);
-       return buildPost(data, htmlContent, fileSlug, section, content);
-     }
+    if (fileSlug === slug) {
+      const htmlContent = await markdownToHtml(content);
+      return buildPost(data, htmlContent, fileSlug, section, content);
+    }
   }
   return null;
 }
 
-export async function getPostsBySection(section: string, locale: string = 'en'): Promise<Post[]> {
+export async function getPostsBySection(section: string, locale: string = "en"): Promise<Post[]> {
   const sectionDir = path.join(getContentDirectory(locale), section);
   if (!fs.existsSync(sectionDir)) return [];
 
@@ -159,7 +170,7 @@ export async function getPostsBySection(section: string, locale: string = 'en'):
         console.error(`Failed to process ${path.join(sectionDir, file)}:`, err);
         return null;
       }
-    })
+    }),
   );
 
   return posts
@@ -167,13 +178,9 @@ export async function getPostsBySection(section: string, locale: string = 'en'):
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export async function getAllPosts(locale: string = 'en'): Promise<Post[]> {
-  const allPosts = await Promise.all(
-    SECTIONS.map((s) => getPostsBySection(s, locale))
-  );
-  return allPosts.flat().sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+export async function getAllPosts(locale: string = "en"): Promise<Post[]> {
+  const allPosts = await Promise.all(SECTIONS.map((s) => getPostsBySection(s, locale)));
+  return allPosts.flat().sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
 export interface SectionInfo {
@@ -183,10 +190,25 @@ export interface SectionInfo {
   description?: string;
 }
 
-const SECTION_METADATA: Record<string, Omit<SectionInfo, 'slug'>> = {
-  components: { name: "Components", title: "Components", description: "36 integrated services — from learning management (Moodle, ILIAS) and collaboration (BigBlueButton, Etherpad) to scientific computing (JupyterHub, Overleaf, RStudio) and productivity (Nextcloud, Grommunio)." },
-  docs: { name: "Docs", title: "Docs", description: "System architecture, deployment guides, SAML federation, and infrastructure patterns for educational digital transformation." },
-  blog: { name: "Blog", title: "Blog", description: "News, announcements, community stories, and insights on open-source digital infrastructure in higher education." },
+const SECTION_METADATA: Record<string, Omit<SectionInfo, "slug">> = {
+  components: {
+    name: "Components",
+    title: "Components",
+    description:
+      "36 integrated services — from learning management (Moodle, ILIAS) and collaboration (BigBlueButton, Etherpad) to scientific computing (JupyterHub, Overleaf, RStudio) and productivity (Nextcloud, Grommunio).",
+  },
+  docs: {
+    name: "Docs",
+    title: "Docs",
+    description:
+      "System architecture, deployment guides, SAML federation, and infrastructure patterns for educational digital transformation.",
+  },
+  blog: {
+    name: "Blog",
+    title: "Blog",
+    description:
+      "News, announcements, community stories, and insights on open-source digital infrastructure in higher education.",
+  },
 };
 
 export const SECTION_INFO: SectionInfo[] = SECTIONS.map((slug) => ({
@@ -204,13 +226,13 @@ export function isValidSection(slug: string): boolean {
   return SECTION_SLUGS.has(slug);
 }
 
-export async function getPostsByTag(tag: string, locale: string = 'en'): Promise<Post[]> {
-  const posts = await getPostsBySection('blog', locale);
+export async function getPostsByTag(tag: string, locale: string = "en"): Promise<Post[]> {
+  const posts = await getPostsBySection("blog", locale);
   return posts.filter((p) => p.tags?.includes(tag));
 }
 
-export async function getAllTags(locale: string = 'en'): Promise<string[]> {
-  const posts = await getPostsBySection('blog', locale);
+export async function getAllTags(locale: string = "en"): Promise<string[]> {
+  const posts = await getPostsBySection("blog", locale);
   const tagSet = new Set<string>();
   for (const post of posts) {
     post.tags?.forEach((t) => tagSet.add(t));
@@ -218,11 +240,14 @@ export async function getAllTags(locale: string = 'en'): Promise<string[]> {
   return [...tagSet].sort();
 }
 
-export async function getStaticPathsForSection(section: string, locale: string = 'en'): Promise<string[]> {
+export async function getStaticPathsForSection(
+  section: string,
+  locale: string = "en",
+): Promise<string[]> {
   const posts = await getPostsBySection(section, locale);
   return posts.map((p) => p.slug);
 }
 
-export async function getStaticPathsForTags(locale: string = 'en'): Promise<string[]> {
+export async function getStaticPathsForTags(locale: string = "en"): Promise<string[]> {
   return getAllTags(locale);
 }

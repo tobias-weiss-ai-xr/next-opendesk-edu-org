@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useCallback, useState } from "react";
 
 type FormState = "idle" | "submitting" | "success" | "error";
 
@@ -45,12 +45,10 @@ export default function ContactForm({ onClose, t }: ContactFormProps) {
         setState("success");
       } catch (err) {
         setState("error");
-        setErrorMessage(
-          err instanceof Error ? err.message : "An unexpected error occurred."
-        );
+        setErrorMessage(err instanceof Error ? err.message : "An unexpected error occurred.");
       }
     },
-    [name, email, subject, message, state]
+    [name, email, subject, message, state],
   );
 
   if (state === "success") {
@@ -58,9 +56,7 @@ export default function ContactForm({ onClose, t }: ContactFormProps) {
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
         <div className="bg-background rounded-xl max-w-md w-full p-6 text-center space-y-4">
           <div className="text-4xl">✓</div>
-          <p className="text-lg font-medium text-foreground">
-            {t("contactSuccess")}
-          </p>
+          <p className="text-lg font-medium text-foreground">{t("contactSuccess")}</p>
           <button
             onClick={onClose}
             className="px-4 py-2 bg-foreground text-background rounded-lg text-sm hover:opacity-90 transition-opacity"
@@ -76,9 +72,7 @@ export default function ContactForm({ onClose, t }: ContactFormProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
       <div className="bg-background rounded-xl max-w-lg w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-foreground">
-            {t("contactTitle")}
-          </h2>
+          <h2 className="text-lg font-semibold text-foreground">{t("contactTitle")}</h2>
           <button
             onClick={onClose}
             className="text-foreground-secondary hover:text-foreground transition-colors p-1"
@@ -180,9 +174,7 @@ export default function ContactForm({ onClose, t }: ContactFormProps) {
           )}
 
           {state === "submitting" && !errorMessage && (
-            <p className="text-sm text-foreground-secondary">
-              {t("contactSending")}
-            </p>
+            <p className="text-sm text-foreground-secondary">{t("contactSending")}</p>
           )}
 
           <div className="flex justify-end gap-3">
@@ -198,16 +190,12 @@ export default function ContactForm({ onClose, t }: ContactFormProps) {
               disabled={state === "submitting"}
               className="px-4 py-2 bg-foreground text-background rounded-lg text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
             >
-              {state === "submitting"
-                ? t("contactSending")
-                : t("contactSend")}
+              {state === "submitting" ? t("contactSending") : t("contactSend")}
             </button>
           </div>
         </form>
 
-        <p className="text-xs text-foreground-secondary text-center">
-          {t("contactNotice")}
-        </p>
+        <p className="text-xs text-foreground-secondary text-center">{t("contactNotice")}</p>
       </div>
     </div>
   );

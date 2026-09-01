@@ -1,7 +1,7 @@
 "use client";
 
-import SearchDialog from "@/components/SearchDialog";
 import { useSearchOpen } from "@/components/SearchContext";
+import SearchDialog from "@/components/SearchDialog";
 
 export default function SearchDialogWrapper() {
   const { open, closeSearch } = useSearchOpen();

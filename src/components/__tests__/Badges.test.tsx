@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { Tag, CategoryBadge, StatusBadge } from "@/components/Badges";
+import { describe, expect, it } from "vitest";
+import { CategoryBadge, StatusBadge, Tag } from "@/components/Badges";
 
 describe("Tag", () => {
   it("renders children text", () => {

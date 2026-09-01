@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 const ENV_FILE = resolve(".env.example");
@@ -18,12 +18,12 @@ const REQUIRED_IF_FEATURE = {
   CLARITY_ID: "Microsoft Clarity analytics",
 };
 
-let exitCode = 0;
+const exitCode = 0;
 
 console.log("\n🔍 Checking environment variables...\n");
 
 // Load .env file if it exists
-let envFileVars = new Set();
+const envFileVars = new Set();
 if (existsSync(".env")) {
   const content = readFileSync(".env", "utf-8");
   for (const line of content.split("\n")) {

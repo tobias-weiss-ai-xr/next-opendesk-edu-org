@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import SearchDialogWrapper from "@/components/SearchDialogWrapper";
 
 vi.mock("@/components/SearchContext", () => ({
@@ -9,7 +9,9 @@ vi.mock("@/components/SearchContext", () => ({
 vi.mock("@/components/SearchDialog", () => ({
   default: ({ open, onClose }: { open: boolean; onClose: () => void }) => (
     <div data-testid="search-dialog" data-open={open}>
-      <button onClick={onClose} data-testid="mock-close">Close</button>
+      <button onClick={onClose} data-testid="mock-close">
+        Close
+      </button>
     </div>
   ),
 }));

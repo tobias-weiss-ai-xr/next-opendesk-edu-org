@@ -1,6 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import SearchDialog from "@/components/SearchDialog";
 
 vi.mock("next/image", () => ({
@@ -27,9 +27,30 @@ vi.mock("next-intl", () => ({
 }));
 
 const mockEntries = [
-  { title: "Jitsi", slug: "jitsi", section: "components", description: "Video conferencing", categories: ["communication"], tags: ["video"] },
-  { title: "Deploy Guide", slug: "deploy", section: "docs", description: "How to deploy", categories: ["guide"], tags: ["deployment"] },
-  { title: "Architecture Deep Dive", slug: "arch", section: "blog", description: "Architecture", categories: ["tech"], tags: ["architecture"] },
+  {
+    title: "Jitsi",
+    slug: "jitsi",
+    section: "components",
+    description: "Video conferencing",
+    categories: ["communication"],
+    tags: ["video"],
+  },
+  {
+    title: "Deploy Guide",
+    slug: "deploy",
+    section: "docs",
+    description: "How to deploy",
+    categories: ["guide"],
+    tags: ["deployment"],
+  },
+  {
+    title: "Architecture Deep Dive",
+    slug: "arch",
+    section: "blog",
+    description: "Architecture",
+    categories: ["tech"],
+    tags: ["architecture"],
+  },
 ];
 
 let loadingState = false;
@@ -68,7 +89,9 @@ describe("SearchDialog", () => {
 
   it("shows search input with placeholder", () => {
     render(<SearchDialog open={true} onClose={vi.fn()} />);
-    expect(screen.getByPlaceholderText("Search components, guides, blog posts...")).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText("Search components, guides, blog posts..."),
+    ).toBeInTheDocument();
   });
 
   it("renders section headings when results exist", async () => {

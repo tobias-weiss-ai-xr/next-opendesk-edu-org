@@ -1,12 +1,14 @@
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/config";
 import { getAllPosts } from "@/lib/content";
-import { SITE_URL, SITE_NAME, SITE_DESCRIPTION } from "@/lib/config";
 import { escapeXml } from "@/lib/xml";
 
 export const dynamic = "force-static";
 
 export async function GET() {
-  const posts = await getAllPosts('en');
-  const items = posts.map((post) => `    <item>
+  const posts = await getAllPosts("en");
+  const items = posts
+    .map(
+      (post) => `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${escapeXml(`${SITE_URL}/en/${post.section}/${post.slug}`)}</link>
       <guid>${escapeXml(`${SITE_URL}/en/${post.section}/${post.slug}`)}</guid>
@@ -14,7 +16,9 @@ export async function GET() {
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       ${post.categories?.map((c) => `<category>${escapeXml(c)}</category>`).join("\n      ") ?? ""}
       ${post.tags?.map((t) => `<category>${escapeXml(t)}</category>`).join("\n      ") ?? ""}
-    </item>`).join("\n");
+    </item>`,
+    )
+    .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
