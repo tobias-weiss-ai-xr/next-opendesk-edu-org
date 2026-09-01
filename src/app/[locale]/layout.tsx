@@ -57,6 +57,10 @@ export async function generateMetadata({
     robots: { index: true, follow: true },
     other: {
       "google-adsense-account": "ca-pub-8452353139685392",
+      "geo.region": "DE-BW",
+      "geo.placename": "Rottweil",
+      "geo.position": "48.1634;8.6167",
+      "ICBM": "48.1634, 8.6167",
     },
   };
 }
@@ -68,6 +72,13 @@ function JsonLdOrganization({ locale }: { locale: string }) {
     name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/static/brand/icon.svg`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Rottweil",
+      addressRegion: "Baden-Württemberg",
+      postalCode: "78628",
+      addressCountry: "DE",
+    },
     sameAs: ["https://codeberg.org/opendesk-edu", "https://github.com/opendesk-edu"],
     description:
       locale === "de"
